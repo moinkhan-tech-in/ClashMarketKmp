@@ -4,5 +4,5 @@ import com.clash.market.ui.playerdetail.PlayerDetailViewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    single { PlayerDetailViewModel(get()) }
+    single { PlayerDetailViewModel(get(), get()) }
 }

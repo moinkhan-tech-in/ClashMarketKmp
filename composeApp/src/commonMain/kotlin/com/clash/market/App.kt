@@ -19,9 +19,7 @@ fun App() {
 
 @Composable
 fun ClashNavHost() {
-
     NavHost(rememberNavController(), startDestination = PlayerDetailRoute("#2GYCPJJY2")) {
-
         composable<PlayerDetailRoute> { backStackEntry ->
             val player = backStackEntry.toRoute<PlayerDetailRoute>()
             PlayerDetailScreen(player)

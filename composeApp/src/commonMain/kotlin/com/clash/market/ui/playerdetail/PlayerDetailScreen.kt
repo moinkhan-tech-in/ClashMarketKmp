@@ -6,6 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.clash.market.PlayerDetailRoute
+import com.clash.market.theme.ClashFont
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
@@ -22,9 +23,9 @@ fun PlayerDetailScreen(
 private fun PlayerDetailScreenContent(value: PlayerDetailUiState) {
     AnimatedVisibility(visible = value.player != null) {
         Column {
-            Text(text = value.player?.name.orEmpty())
-            Text(text = value.player?.tag.orEmpty())
-            Text(text = value.player?.expLevel.toString())
+            Text(text = value.player?.name.orEmpty(), fontFamily = ClashFont)
+            Text(text = value.player?.tag.orEmpty(), fontFamily = ClashFont)
+            Text(text = value.player?.expLevel.toString(), fontFamily = ClashFont)
         }
     }
 }
