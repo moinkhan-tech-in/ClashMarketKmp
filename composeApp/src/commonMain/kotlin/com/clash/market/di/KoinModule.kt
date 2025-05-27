@@ -8,4 +8,9 @@ val sharedModule = module {
     single { httpClient }
 }
 
-val appModules: List<Module> = listOf(sharedModule, repositoryModule, viewModelModule)
+val appModules: List<Module> = listOf(
+    preferenceModule,
+    sharedModule,
+    repositoryModule,
+    viewModelModule
+)
