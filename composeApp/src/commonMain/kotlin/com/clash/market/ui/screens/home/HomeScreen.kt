@@ -1,4 +1,4 @@
-package com.clash.market.ui.screens
+package com.clash.market.ui.screens.home
 
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -21,6 +21,7 @@ import com.clash.market.components.BottomNavItem
 import com.clash.market.components.ClashBottomBar
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.dialogs.SingleInputDialog
+import com.clash.market.ui.screens.dashboard.DashboardScreen
 import org.koin.mp.KoinPlatform.getKoin
 
 val bottomNavItems = listOf(
@@ -76,9 +77,12 @@ private fun HomeScreenContent(
             )
         }
     ) {
-        NavHost(childNavController, startDestination = ScreenRouts.Dashboard) {
+        NavHost(
+            navController = childNavController,
+            startDestination = ScreenRouts.Dashboard
+        ) {
             composable<ScreenRouts.Dashboard> {
-                Text("Search")
+                DashboardScreen()
             }
 
             composable<ScreenRouts.Search> {

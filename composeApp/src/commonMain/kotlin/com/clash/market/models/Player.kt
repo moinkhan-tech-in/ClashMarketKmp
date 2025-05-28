@@ -21,7 +21,7 @@ data class Player(
     val warPreference: String? = null,
     val donations: Int,
     val donationsReceived: Int,
-    val clan: Clan? = null,
+    val clan: ClanDetail? = null,
     val league: League? = null,
     val achievements: List<Achievement> = emptyList(),
     val troops: List<MeasureUnit> = emptyList(),
@@ -31,11 +31,29 @@ data class Player(
 )
 
 @Serializable
-data class Clan(
+data class ClanDetail(
     val tag: String,
     val name: String,
+//    val type: String,
+    val description: String? = null,
+    val location: Location? = null,
+    val badgeUrls: BadgeUrls,
     val clanLevel: Int,
-    val badgeUrls: BadgeUrls
+//    val clanPoints: Int,
+//    val clanBuilderBasePoints: Int,
+//    val clanVersusPoints: Int,
+//    val requiredTrophies: Int,
+    val warFrequency: String? = null,
+    val warWinStreak: Int? = null,
+    val warWins: Int? = null,
+    val warTies: Int? = null,
+    val warLosses: Int? = null,
+//    val isWarLogPublic: Boolean,
+//    val members: Int,
+    val memberList: List<Player>? = null,
+    val labels: List<Label>? = null,
+    val requiredVersusTrophies: Int? = null,
+    val requiredTownhallLevel: Int? = null,
 )
 
 @Serializable
@@ -44,6 +62,15 @@ data class BadgeUrls(
     val large: String,
     val medium: String
 )
+
+@Serializable
+data class Location(
+    val id: Int,
+    val name: String,
+    val isCountry: Boolean? = null,
+    val countryCode: String? = null
+)
+
 
 @Serializable
 data class League(

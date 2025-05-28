@@ -7,8 +7,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.clash.market.di.startSharedKoin
 import com.clash.market.navigation.ScreenRouts
-import com.clash.market.ui.playerdetail.PlayerDetailScreen
-import com.clash.market.ui.screens.HomeScreen
+import com.clash.market.ui.screens.playerdetail.PlayerDetailScreen
+import com.clash.market.ui.screens.home.HomeScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

@@ -2,15 +2,18 @@ package com.clash.market.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.clash.market.theme.ClashFont
@@ -19,12 +22,13 @@ import com.clash.market.theme.ClashFont
 fun ClashPositiveButton(
     text: String,
     modifier: Modifier = Modifier,
+    rightIcon: ImageVector? = null,
     onClick: () -> Unit
 ) {
     Button(
         onClick = onClick,
         modifier = modifier
-            .height(48.dp)
+            .height(40.dp)
             .clip(RoundedCornerShape(12.dp)),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(0xFF388E3C), // Dark green
@@ -33,7 +37,14 @@ fun ClashPositiveButton(
         shape = RoundedCornerShape(12.dp),
         elevation = ButtonDefaults.buttonElevation(defaultElevation = 6.dp)
     ) {
-        Text(text = text, fontSize = 16.sp, fontFamily = ClashFont)
+        Text(text = text, fontSize = 14.sp, fontFamily = ClashFont)
+        rightIcon?.let {
+            Icon(
+                modifier = Modifier.padding(start = 8.dp),
+                imageVector = it,
+                contentDescription = null
+            )
+        }
     }
 }
 

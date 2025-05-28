@@ -1,4 +1,4 @@
-package com.clash.market.ui.screens
+package com.clash.market.ui.screens.home
 
 import com.clash.market.base.BaseViewModel
 import com.clash.market.local.datastore.ClashPreferenceKeys

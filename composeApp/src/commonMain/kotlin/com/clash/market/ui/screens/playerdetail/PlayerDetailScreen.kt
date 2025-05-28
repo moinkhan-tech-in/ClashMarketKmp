@@ -1,4 +1,4 @@
-package com.clash.market.ui.playerdetail
+package com.clash.market.ui.screens.playerdetail
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement

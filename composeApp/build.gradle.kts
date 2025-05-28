@@ -87,6 +87,8 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(libs.material3)
             implementation(libs.material.icons.extended)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.okhttp)
         }
     }
 }
