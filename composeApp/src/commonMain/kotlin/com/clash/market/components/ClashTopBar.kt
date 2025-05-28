@@ -1,8 +1,11 @@
 package com.clash.market.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -11,8 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import clashmarket.composeapp.generated.resources.Res
+import clashmarket.composeapp.generated.resources.ic_main_logo
 import com.clash.market.theme.ClashFont
+import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,7 +41,13 @@ fun ClashTopBar(
                 overflow = TextOverflow.Ellipsis
             )
         },
-        navigationIcon = {},
+        navigationIcon = {
+            Image(
+                modifier = Modifier.size(56.dp),
+                painter = painterResource(Res.drawable.ic_main_logo),
+                contentDescription = null
+            )
+        },
         actions = actions,
         modifier = modifier.background(Color(0xFF2C2C2C)), // Dark themed top bar
         colors = TopAppBarDefaults.topAppBarColors(
