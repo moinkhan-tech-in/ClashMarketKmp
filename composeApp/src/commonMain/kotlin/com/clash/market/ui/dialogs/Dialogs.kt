@@ -82,7 +82,7 @@ fun ClashDialog(
                 .clip(RoundedCornerShape(16.dp))
                 .background(Color(0xFFDFD4C2)) // Stone-like color
                 .border(3.dp, Color(0xFF4E342E), RoundedCornerShape(16.dp))
-                .shadow(10.dp, RoundedCornerShape(16.dp))
+//                .shadow(4.dp, RoundedCornerShape(16.dp))
                 .padding(24.dp)
         ) {
             Column(

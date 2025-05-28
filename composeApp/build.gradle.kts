@@ -85,6 +85,8 @@ kotlin {
             implementation(libs.datastore)
             implementation(libs.datastore.preferences)
             implementation(libs.navigation.compose)
+            implementation(libs.material3)
+            implementation(libs.material.icons.extended)
         }
     }
 }
