@@ -4,6 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomAppBarScrollBehavior
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,15 +25,18 @@ data class BottomNavItem(
     val label: String
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClashBottomBar(
     items: List<BottomNavItem>,
     currentRoute: ScreenRouts,
+    scrollBehaviour: BottomAppBarScrollBehavior? = null,
     onItemSelected: (ScreenRouts) -> Unit
 ) {
     BottomAppBar(
         containerColor = Color(0xFF3B2F2F),
-        contentColor = Color.White
+        contentColor = Color.White,
+        scrollBehavior = scrollBehaviour
     ) {
         print(currentRoute)
         items.forEach { item ->

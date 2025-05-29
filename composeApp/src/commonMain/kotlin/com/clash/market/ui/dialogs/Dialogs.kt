@@ -19,14 +19,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.clash.market.components.ClashNegativeButton
 import com.clash.market.components.ClashPositiveButton
-import com.clash.market.components.ClashStyleTextField
+import com.clash.market.components.ClashTextField
 import com.clash.market.theme.ClashFont
 
 @Composable
@@ -46,7 +45,7 @@ fun SingleInputDialog(
             title = title,
             description = text,
             content = {
-                ClashStyleTextField(
+                ClashTextField(
                     value = tagValue,
                     hint = hint,
                     onValueChange = { tagValue = it }

@@ -5,10 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,6 +27,7 @@ fun ClashTopBar(
     title: String,
     modifier: Modifier = Modifier,
     onBackClick: (() -> Unit)? = null,
+    topAppBarScrollBehaviour: TopAppBarScrollBehavior? = null,
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(
@@ -48,13 +49,15 @@ fun ClashTopBar(
                 contentDescription = null
             )
         },
+        scrollBehavior = topAppBarScrollBehaviour,
         actions = actions,
         modifier = modifier.background(Color(0xFF2C2C2C)), // Dark themed top bar
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color(0xFF2C2C2C),
-            titleContentColor = Color.White,
-            navigationIconContentColor = Color.White,
-            actionIconContentColor = Color.White
+            titleContentColor = Color(0xFF2C2C2C),
+            navigationIconContentColor = Color(0xFF2C2C2C),
+            actionIconContentColor = Color(0xFF2C2C2C),
+            scrolledContainerColor = Color(0xFF2C2C2C)
         )
     )
 }

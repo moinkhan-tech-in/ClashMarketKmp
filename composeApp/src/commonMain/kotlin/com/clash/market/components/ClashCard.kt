@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import com.clash.market.theme.ClashFont
 
 @Composable
-fun ClashStyleCard(
+fun ClashCard(
     modifier: Modifier = Modifier,
     title: String? = null,
     subtitle: String? = null,
@@ -49,7 +49,7 @@ fun ClashStyleCard(
                 )
             }
 
-            Spacer(modifier = Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             content()
         }
     }

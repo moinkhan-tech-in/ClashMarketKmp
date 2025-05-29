@@ -3,6 +3,7 @@ package com.clash.market.network
 import com.clash.market.provideEngine
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.DEFAULT
@@ -23,6 +24,12 @@ val httpClient = HttpClient(provideEngine()) {
         json(Json {
             ignoreUnknownKeys = true
         })
+    }
+
+    install(HttpTimeout) {
+        requestTimeoutMillis = 30_000 // 30 seconds
+        connectTimeoutMillis = 15_000 // 15 seconds
+        socketTimeoutMillis = 30_000  // 30 seconds
     }
 
     install(Logging) {

@@ -1,6 +1,7 @@
 package com.clash.market
 
 import io.ktor.client.engine.HttpClientEngineFactory
+import kotlinx.coroutines.CoroutineDispatcher
 
 interface Platform {
     val name: String
@@ -9,3 +10,5 @@ interface Platform {
 expect fun getPlatform(): Platform
 
 expect fun provideEngine(): HttpClientEngineFactory<*>
+
+expect val ioDispatcher: CoroutineDispatcher

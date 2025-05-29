@@ -8,11 +8,15 @@ import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material3.BottomAppBarDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -22,6 +26,7 @@ import com.clash.market.components.ClashBottomBar
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.dialogs.SingleInputDialog
 import com.clash.market.ui.screens.dashboard.DashboardScreen
+import com.clash.market.ui.screens.search.SearchScreen
 import org.koin.mp.KoinPlatform.getKoin
 
 val bottomNavItems = listOf(
@@ -46,12 +51,15 @@ fun HomeScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreenContent(
     uiState: HomeUiState,
     onSavePlayerTag: (String) -> Unit,
     onNavigate: (ScreenRouts) -> Unit
 ) {
+
+    val bottomAppBarScrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior()
 
     val childNavController = rememberNavController()
     var currentRoute by remember { mutableStateOf<ScreenRouts>(ScreenRouts.Dashboard) }
@@ -66,10 +74,12 @@ private fun HomeScreenContent(
     }
 
     Scaffold(
+        modifier = Modifier.nestedScroll(bottomAppBarScrollBehavior.nestedScrollConnection),
         bottomBar = {
             ClashBottomBar(
                 items = bottomNavItems,
                 currentRoute = currentRoute,
+                scrollBehaviour = bottomAppBarScrollBehavior,
                 onItemSelected = {
                     currentRoute = it
                     childNavController.navigate(it)
@@ -86,7 +96,7 @@ private fun HomeScreenContent(
             }
 
             composable<ScreenRouts.Search> {
-                Text("Search")
+                SearchScreen()
             }
 
             composable<ScreenRouts.Clan> {

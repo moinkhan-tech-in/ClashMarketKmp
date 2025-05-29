@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ClashStyledTooltipBox(
+fun ClashTooltipBox(
     tooltipText: String,
     content: @Composable () -> Unit
 ) {

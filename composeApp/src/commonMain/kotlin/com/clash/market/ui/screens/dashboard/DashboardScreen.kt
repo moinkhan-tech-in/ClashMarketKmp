@@ -15,6 +15,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -29,8 +30,8 @@ import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_coc_xp
 import coil3.compose.AsyncImage
 import com.clash.market.components.ClashPositiveButton
-import com.clash.market.components.ClashStyleCard
-import com.clash.market.components.ClashStyledTooltipBox
+import com.clash.market.components.ClashCard
+import com.clash.market.components.ClashTooltipBox
 import com.clash.market.components.ClashTopBar
 import com.clash.market.models.Label
 import com.clash.market.theme.ClashFont
@@ -46,6 +47,7 @@ fun DashboardScreen(
     DashboardScreenContent(uiState = uiState)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DashboardScreenContent(uiState: DashboardUiState) {
     Scaffold(topBar = { ClashTopBar("Dashboard") }) {
@@ -80,7 +82,7 @@ private fun ClanInfo(
     clanImage: String,
     onShare: () -> Unit
 ) {
-    ClashStyleCard(title = "Clan") {
+    ClashCard(title = "Clan") {
         Row {
             AsyncImage(
                 model = clanImage,
@@ -112,7 +114,7 @@ private fun PlayerInfo(
     clanRole: String,
     onEdit: () -> Unit
 ) {
-    ClashStyleCard(title = "Player") {
+    ClashCard(title = "Player") {
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Box(contentAlignment = Alignment.Center) {
                 Image(
@@ -156,7 +158,7 @@ private fun PlayerLabel(
     ) {
         labels.forEach {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                ClashStyledTooltipBox(tooltipText = it.name) {
+                ClashTooltipBox(tooltipText = it.name) {
                     AsyncImage(
                         model = it.iconUrls.medium,
                         contentDescription = null
