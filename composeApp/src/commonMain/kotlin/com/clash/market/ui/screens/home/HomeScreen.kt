@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Dashboard
@@ -17,6 +16,7 @@ import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -76,6 +76,7 @@ private fun HomeScreenContent(
 
     val childNavController = rememberNavController()
     var currentRoute by remember { mutableStateOf<ScreenRouts>(ScreenRouts.Dashboard) }
+    var showFloatingOption by remember { mutableStateOf(false) }
 
     val title = remember(currentRoute) {
         when (currentRoute) {
@@ -119,14 +120,16 @@ private fun HomeScreenContent(
             )
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(
-                onClick = {},
-                contentColor = Color.White,
-                containerColor = Color(0xFF2C2C2C),
-            ) {
-                Text(text = "Options", fontFamily = ClashFont)
-                Spacer(Modifier.size(8.dp))
-                Icon(Icons.AutoMirrored.Default.Sort, contentDescription = "Search Options")
+            if (showFloatingOption) {
+                ExtendedFloatingActionButton(
+                    onClick = {},
+                    contentColor = Color.White,
+                    containerColor = Color(0xFF2C2C2C),
+                ) {
+                    Text(text = "Options", fontFamily = ClashFont)
+                    Spacer(Modifier.size(8.dp))
+                    Icon(Icons.AutoMirrored.Default.Sort, contentDescription = "Search Options")
+                }
             }
         },
         floatingActionButtonPosition = FabPosition.End
@@ -141,7 +144,9 @@ private fun HomeScreenContent(
             }
 
             composable<ScreenRouts.Search> {
-                SearchScreen()
+                SearchScreen(
+                    onNavigate = onNavigate
+                )
             }
 
             composable<ScreenRouts.Clan> {

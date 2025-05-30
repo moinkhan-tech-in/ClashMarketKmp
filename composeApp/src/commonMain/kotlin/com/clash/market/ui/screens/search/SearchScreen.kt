@@ -11,6 +11,7 @@ import com.clash.market.base.ResultState
 import com.clash.market.components.ClashTab
 import com.clash.market.components.ClashTabs
 import com.clash.market.models.ClanDetail
+import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.screens.search.tabs.SearchClanContent
 import com.clash.market.ui.screens.search.tabs.SearchPlayerContent
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -23,14 +24,13 @@ private val tabs = listOf<ClashTab>(
 
 @Composable
 fun SearchScreen(
-    viewModel: SearchViewModel = getKoin().get<SearchViewModel>()
+    viewModel: SearchViewModel = getKoin().get<SearchViewModel>(),
+    onNavigate: (ScreenRouts) -> Unit
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val clanSearchState by viewModel.clanSearchState.collectAsStateWithLifecycle()
-
     SearchScreenContent(
-        uiState = uiState,
         clanSearchState = clanSearchState,
+        onNavigate = onNavigate,
         onClanSearchQuery = viewModel::searchClans
     )
 }
@@ -38,9 +38,9 @@ fun SearchScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SearchScreenContent(
-    uiState: SearchUiState,
     clanSearchState: ResultState<List<ClanDetail>>,
-    onClanSearchQuery: (String) -> Unit
+    onNavigate: (ScreenRouts) -> Unit = {},
+    onClanSearchQuery: (String) -> Unit = {}
 ) {
     var selectedTab by remember { mutableStateOf(tabs[0]) }
     ClashTabs(
@@ -52,7 +52,8 @@ private fun SearchScreenContent(
             0 -> SearchPlayerContent()
             1 -> SearchClanContent(
                 clanSearchState = clanSearchState,
-                onQuerySubmit = onClanSearchQuery
+                onQuerySubmit = onClanSearchQuery,
+                onNavigate = onNavigate
             )
         }
     }
@@ -61,9 +62,5 @@ private fun SearchScreenContent(
 @Composable
 @Preview
 private fun SearchScreenContentPreview() {
-    SearchScreenContent(
-        uiState = SearchUiState(),
-        clanSearchState = ResultState.Ideal,
-        onClanSearchQuery = {}
-    )
+    SearchScreenContent(clanSearchState = ResultState.Ideal)
 }

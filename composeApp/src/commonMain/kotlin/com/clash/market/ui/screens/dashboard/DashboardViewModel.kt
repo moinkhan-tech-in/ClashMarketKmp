@@ -1,6 +1,7 @@
 package com.clash.market.ui.screens.dashboard
 
 import com.clash.market.base.BaseViewModel
+import com.clash.market.base.ResultState
 import com.clash.market.local.datastore.ClashPreferenceKeys
 import com.clash.market.local.datastore.PreferenceManager
 import com.clash.market.network.data.repositories.ClanRepository
@@ -9,7 +10,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class DashboardViewModel(
     val playerRepository: PlayerRepository,
@@ -25,7 +25,7 @@ class DashboardViewModel(
     }
 
     private fun fetchSavedPlayerTag() {
-        viewModelScope.launch {
+        launchIO {
             preferenceManager.getValueAsFlow(ClashPreferenceKeys.ProfilePlayer)
                 .collectLatest {
                     if (it.isEmpty()) {
@@ -38,9 +38,31 @@ class DashboardViewModel(
     }
 
     private fun fetchDashboardData(playerTag: String) {
-        viewModelScope.launch {
-            val player = playerRepository.getPlayerDetails(playerTag)
-            _uiState.update { it.copy(player = player) }
+        launchIO {
+            _uiState.update { it.copy(player = ResultState.Loading) }
+
+            try {
+                val player = playerRepository.getPlayerDetails(playerTag)
+                _uiState.update { it.copy(player = ResultState.Success(player)) }
+
+                player.clan?.tag?.let { fetchCurrentWar(it) }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(player = ResultState.Error(e.message)) }
+            }
+        }
+    }
+
+    private fun fetchCurrentWar(tag: String) {
+        launchIO {
+            _uiState.update { it.copy(currentWar = ResultState.Loading) }
+
+            try {
+                val war = clanRepository.getCurrentWar(tag)
+                _uiState.update { it.copy(currentWar = ResultState.Success(war)) }
+
+            } catch (e: Exception) {
+                _uiState.update { it.copy(currentWar = ResultState.Error(e.message)) }
+            }
         }
     }
 }

@@ -17,18 +17,20 @@ import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_trophy
 import coil3.compose.AsyncImage
 import com.clash.market.models.ClanDetail
-import com.clash.market.models.Location
-import com.clash.market.openClashClan
+import com.clash.market.models.FakeClanDetailItem
 import com.clash.market.theme.ClashFont
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
 @Composable
-fun ClanListItem(clanDetail: ClanDetail) {
+fun ClanListItem(
+    clanDetail: ClanDetail,
+    onClick: () -> Unit = {}
+) {
     ClashCard(
         modifier = Modifier.fillMaxWidth(),
         title = "${clanDetail.name} (Lv ${clanDetail.clanLevel})",
-        onClick = { openClashClan(clanDetail.tag) },
+        onClick = onClick,
         topEndContent = {
             clanDetail.requiredTrophies?.let {
                 ClashChip(
@@ -49,7 +51,7 @@ fun ClanListItem(clanDetail: ClanDetail) {
                     modifier = Modifier.padding(horizontal = 8.dp).weight(1f),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text(text = clanDetail.tag, fontFamily = ClashFont)
+                    Text(text = clanDetail.tag.orEmpty(), fontFamily = ClashFont)
                     ClashTooltipBox(tooltipText = "Total Members") {
                         ClashLabel(
                             leadingImage = Icons.Default.Group,
@@ -68,21 +70,6 @@ fun ClanListItem(clanDetail: ClanDetail) {
         }
     }
 }
-
-val FakeClanDetailItem = ClanDetail(
-    tag = "#2G3G34FE",
-    name = "Avengers",
-    clanLevel = 12,
-    members = 12,
-    type = "open",
-    requiredTrophies = 10,
-    location = Location(
-        name = "India",
-        isCountry = true,
-        countryCode = "IN",
-        id = 1
-    )
-)
 
 @Composable
 @Preview

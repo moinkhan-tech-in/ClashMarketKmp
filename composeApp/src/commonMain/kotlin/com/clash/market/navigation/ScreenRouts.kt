@@ -8,6 +8,9 @@ sealed interface ScreenRouts {
     data class PlayerDetail(val tag: String) : ScreenRouts
 
     @Serializable
+    data class ClanDetail(val tag: String) : ScreenRouts
+
+    @Serializable
     object Home : ScreenRouts
 
     @Serializable

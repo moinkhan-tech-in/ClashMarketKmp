@@ -30,6 +30,19 @@ data class Player(
     val labels: List<Label> = emptyList()
 )
 
-
-
+val FakePlayer = Player(
+    tag = "#2GYCPJJY2",
+    name = "MSquare",
+    role = "coLeader",
+    trophies = 1234,
+    expLevel = 236,
+    bestTrophies = 4000,
+    warStars = 1,
+    attackWins = 1,
+    defenseWins = 2,
+    donations = 12,
+    donationsReceived = 123,
+    clan = FakeClanDetailItem,
+    townHallLevel = 17
+)
 

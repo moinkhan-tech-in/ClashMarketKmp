@@ -3,6 +3,7 @@ package com.clash.market.network.data.repositories
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.WarFrequency
 import com.clash.market.models.dtos.ClanSearchResponse
+import com.clash.market.models.dtos.CurrentWarResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -12,7 +13,10 @@ import io.ktor.http.encodeURLPath
 private const val DefaultSearchClanLimit = 50
 
 interface ClanRepository {
+
     suspend fun getClanDetails(tag: String): ClanDetail
+
+    suspend fun getCurrentWar(clanTag: String): CurrentWarResponse
 
     suspend fun searchClan(
         name: String,
@@ -34,6 +38,10 @@ class ClanRepositoryImpl(
 
     override suspend fun getClanDetails(tag: String): ClanDetail {
         return client.get("proxy/clans/${tag.encodeURLPath()}").body()
+    }
+
+    override suspend fun getCurrentWar(tag: String): CurrentWarResponse {
+        return client.get("proxy/clans/${tag.encodeURLPath()}/currentwar").body()
     }
 
     override suspend fun searchClan(

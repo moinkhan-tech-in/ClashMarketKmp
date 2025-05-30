@@ -26,16 +26,18 @@ import com.clash.market.base.ResultState
 import com.clash.market.components.ClanListItem
 import com.clash.market.components.ClashPositiveButton
 import com.clash.market.components.ClashTextField
-import com.clash.market.components.FakeClanDetailItem
 import com.clash.market.components.ResultStateCrossFade
 import com.clash.market.models.ClanDetail
+import com.clash.market.models.FakeClanDetailItem
+import com.clash.market.navigation.ScreenRouts
 import com.clash.market.theme.ClashFont
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun SearchClanContent(
     clanSearchState: ResultState<List<ClanDetail>>,
-    onQuerySubmit: (String) -> Unit
+    onQuerySubmit: (String) -> Unit = {},
+    onNavigate: (ScreenRouts) -> Unit = {}
 ) {
     Column(modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)) {
         Spacer(Modifier.size(16.dp))
@@ -55,7 +57,9 @@ fun SearchClanContent(
                 contentPadding = PaddingValues(bottom = 56.dp)
             ) {
                 items(result) { it ->
-                    ClanListItem(it)
+                    ClanListItem(
+                        clanDetail = it,
+                        onClick = { onNavigate(ScreenRouts.ClanDetail(it.tag.orEmpty())) })
                 }
             }
         }
@@ -92,7 +96,6 @@ private fun SearchClanContentPreview() {
     SearchClanContent(
         clanSearchState = ResultState.Success(
             listOf(FakeClanDetailItem, FakeClanDetailItem, FakeClanDetailItem)
-        ),
-        onQuerySubmit = {}
+        )
     )
 }
