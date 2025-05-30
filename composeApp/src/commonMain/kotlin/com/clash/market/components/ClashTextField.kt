@@ -51,7 +51,7 @@ fun ClashTextField(
             .border(2.dp, Color(0xFFE0C97F), RoundedCornerShape(12.dp)), // Dark brown border
         textStyle = TextStyle(
             color = Color.Black,
-            fontSize = 18.sp,
+            fontSize = 16.sp,
             fontFamily = ClashFont
         ),
         singleLine = true,

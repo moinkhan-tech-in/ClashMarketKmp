@@ -7,15 +7,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -29,10 +29,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_coc_xp
 import coil3.compose.AsyncImage
-import com.clash.market.components.ClashPositiveButton
 import com.clash.market.components.ClashCard
+import com.clash.market.components.ClashPositiveButton
 import com.clash.market.components.ClashTooltipBox
-import com.clash.market.components.ClashTopBar
 import com.clash.market.models.Label
 import com.clash.market.theme.ClashFont
 import org.jetbrains.compose.resources.painterResource
@@ -50,27 +49,25 @@ fun DashboardScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DashboardScreenContent(uiState: DashboardUiState) {
-    Scaffold(topBar = { ClashTopBar("Dashboard") }) {
-        AnimatedVisibility(uiState.player != null) {
-            Column(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Spacer(modifier = Modifier.size(16.dp))
-                PlayerInfo(
-                    name = uiState.player?.name.orEmpty(),
-                    tag = uiState.player?.tag.orEmpty(),
-                    exp = uiState.player?.expLevel ?: 0,
-                    clanRole = uiState.player?.role.orEmpty(),
-                    onEdit = {}
-                )
-                ClanInfo(
-                    name = uiState.player?.clan?.name.orEmpty(),
-                    tag = uiState.player?.clan?.tag.orEmpty(),
-                    clanImage = uiState.player?.clan?.badgeUrls?.small.orEmpty(),
-                    onShare = {}
-                )
-            }
+    AnimatedVisibility(uiState.player != null) {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Spacer(modifier = Modifier.size(16.dp))
+            PlayerInfo(
+                name = uiState.player?.name.orEmpty(),
+                tag = uiState.player?.tag.orEmpty(),
+                exp = uiState.player?.expLevel ?: 0,
+                clanRole = uiState.player?.role.orEmpty(),
+                onEdit = {}
+            )
+            ClanInfo(
+                name = uiState.player?.clan?.name.orEmpty(),
+                tag = uiState.player?.clan?.tag.orEmpty(),
+                clanImage = uiState.player?.clan?.badgeUrls?.small.orEmpty(),
+                onShare = {}
+            )
         }
     }
 }

@@ -5,6 +5,8 @@ import io.ktor.client.engine.darwin.Darwin
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import platform.UIKit.UIDevice
+import platform.Foundation.NSURL
+import platform.UIKit.UIApplication
 
 class IOSPlatform: Platform {
     override val name: String = UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion
@@ -15,3 +17,14 @@ actual fun getPlatform(): Platform = IOSPlatform()
 actual fun provideEngine(): HttpClientEngineFactory<*> = Darwin
 
 actual val ioDispatcher: CoroutineDispatcher = Dispatchers.Default
+
+
+actual fun openClashPlayer(tag: String) {
+    val url = NSURL.URLWithString(OpenPlayerLink + tag.removePrefix("#"))!!
+    UIApplication.sharedApplication.openURL(url)
+}
+
+actual fun openClashClan(tag: String) {
+    val url = NSURL.URLWithString(OpenClanLink + tag.removePrefix("#"))!!
+    UIApplication.sharedApplication.openURL(url)
+}

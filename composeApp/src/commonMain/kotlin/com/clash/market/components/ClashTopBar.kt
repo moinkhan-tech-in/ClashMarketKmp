@@ -27,7 +27,7 @@ fun ClashTopBar(
     title: String,
     modifier: Modifier = Modifier,
     onBackClick: (() -> Unit)? = null,
-    topAppBarScrollBehaviour: TopAppBarScrollBehavior? = null,
+    scrollBehaviour: TopAppBarScrollBehavior? = null,
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(
@@ -49,7 +49,7 @@ fun ClashTopBar(
                 contentDescription = null
             )
         },
-        scrollBehavior = topAppBarScrollBehaviour,
+        scrollBehavior = scrollBehaviour,
         actions = actions,
         modifier = modifier.background(Color(0xFF2C2C2C)), // Dark themed top bar
         colors = TopAppBarDefaults.topAppBarColors(

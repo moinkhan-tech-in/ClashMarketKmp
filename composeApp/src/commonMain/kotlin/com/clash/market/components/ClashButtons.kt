@@ -22,11 +22,13 @@ import com.clash.market.theme.ClashFont
 fun ClashPositiveButton(
     text: String,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     rightIcon: ImageVector? = null,
     onClick: () -> Unit
 ) {
     Button(
         onClick = onClick,
+        enabled = enabled,
         modifier = modifier
             .height(40.dp)
             .clip(RoundedCornerShape(12.dp)),

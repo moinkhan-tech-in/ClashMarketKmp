@@ -13,8 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import clashmarket.composeapp.generated.resources.Res
+import clashmarket.composeapp.generated.resources.ic_trophy
 import coil3.compose.AsyncImage
 import com.clash.market.models.ClanDetail
+import com.clash.market.models.Location
+import com.clash.market.openClashClan
 import com.clash.market.theme.ClashFont
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -23,39 +27,61 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun ClanListItem(clanDetail: ClanDetail) {
     ClashCard(
         modifier = Modifier.fillMaxWidth(),
-        title = "${clanDetail.name} (Level ${clanDetail.clanLevel})"
+        title = "${clanDetail.name} (Lv ${clanDetail.clanLevel})",
+        onClick = { openClashClan(clanDetail.tag) },
+        topEndContent = {
+            clanDetail.requiredTrophies?.let {
+                ClashChip(
+                    text = "Required: ${clanDetail.requiredTrophies}",
+                    trailingImage = Res.drawable.ic_trophy
+                )
+            }
+        }
     ) {
-        Row {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 AsyncImage(
                     modifier = Modifier.size(56.dp),
                     model = clanDetail.badgeUrls?.small.orEmpty(),
                     contentDescription = null
                 )
-                ClashTooltipBox(tooltipText = "Total Members") {
-                    ClashLabel(
-                        leadingImage = Icons.Default.Group,
-                        label = clanDetail.members.toString()
-                    )
+                Column(
+                    modifier = Modifier.padding(horizontal = 8.dp).weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Text(text = clanDetail.tag, fontFamily = ClashFont)
+                    ClashTooltipBox(tooltipText = "Total Members") {
+                        ClashLabel(
+                            leadingImage = Icons.Default.Group,
+                            label = "${clanDetail.members}/50"
+                        )
+                    }
                 }
-            }
-            Column(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                Text(text = clanDetail.tag, fontFamily = ClashFont)
                 clanDetail.labels?.let { ClashLabelFlowRow(it) }
             }
+            val data = listOf(
+                "Location" to clanDetail.location?.name.orEmpty(),
+                "War League" to clanDetail.warLeague?.name.orEmpty(),
+                "War Frequency" to clanDetail.warFrequency?.displayName.orEmpty()
+            )
+            ClashInfoRowCard(infoList = data, Modifier.fillMaxWidth(1f))
         }
     }
 }
 
-private val FakeClanDetailItem = ClanDetail(
+val FakeClanDetailItem = ClanDetail(
     tag = "#2G3G34FE",
     name = "Avengers",
     clanLevel = 12,
     members = 12,
-    type = "open"
+    type = "open",
+    requiredTrophies = 10,
+    location = Location(
+        name = "India",
+        isCountry = true,
+        countryCode = "IN",
+        id = 1
+    )
 )
 
 @Composable

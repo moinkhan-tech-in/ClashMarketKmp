@@ -9,7 +9,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.http.encodeURLPath
 
-private val DefaultSearchClanLimit = 50
+private const val DefaultSearchClanLimit = 50
 
 interface ClanRepository {
     suspend fun getClanDetails(tag: String): ClanDetail

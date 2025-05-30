@@ -5,19 +5,23 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.clash.market.models.Label
 
 @Composable
-fun ClashLabelFlowRow(list: List<Label>) {
+fun ClashLabelFlowRow(
+    list: List<Label>,
+    clashLabelSize: Dp = 40.dp
+) {
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         list.forEach {
             ClashTooltipBox(it.name) {
                 AsyncImage(
-                    modifier = Modifier.size(36.dp),
+                    modifier = Modifier.size(clashLabelSize),
                     model = it.iconUrls.medium,
                     contentDescription = it.name
                 )
