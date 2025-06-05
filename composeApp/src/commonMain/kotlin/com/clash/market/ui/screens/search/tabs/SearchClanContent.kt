@@ -70,7 +70,7 @@ fun SearchClanContent(
 private fun SearchHeaderRow(
     onQuerySubmit: (String) -> Unit
 ) {
-    var value by remember { mutableStateOf("abc") }
+    var value by remember { mutableStateOf("India") }
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically

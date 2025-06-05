@@ -1,5 +1,6 @@
 package com.clash.market.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_trophy
 import coil3.compose.AsyncImage
+import com.clash.market.copyToClipboard
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.FakeClanDetailItem
 import com.clash.market.theme.ClashFont
@@ -51,11 +53,17 @@ fun ClanListItem(
                     modifier = Modifier.padding(horizontal = 8.dp).weight(1f),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    Text(text = clanDetail.tag.orEmpty(), fontFamily = ClashFont)
+                    Text(
+                        text = clanDetail.tag.orEmpty(),
+                        fontFamily = ClashFont,
+                        modifier = Modifier.clickable {
+                            copyToClipboard("Clan Tag", clanDetail.tag.orEmpty())
+                        }
+                    )
                     ClashTooltipBox(tooltipText = "Total Members") {
                         ClashLabel(
                             leadingImage = Icons.Default.Group,
-                            label = "${clanDetail.members}/50"
+                            label = "${clanDetail.getMemberCount()}/50"
                         )
                     }
                 }

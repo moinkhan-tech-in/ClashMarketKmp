@@ -4,9 +4,10 @@ import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.engine.darwin.Darwin
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import platform.UIKit.UIDevice
 import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
+import platform.UIKit.UIDevice
+import platform.UIKit.UIPasteboard
 
 class IOSPlatform: Platform {
     override val name: String = UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion
@@ -27,4 +28,8 @@ actual fun openClashPlayer(tag: String) {
 actual fun openClashClan(tag: String) {
     val url = NSURL.URLWithString(OpenClanLink + tag.removePrefix("#"))!!
     UIApplication.sharedApplication.openURL(url)
+}
+
+actual fun copyToClipboard(label: String, text: String) {
+    UIPasteboard.generalPasteboard.string = text
 }

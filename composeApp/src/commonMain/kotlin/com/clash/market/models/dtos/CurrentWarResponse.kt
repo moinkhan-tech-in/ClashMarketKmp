@@ -1,13 +1,41 @@
 package com.clash.market.models.dtos
 
 import com.clash.market.models.ClanDetail
+import com.clash.market.models.FakeClanDetailItem
 import com.clash.market.models.WarState
+import com.clash.market.utils.getTimeRemainingLabel
+import com.clash.market.utils.parseWarTime
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class CurrentWarResponse(
     val state: WarState,
     val teamSize: Int? = null,
+    val startTime: String? = null,
+    val endTime: String? = null,
+    val preparationStartTime: String? = null,
     val clan: ClanDetail,
     val opponent: ClanDetail
+) {
+
+
+    fun getPreparationTime(): String {
+        val startTime = parseWarTime(startTime.orEmpty())
+        return getTimeRemainingLabel(startTime) // → "3h 15m"
+    }
+
+    fun getWarEndTime(): String {
+        val endTime = parseWarTime(endTime.orEmpty())
+        return getTimeRemainingLabel(endTime) // → "18h 42m"
+    }
+}
+
+val FakeCurrentWarResponse = CurrentWarResponse(
+    state = WarState.IN_WAR,
+    teamSize = 30,
+    clan = FakeClanDetailItem,
+    opponent = FakeClanDetailItem,
+    preparationStartTime = "20250606T080000.000Z",
+    startTime = "20250607T080000.000Z",
+    endTime = "20250608T080000.000Z"
 )

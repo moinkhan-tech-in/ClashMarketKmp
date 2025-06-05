@@ -57,7 +57,7 @@ class DashboardViewModel(
             _uiState.update { it.copy(currentWar = ResultState.Loading) }
 
             try {
-                val war = clanRepository.getCurrentWar(tag)
+                val war = clanRepository.getCurrentWar("#2YVGPYQ98")
                 _uiState.update { it.copy(currentWar = ResultState.Success(war)) }
 
             } catch (e: Exception) {

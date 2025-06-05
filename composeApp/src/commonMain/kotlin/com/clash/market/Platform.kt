@@ -16,3 +16,5 @@ expect val ioDispatcher: CoroutineDispatcher
 expect fun openClashPlayer(tag: String)
 
 expect fun openClashClan(tag: String)
+
+expect fun copyToClipboard(label: String, text: String)

@@ -3,7 +3,6 @@ package com.clash.market.ui.screens.dashboard
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,7 +31,10 @@ fun DashboardScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DashboardScreenContent(uiState: DashboardUiState) {
-    Column(Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier.padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
         PlayerAndClanInfoStateUi(uiState.player)
         CurrentWarStateUi(uiState.currentWar)
     }
@@ -44,10 +46,7 @@ private fun PlayerAndClanInfoStateUi(player: ResultState<Player>) {
         resultState = player,
         idealContent = {}
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
+        Column {
             Spacer(modifier = Modifier.size(8.dp))
             PlayerInfo(
                 player = it,
