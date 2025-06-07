@@ -1,5 +1,6 @@
 package com.clash.market.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -18,10 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.theme.ClashFont
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 data class BottomNavItem(
     val route: ScreenRouts,
     val icon: ImageVector,
+    val resIcon: DrawableResource?,
+    val resIconUnSelected: DrawableResource?,
     val label: String
 )
 
@@ -48,14 +53,23 @@ fun ClashBottomBar(
                     .padding(vertical = 8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Icon(
-                    imageVector = item.icon,
-                    contentDescription = item.label,
-                    tint = if (selected) Color(0xFFFFD700) else Color.LightGray
-                )
+
+                if (item.resIcon != null && item.resIconUnSelected != null) {
+
+                    Image(
+                        painter = painterResource(if (selected) item.resIcon else item.resIconUnSelected),
+                        contentDescription = null
+                    )
+                } else {
+                    Icon(
+                        imageVector = item.icon,
+                        contentDescription = item.label,
+                        tint = if (selected) Color(0xFFFFD700) else Color.LightGray
+                    )
+                }
                 Text(
                     text = item.label,
-                    fontSize = 10.sp,
+                    fontSize = 12.sp,
                     color = if (selected) Color(0xFFFFD700) else Color.LightGray,
                     fontFamily = ClashFont,
                     fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal

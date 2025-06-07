@@ -4,7 +4,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.clash.market.base.ResultState
@@ -18,8 +18,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.mp.KoinPlatform.getKoin
 
 private val tabs = listOf<ClashTab>(
-    ClashTab("Player"),
-    ClashTab("Clan")
+    ClashTab(0, "Player"),
+    ClashTab(1, "Clan")
 )
 
 @Composable
@@ -42,11 +42,11 @@ private fun SearchScreenContent(
     onNavigate: (ScreenRouts) -> Unit = {},
     onClanSearchQuery: (String) -> Unit = {}
 ) {
-    var selectedTab by remember { mutableStateOf(tabs[0]) }
+    var selectedTabIndex by rememberSaveable { mutableStateOf(0) }
     ClashTabs(
         tabs = tabs,
-        selectedTab = selectedTab,
-        onTabSelected = { selectedTab = it }
+        selectedTabIndex = selectedTabIndex,
+        onTabSelected = { selectedTabIndex = it.index }
     ) {
         when (it) {
             0 -> SearchPlayerContent()

@@ -44,11 +44,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.mp.KoinPlatform.getKoin
 
 val bottomNavItems = listOf(
-    BottomNavItem(ScreenRouts.Dashboard, Icons.Default.Dashboard, "Home"),
-    BottomNavItem(ScreenRouts.MyClan, Icons.Default.Group, "My Clan"),
-    BottomNavItem(ScreenRouts.Search, Icons.Default.Search, "Search"),
-    BottomNavItem(ScreenRouts.War, Icons.Default.Shield, "War"),
-    BottomNavItem(ScreenRouts.More, Icons.Default.Settings, "Profile"),
+    BottomNavItem(ScreenRouts.Dashboard, Icons.Default.Dashboard, null, null, "Home"),
+    BottomNavItem(ScreenRouts.MyClan, Icons.Default.Group, null, null, "My Clan"),
+    BottomNavItem(ScreenRouts.Search, Icons.Default.Search, null, null, "Search"),
+    BottomNavItem(ScreenRouts.War, Icons.Default.Shield, null, null, "War"),
+    BottomNavItem(ScreenRouts.More, Icons.Default.Settings, null, null, "Profile"),
 )
 
 @Composable
@@ -80,7 +80,7 @@ private fun HomeScreenContent(
     var showFloatingOption by remember { mutableStateOf(false) }
 
     val title = remember(currentRoute) {
-        bottomNavItems.find {  it.route == currentRoute }
+        bottomNavItems.find { it.route == currentRoute }
             ?.label
             .orEmpty()
     }

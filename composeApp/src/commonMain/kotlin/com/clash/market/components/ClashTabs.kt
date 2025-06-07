@@ -1,34 +1,41 @@
 package com.clash.market.components
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.clash.market.theme.ClashFont
+import kotlinx.coroutines.launch
 
 data class ClashTab(
+    val index: Int,
     val title: String
 )
 
 @Composable
 fun ClashTabs(
     tabs: List<ClashTab>,
-    selectedTab: ClashTab,
+    selectedTabIndex: Int,
     onTabSelected: (ClashTab) -> Unit,
     content: @Composable (Int) -> Unit
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    val pagerState = rememberPagerState(pageCount = { tabs.size })
+
     Column(Modifier.fillMaxSize()) {
         TabRow(
-            selectedTabIndex = tabs.indexOf(selectedTab),
+            selectedTabIndex = selectedTabIndex,
             containerColor = Color(0xFF2C2C2C), // Dark brown background
             contentColor = Color(0xFFFFD700),   // Clash gold
             indicator = { tabPositions ->
@@ -37,16 +44,21 @@ fun ClashTabs(
                     height = 6.dp,
                     width = 120.dp,
                     modifier = Modifier
-                        .tabIndicatorOffset(tabPositions[tabs.indexOf(selectedTab)])
+                        .tabIndicatorOffset(tabPositions[selectedTabIndex])
                         .height(6.dp)
                 )
             }
         ) {
             tabs.forEachIndexed { index, tab ->
-                val isSelected = tab == selectedTab
+                val isSelected = index == selectedTabIndex
                 Tab(
                     selected = isSelected,
-                    onClick = { onTabSelected(tab) },
+                    onClick = {
+                        onTabSelected(tab)
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(tab.index)
+                        }
+                    },
                     text = {
                         Text(
                             tab.title,
@@ -57,11 +69,11 @@ fun ClashTabs(
                 )
             }
         }
-        Crossfade(
-            modifier = Modifier.fillMaxSize(),
-            targetState = selectedTab
-        ) {
-            content(tabs.indexOf(selectedTab))
+        HorizontalPager(
+            state = pagerState,
+            userScrollEnabled = false
+        ) { page ->
+            content(page)
         }
     }
 }

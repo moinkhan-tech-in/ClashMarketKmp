@@ -50,8 +50,8 @@ private fun DashboardScreenContent(uiState: DashboardUiState) {
             CurrentWarStateUi(uiState.currentWar)
         }
 
-        if (uiState.player is ResultState.Success) {
-            item {
+        item {
+            if (uiState.player is ResultState.Success) {
                 PlayerAchievementInfo(uiState.player.data.achievements)
             }
         }

@@ -59,7 +59,8 @@ fun ClashNavHost() {
             val clan = backStackEntry.toRoute<ScreenRouts.ClanDetail>()
             ClanDetailScreen(
                 clanDetailRoute = clan,
-                onNavigate = { navController.navigate(it) }
+                onNavigate = { navController.navigate(it) },
+                onBackClick = { navController.popBackStack() }
             )
         }
     }
