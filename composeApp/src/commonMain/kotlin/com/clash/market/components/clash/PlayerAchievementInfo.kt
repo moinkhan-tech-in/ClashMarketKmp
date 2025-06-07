@@ -46,6 +46,19 @@ private fun PlayerAchievementItem(achievement: Achievement) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(achievement.name, fontFamily = ClashFont)
+                achievement.completionInfo?.let {
+                    Text(
+                        it,
+                        fontFamily = ClashFont,
+                        fontSize = 12.sp
+                    )
+                }
+            }
+            Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -58,18 +71,6 @@ private fun PlayerAchievementItem(achievement: Achievement) {
                     text = "${achievement.stars}/3",
                     fontFamily = ClashFont
                 )
-            }
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(achievement.name, fontFamily = ClashFont)
-                achievement.completionInfo?.let {
-                    Text(
-                        it,
-                        fontFamily = ClashFont,
-                        fontSize = 12.sp
-                    )
-                }
             }
         }
         val value = if (achievement.value >= achievement.target) {
