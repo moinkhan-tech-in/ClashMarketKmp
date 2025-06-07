@@ -34,9 +34,8 @@ private fun DashboardScreenContent(uiState: DashboardUiState) {
         columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         contentPadding = PaddingValues(
-            top = 12.dp,
-            start = 12.dp, end = 12.dp,
-            bottom = 56.dp
+            top = 12.dp, bottom = 56.dp,
+            start = 12.dp, end = 12.dp
         )
     ) {
         item {
@@ -78,14 +77,7 @@ private fun ClanInfoStateUi(player: ResultState<Player>) {
         resultState = player,
         idealContent = {}
     ) {
-        ClanInfo(
-            name = it.clan?.name.orEmpty(),
-            tag = it.clan?.tag.orEmpty(),
-            clanImage = it.clan?.badgeUrls?.small.orEmpty(),
-            onShare = {
-
-            }
-        )
+        it.clan?.let { clan -> ClanInfo(clan = clan) }
     }
 }
 

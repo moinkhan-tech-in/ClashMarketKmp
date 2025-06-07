@@ -17,9 +17,9 @@ fun ClashSearchTextField(
     value: String,
     hint: String = "",
     onValueChange: (String) -> Unit,
-    onQuerySubmit: (String) -> Unit,
-    btnEnabled: () -> Boolean,
-    btnText: String,
+    onQuerySubmit: (String) -> Unit = {},
+    btnEnabled: () -> Boolean = { true },
+    btnText: String? = null,
 ) {
     Box(modifier) {
         ClashTextField(
@@ -29,11 +29,13 @@ fun ClashSearchTextField(
             hint = hint,
             onValueChange = onValueChange
         )
-        ClashPositiveButton(
-            modifier = Modifier.align(Alignment.CenterEnd).padding(4.dp),
-            enabled = btnEnabled.invoke(),
-            text = btnText,
-            onClick = { onQuerySubmit(value) }
-        )
+        btnText?.let {
+            ClashPositiveButton(
+                modifier = Modifier.align(Alignment.CenterEnd).padding(4.dp),
+                enabled = btnEnabled.invoke(),
+                text = it,
+                onClick = { onQuerySubmit(value) }
+            )
+        }
     }
 }

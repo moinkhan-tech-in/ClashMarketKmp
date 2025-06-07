@@ -18,9 +18,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.clash.market.base.ResultState
-import com.clash.market.components.ClanListItem
 import com.clash.market.components.ClashSearchTextField
 import com.clash.market.components.ResultStateCrossFade
+import com.clash.market.components.clash.ClanListItem
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.FakeClanDetailItem
 import com.clash.market.navigation.ScreenRouts
@@ -56,7 +56,7 @@ fun SearchClanContent(
         ) { result ->
             LazyVerticalGrid(
                 columns = Adaptive(minSize = 300.dp),
-                contentPadding = PaddingValues(bottom = 56.dp)
+                contentPadding = PaddingValues(top = 8.dp, bottom = 56.dp)
             ) {
                 items(result) { it ->
                     ClanListItem(

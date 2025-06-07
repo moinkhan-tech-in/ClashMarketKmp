@@ -15,6 +15,7 @@ class PlayerRepositoryImpl(
 ) : PlayerRepository {
 
     override suspend fun getPlayerDetails(playerTag: String): Player {
+//        return FakePlayer
         return client.get("proxy/players/${playerTag.encodeURLPath()}").body()
     }
 }

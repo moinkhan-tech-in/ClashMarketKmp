@@ -42,6 +42,13 @@ val FakePlayer = Player(
     bestTrophies = 4000,
     warStars = 1,
     attackWins = 1,
+    league = League(
+        id = 1000,
+        name = "Unranked",
+        iconUrls = IconUrls(
+            small = "https://api-assets.clashofclans.com/leagues/72/e--YMyIexEQQhE4imLoJcwhYn6Uy8KqlgyY3_kFV6t4.png"
+        )
+    ),
     defenseWins = 2,
     donations = 12,
     donationsReceived = 123,

@@ -1,4 +1,4 @@
-package com.clash.market.components
+package com.clash.market.components.clash
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +17,12 @@ import androidx.compose.ui.unit.dp
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_trophy
 import coil3.compose.AsyncImage
+import com.clash.market.components.ClashCard
+import com.clash.market.components.ClashChip
+import com.clash.market.components.ClashInfoRowCard
+import com.clash.market.components.ClashLabel
+import com.clash.market.components.ClashLabelFlowRow
+import com.clash.market.components.ClashTooltipBox
 import com.clash.market.copyToClipboard
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.FakeClanDetailItem

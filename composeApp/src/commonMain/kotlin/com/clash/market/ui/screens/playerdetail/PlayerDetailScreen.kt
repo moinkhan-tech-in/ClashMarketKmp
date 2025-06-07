@@ -1,44 +1,29 @@
 package com.clash.market.ui.screens.playerdetail
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
+import androidx.compose.material.Scaffold
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import clashmarket.composeapp.generated.resources.Res
+import clashmarket.composeapp.generated.resources.ic_back
+import com.clash.market.components.ClashTopBar
 import com.clash.market.navigation.ScreenRouts
-import com.clash.market.theme.ClashFont
-import org.koin.mp.KoinPlatform.getKoin
+import com.clash.market.ui.contents.playerdetail.PlayerDetailContent
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlayerDetailScreen(
     playerDetailRoute: ScreenRouts.PlayerDetail,
-    viewModel: PlayerDetailViewModel = getKoin().get<PlayerDetailViewModel>()
+    onBackClick: () -> Unit
 ) {
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-    PlayerDetailScreenContent(
-        value = uiState.value
-    )
-}
-
-@Composable
-private fun PlayerDetailScreenContent(
-    value: PlayerDetailUiState
-) {
-
-    AnimatedVisibility(visible = value.player != null) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = value.player?.name.orEmpty(), fontFamily = ClashFont)
-            Text(text = value.player?.tag.orEmpty(), fontFamily = ClashFont)
-            Text(text = value.player?.expLevel.toString(), fontFamily = ClashFont)
+    Scaffold(
+        topBar = {
+            ClashTopBar(
+                title = playerDetailRoute.name ?: playerDetailRoute.tag,
+                navigationIcon = Res.drawable.ic_back,
+                onBackClick = onBackClick
+            )
         }
+    ) {
+        PlayerDetailContent(playerTag = playerDetailRoute.tag)
     }
 }
-

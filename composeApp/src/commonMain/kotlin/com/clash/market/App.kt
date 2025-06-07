@@ -49,13 +49,18 @@ fun ClashNavHost() {
 
         composable<ScreenRouts.PlayerDetail> { backStackEntry ->
             val player = backStackEntry.toRoute<ScreenRouts.PlayerDetail>()
-            PlayerDetailScreen(player)
+            PlayerDetailScreen(
+                playerDetailRoute = player,
+                onBackClick = { navController.popBackStack() }
+            )
         }
 
         composable<ScreenRouts.ClanDetail> { backStackEntry ->
             val clan = backStackEntry.toRoute<ScreenRouts.ClanDetail>()
-            ClanDetailScreen(clan)
+            ClanDetailScreen(
+                clanDetailRoute = clan,
+                onNavigate = { navController.navigate(it) }
+            )
         }
-
     }
 }

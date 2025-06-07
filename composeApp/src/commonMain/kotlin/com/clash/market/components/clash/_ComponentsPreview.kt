@@ -19,12 +19,7 @@ private fun PlayerInfoPreview() {
 @Composable
 @Preview
 private fun ClanInfoPreview() {
-    ClanInfo(
-        name = "Avengers",
-        tag = "#123442",
-        clanImage = "",
-        onShare = {}
-    )
+    ClanInfo(clan = FakeClanDetailItem)
 }
 
 @Composable

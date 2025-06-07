@@ -9,6 +9,7 @@ import com.clash.market.network.data.repositories.PlayerRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.update
 
 class DashboardViewModel(
@@ -27,6 +28,7 @@ class DashboardViewModel(
     private fun fetchSavedPlayerTag() {
         launchIO {
             preferenceManager.getValueAsFlow(ClashPreferenceKeys.ProfilePlayer)
+                .filterNotNull()
                 .collectLatest {
                     if (it.isEmpty()) {
 
@@ -45,7 +47,13 @@ class DashboardViewModel(
                 val player = playerRepository.getPlayerDetails(playerTag)
                 _uiState.update { it.copy(player = ResultState.Success(player)) }
 
-                player.clan?.tag?.let { fetchCurrentWar(it) }
+                player.clan?.tag?.let {
+                    preferenceManager.save(ClashPreferenceKeys.IsInClan, true)
+                    preferenceManager.save(ClashPreferenceKeys.ProfileClan, it)
+                    fetchCurrentWar(it)
+                } ?: run {
+                    preferenceManager.save(ClashPreferenceKeys.IsInClan, false)
+                }
             } catch (e: Exception) {
                 _uiState.update { it.copy(player = ResultState.Error(e.message)) }
             }

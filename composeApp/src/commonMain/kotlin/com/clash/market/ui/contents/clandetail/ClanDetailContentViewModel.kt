@@ -1,4 +1,4 @@
-package com.clash.market.ui.screens.clandetail
+package com.clash.market.ui.contents.clandetail
 
 import com.clash.market.base.BaseViewModel
 import com.clash.market.base.ResultState
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class ClanDetailViewModel(
+class ClanDetailContentViewModel(
     private val clanRepository: ClanRepository
 ) : BaseViewModel() {
 

@@ -36,6 +36,7 @@ import com.clash.market.components.ClashBottomBar
 import com.clash.market.components.ClashTopBar
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.theme.ClashFont
+import com.clash.market.ui.contents.clandetail.ClanDetailContent
 import com.clash.market.ui.dialogs.SingleInputDialog
 import com.clash.market.ui.screens.dashboard.DashboardScreen
 import com.clash.market.ui.screens.search.SearchScreen
@@ -44,7 +45,7 @@ import org.koin.mp.KoinPlatform.getKoin
 
 val bottomNavItems = listOf(
     BottomNavItem(ScreenRouts.Dashboard, Icons.Default.Dashboard, "Home"),
-    BottomNavItem(ScreenRouts.Clan, Icons.Default.Group, "Clan"),
+    BottomNavItem(ScreenRouts.MyClan, Icons.Default.Group, "My Clan"),
     BottomNavItem(ScreenRouts.Search, Icons.Default.Search, "Search"),
     BottomNavItem(ScreenRouts.War, Icons.Default.Shield, "War"),
     BottomNavItem(ScreenRouts.More, Icons.Default.Settings, "Profile"),
@@ -79,14 +80,9 @@ private fun HomeScreenContent(
     var showFloatingOption by remember { mutableStateOf(false) }
 
     val title = remember(currentRoute) {
-        when (currentRoute) {
-            ScreenRouts.Dashboard -> "Dashboard"
-            ScreenRouts.Search -> "Search"
-            ScreenRouts.War -> "War"
-            ScreenRouts.More -> "More"
-            ScreenRouts.Clan -> "Clan"
-            else -> ""
-        }
+        bottomNavItems.find {  it.route == currentRoute }
+            ?.label
+            .orEmpty()
     }
 
     if (uiState.showPlayerInputDialog) {
@@ -144,13 +140,23 @@ private fun HomeScreenContent(
             }
 
             composable<ScreenRouts.Search> {
-                SearchScreen(
-                    onNavigate = onNavigate
-                )
+                SearchScreen(onNavigate = onNavigate)
             }
 
-            composable<ScreenRouts.Clan> {
-                Text("Clan")
+            composable<ScreenRouts.MyClan> {
+                when (uiState.playerClan) {
+                    PlayerClanStatus.Unknown -> {}
+
+                    is PlayerClanStatus.EnrolledInClan -> {
+                        ClanDetailContent(
+                            clanTag = uiState.playerClan.tag,
+                            onNavigate = onNavigate
+                        )
+                    }
+
+                    PlayerClanStatus.NotEnrolledInClan -> {}
+                }
+
             }
 
             composable<ScreenRouts.War> {

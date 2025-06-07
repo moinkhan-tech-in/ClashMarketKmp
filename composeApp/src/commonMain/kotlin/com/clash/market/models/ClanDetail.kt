@@ -42,11 +42,15 @@ data class ClanDetail(
 val FakeClanDetailItem = ClanDetail(
     tag = "#2G3G34FE",
     name = "Avengers",
+    description = "Always do your both attacks in clan war, otherwise you will be kicked out. Even if we are behind in stars like 10 vs 100, do your attacks even with one troop! If you are not sure which target, ask from higher rank players in the chat, they will help",
     clanLevel = 12,
     members = MembersField.Count(12),
     type = "open",
     stars = 12,
     attacks = 10,
+    warTies = 10,
+    warWins = 10,
+    warLosses = 10,
     expEarned = 200,
     destructionPercentage = 90.12f,
     badgeUrls = BadgeUrls(

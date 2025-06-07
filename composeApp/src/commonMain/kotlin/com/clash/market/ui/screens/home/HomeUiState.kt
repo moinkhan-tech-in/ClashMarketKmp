@@ -1,8 +1,12 @@
 package com.clash.market.ui.screens.home
 
-import com.clash.market.models.Player
-
 data class HomeUiState(
-    val player: Player? = null,
-    val showPlayerInputDialog: Boolean = false
+    val showPlayerInputDialog: Boolean = false,
+    val playerClan: PlayerClanStatus = PlayerClanStatus.Unknown
 )
+
+sealed class PlayerClanStatus {
+    data class EnrolledInClan(val tag: String): PlayerClanStatus()
+    object NotEnrolledInClan: PlayerClanStatus()
+    object Unknown: PlayerClanStatus()
+}

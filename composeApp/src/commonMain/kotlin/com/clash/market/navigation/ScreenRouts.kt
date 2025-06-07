@@ -5,7 +5,10 @@ import kotlinx.serialization.Serializable
 sealed interface ScreenRouts {
 
     @Serializable
-    data class PlayerDetail(val tag: String) : ScreenRouts
+    data class PlayerDetail(
+        val tag: String,
+        val name: String? = null
+    ) : ScreenRouts
 
     @Serializable
     data class ClanDetail(val tag: String) : ScreenRouts
@@ -20,7 +23,7 @@ sealed interface ScreenRouts {
     object Search : ScreenRouts
 
     @Serializable
-    object Clan : ScreenRouts
+    object MyClan : ScreenRouts
 
     @Serializable
     object War : ScreenRouts

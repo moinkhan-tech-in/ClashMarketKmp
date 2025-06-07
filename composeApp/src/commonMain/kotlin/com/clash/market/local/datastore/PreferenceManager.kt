@@ -2,6 +2,7 @@ package com.clash.market.local.datastore
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.CoroutineDispatcher
@@ -11,29 +12,31 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
-sealed class ClashPreferenceKeys(val key: String) {
-    object ProfilePlayer: ClashPreferenceKeys("clash.profile.player")
+sealed class ClashPreferenceKeys<T>(val key: Preferences.Key<T>) {
+    object ProfilePlayer: ClashPreferenceKeys<String>(stringPreferencesKey("clash.profile.player"))
+    object ProfileClan: ClashPreferenceKeys<String>(stringPreferencesKey("clash.profile.clan"))
+    object IsInClan: ClashPreferenceKeys<Boolean>(booleanPreferencesKey("clash.profile.isInClan"))
 }
 
 class PreferenceManager(
     private val preference: DataStore<Preferences>,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) {
-    suspend fun save(prefKey: ClashPreferenceKeys, value: String) {
+    suspend fun <T> save(prefKey: ClashPreferenceKeys<T>, value: T) {
         withContext(dispatcher) {
-            preference.edit { it[stringPreferencesKey(prefKey.key)] = value }
+            preference.edit { it[prefKey.key] = value }
         }
     }
 
-    suspend fun getValue(prefKey: ClashPreferenceKeys, default: String = ""): String {
+    suspend fun <T> getValue(prefKey: ClashPreferenceKeys<T>, default: T? = null): T? {
         return withContext(dispatcher) {
-            preference.data.map { it[stringPreferencesKey(prefKey.key)] ?: default }
+            preference.data.map { it[prefKey.key] ?: default }
         }.first()
     }
 
-    suspend fun getValueAsFlow(prefKey: ClashPreferenceKeys, default: String = ""): Flow<String> {
+    suspend fun <R> getValueAsFlow(prefKey: ClashPreferenceKeys<R>, default: R? = null): Flow<R?> {
         return withContext(dispatcher) {
-            preference.data.map { it[stringPreferencesKey(prefKey.key)] ?: default }
+            preference.data.map { it[prefKey.key] ?: default }
         }
     }
 }
