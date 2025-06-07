@@ -5,13 +5,14 @@ import com.clash.market.models.FakeClanDetailItem
 import com.clash.market.models.WarFrequency
 import com.clash.market.models.dtos.ClanSearchResponse
 import com.clash.market.models.dtos.CurrentWarResponse
+import com.clash.market.models.dtos.FakeClanSearchResponse
 import com.clash.market.models.dtos.FakeCurrentWarResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 
-private const val DefaultSearchClanLimit = 10
+private const val DefaultSearchClanLimit = 5
 
 interface ClanRepository {
 
@@ -59,6 +60,9 @@ class ClanRepositoryImpl(
         after: String?,
         before: String?
     ): ClanSearchResponse {
+
+        return FakeClanSearchResponse
+
         return client.get("proxy/clans") {
             parameter("name", name)
             parameter("limit", DefaultSearchClanLimit)

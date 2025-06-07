@@ -22,6 +22,7 @@ data class ClanDetail(
     val memberList: List<Player>? = null,
     val labels: List<Label>? = null,
     val requiredVersusTrophies: Int? = null,
+    val expEarned: Int? = null,
     val requiredTrophies: Int? = null,
     val requiredTownhallLevel: Int? = null,
     val attacks: Int? = null,
@@ -46,6 +47,8 @@ val FakeClanDetailItem = ClanDetail(
     type = "open",
     stars = 12,
     attacks = 10,
+    expEarned = 200,
+    destructionPercentage = 90.12f,
     badgeUrls = BadgeUrls(
         small = "https://api-assets.clashofclans.com/badges/200/pyrF7jEkUBWNgthO_NBKRYs2rg9sMRHBIpLwwSC18og.png",
         medium = "https://api-assets.clashofclans.com/badges/200/pyrF7jEkUBWNgthO_NBKRYs2rg9sMRHBIpLwwSC18og.png",

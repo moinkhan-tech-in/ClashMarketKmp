@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
@@ -34,8 +35,8 @@ fun ClashTooltipBox(
         tooltip = {
             Box(
                 modifier = Modifier
-                    .background(Color(0xFF2C2C2C), RoundedCornerShape(8.dp))
-                    .border(2.dp, Color(0xFFFED36A), RoundedCornerShape(8.dp))
+                    .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+                    .border(2.dp, MaterialTheme.colorScheme.onPrimary, RoundedCornerShape(8.dp))
                     .padding(horizontal = 12.dp, vertical = 8.dp)
             ) {
                 Text(

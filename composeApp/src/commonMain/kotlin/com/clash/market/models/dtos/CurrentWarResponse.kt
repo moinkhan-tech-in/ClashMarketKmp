@@ -14,6 +14,7 @@ data class CurrentWarResponse(
     val startTime: String? = null,
     val endTime: String? = null,
     val preparationStartTime: String? = null,
+    val attacksPerMember: Int? = null,
     val clan: ClanDetail,
     val opponent: ClanDetail
 ) {
@@ -27,6 +28,31 @@ data class CurrentWarResponse(
     fun getWarEndTime(): String {
         val endTime = parseWarTime(endTime.orEmpty())
         return getTimeRemainingLabel(endTime) // → "18h 42m"
+    }
+
+    fun getDetailsForWarCard(): List<Triple<String, String, String>> {
+        return arrayListOf<Triple<String, String, String>>().apply {
+
+            clan.destructionPercentage?.let {
+                add(
+                    Triple(
+                        clan.destructionPercentage.toString(),
+                        "Destruction",
+                        opponent.destructionPercentage.toString()
+                    )
+                )
+
+                clan.expEarned?.let {
+                    add(
+                        Triple(
+                            it.toString(),
+                            "Exp Earned",
+                            opponent.expEarned.toString()
+                        )
+                    )
+                }
+            }
+        }
     }
 }
 

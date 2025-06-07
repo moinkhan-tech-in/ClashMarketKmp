@@ -1,4 +1,4 @@
-package com.clash.market.ui.screens.dashboard.components
+package com.clash.market.components.clash
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.clash.market.components.ClashCard
 import com.clash.market.components.ClashPositiveButton
-import com.clash.market.theme.ClashFont
 
 @Composable
 internal fun ClanInfo(
@@ -37,8 +37,8 @@ internal fun ClanInfo(
                 modifier = Modifier.weight(1f).padding(12.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(text = name, fontFamily = ClashFont)
-                Text(text = tag, fontFamily = ClashFont)
+                Text(text = name, color = MaterialTheme.colorScheme.onSurface)
+                Text(text = tag, color = MaterialTheme.colorScheme.onSurface)
             }
             ClashPositiveButton(
                 text = "Share",

@@ -1,4 +1,4 @@
-package com.clash.market.ui.screens.dashboard.components
+package com.clash.market.components.clash
 
 import androidx.compose.runtime.Composable
 import com.clash.market.models.FakeClanDetailItem

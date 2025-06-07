@@ -45,7 +45,7 @@ fun ClashTextField(
         leadingIcon = leadingIconComposable,
         modifier = modifier
             .fillMaxWidth()
-            .height(48.dp)
+            .height(50.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(Color(0xFFFDF6E3)) // Pale stone-like background
             .border(2.dp, Color(0xFFE0C97F), RoundedCornerShape(12.dp)), // Dark brown border

@@ -3,9 +3,16 @@ package com.clash.market.models
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MeasureUnit(
+data class PlayerItem(
     val name: String,
     val level: Int,
     val maxLevel: Int,
     val village: String
+)
+
+val FakePlayerItem = PlayerItem(
+    name = "Archer",
+    level = 10,
+    maxLevel = 15,
+    village = "home"
 )

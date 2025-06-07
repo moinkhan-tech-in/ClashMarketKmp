@@ -1,4 +1,5 @@
 package com.clash.market.models
+
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -17,23 +18,25 @@ data class Player(
     val versusTrophies: Int? = null,
     val bestVersusTrophies: Int? = null,
     val versusBattleWins: Int? = null,
-    val role: String? = null,
-    val warPreference: String? = null,
+    val role: PlayerRole? = null,
+    val warPreference: WarPreference? = null,
     val donations: Int? = null,
     val donationsReceived: Int? = null,
     val clan: ClanDetail? = null,
     val league: League? = null,
     val achievements: List<Achievement> = emptyList(),
-    val troops: List<MeasureUnit> = emptyList(),
-    val heroes: List<MeasureUnit> = emptyList(),
-    val spells: List<MeasureUnit> = emptyList(),
+    val troops: List<PlayerItem> = emptyList(),
+    val heroes: List<PlayerItem> = emptyList(),
+    val heroEquipment: List<PlayerItem> = emptyList(),
+    val spells: List<PlayerItem> = emptyList(),
     val labels: List<Label> = emptyList()
 )
 
 val FakePlayer = Player(
     tag = "#2GYCPJJY2",
     name = "MSquare",
-    role = "coLeader",
+    role = PlayerRole.CO_LEADER,
+    warPreference = WarPreference.IN,
     trophies = 1234,
     expLevel = 236,
     bestTrophies = 4000,
@@ -43,6 +46,18 @@ val FakePlayer = Player(
     donations = 12,
     donationsReceived = 123,
     clan = FakeClanDetailItem,
-    townHallLevel = 17
+    townHallLevel = 17,
+    troops = listOf(
+        FakePlayerItem, FakePlayerItem, FakePlayerItem, FakePlayerItem, FakePlayerItem
+    ),
+    spells = listOf(
+        FakePlayerItem, FakePlayerItem, FakePlayerItem, FakePlayerItem, FakePlayerItem
+    ),
+    heroes = listOf(
+        FakePlayerItem, FakePlayerItem, FakePlayerItem, FakePlayerItem, FakePlayerItem
+    ),
+    heroEquipment = listOf(
+        FakePlayerItem, FakePlayerItem, FakePlayerItem, FakePlayerItem, FakePlayerItem
+    )
 )
 

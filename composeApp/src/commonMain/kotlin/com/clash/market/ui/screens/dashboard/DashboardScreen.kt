@@ -1,23 +1,22 @@
 package com.clash.market.ui.screens.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.clash.market.base.ResultState
 import com.clash.market.components.ResultStateCrossFade
+import com.clash.market.components.clash.ClanCurrentWarInfo
+import com.clash.market.components.clash.ClanInfo
+import com.clash.market.components.clash.PlayerAchievementInfo
+import com.clash.market.components.clash.PlayerInfo
 import com.clash.market.models.Player
 import com.clash.market.models.dtos.CurrentWarResponse
-import com.clash.market.ui.screens.dashboard.components.ClanCurrentWarInfo
-import com.clash.market.ui.screens.dashboard.components.ClanInfo
-import com.clash.market.ui.screens.dashboard.components.PlayerInfo
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
@@ -31,39 +30,62 @@ fun DashboardScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DashboardScreenContent(uiState: DashboardUiState) {
-    Column(
-        modifier = Modifier.padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        contentPadding = PaddingValues(
+            top = 12.dp,
+            start = 12.dp, end = 12.dp,
+            bottom = 56.dp
+        )
     ) {
-        PlayerAndClanInfoStateUi(uiState.player)
-        CurrentWarStateUi(uiState.currentWar)
+        item {
+            PlayerInfoStateUi(uiState.player)
+        }
+
+        item {
+            ClanInfoStateUi(uiState.player)
+        }
+
+        item {
+            CurrentWarStateUi(uiState.currentWar)
+        }
+
+        if (uiState.player is ResultState.Success) {
+            item {
+                PlayerAchievementInfo(uiState.player.data.achievements)
+            }
+        }
     }
 }
 
 @Composable
-private fun PlayerAndClanInfoStateUi(player: ResultState<Player>) {
+private fun PlayerInfoStateUi(player: ResultState<Player>) {
     ResultStateCrossFade(
         resultState = player,
         idealContent = {}
     ) {
-        Column {
-            Spacer(modifier = Modifier.size(8.dp))
-            PlayerInfo(
-                player = it,
-                onEdit = {
+        PlayerInfo(
+            player = it,
+            onEdit = {}
+        )
+    }
+}
 
-                }
-            )
+@Composable
+private fun ClanInfoStateUi(player: ResultState<Player>) {
+    ResultStateCrossFade(
+        resultState = player,
+        idealContent = {}
+    ) {
+        ClanInfo(
+            name = it.clan?.name.orEmpty(),
+            tag = it.clan?.tag.orEmpty(),
+            clanImage = it.clan?.badgeUrls?.small.orEmpty(),
+            onShare = {
 
-            ClanInfo(
-                name = it.clan?.name.orEmpty(),
-                tag = it.clan?.tag.orEmpty(),
-                clanImage = it.clan?.badgeUrls?.small.orEmpty(),
-                onShare = {
-
-                }
-            )
-        }
+            }
+        )
     }
 }
 

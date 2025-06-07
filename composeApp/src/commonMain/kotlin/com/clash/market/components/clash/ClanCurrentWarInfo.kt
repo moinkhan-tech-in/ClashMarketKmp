@@ -1,5 +1,6 @@
-package com.clash.market.ui.screens.dashboard.components
+package com.clash.market.components.clash
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,6 +33,7 @@ import clashmarket.composeapp.generated.resources.ic_sward
 import coil3.compose.AsyncImage
 import com.clash.market.components.AnimatedTimeText
 import com.clash.market.components.ClashCard
+import com.clash.market.components.ClashTripleInfoRowCard
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.WarState
 import com.clash.market.models.dtos.CurrentWarResponse
@@ -51,19 +54,11 @@ internal fun ClanCurrentWarInfo(
         }
     ) {
         when (war.state) {
-            WarState.IN_WAR -> {
+            WarState.IN_WAR, WarState.PREPARATION, WarState.WAR_ENDED -> {
                 ClanInWarCard(war)
             }
 
             WarState.NOT_IN_WAR -> {
-
-            }
-
-            WarState.PREPARATION -> {
-
-            }
-
-            WarState.WAR_ENDED -> {
 
             }
         }
@@ -96,39 +91,48 @@ fun ClanWarTopEndContent(war: CurrentWarResponse) {
 
 @Composable
 private fun ClanInWarCard(
-    warResponse: CurrentWarResponse
+    war: CurrentWarResponse
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        ClanCard(clan = warResponse.clan)
-        Column(
-            modifier = Modifier
-                .padding(top = 16.dp)
+    Column {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Text(
-                modifier = Modifier.padding(bottom = 8.dp),
-                text = "VS",
-                fontFamily = ClashFont,
-                color = Color(0xFF8B6508),
-                fontSize = 22.sp,
-                style = TextStyle.Default.copy(
-                    shadow = Shadow(color = Color.Black, blurRadius = 2f)
+            ClanCard(clan = war.clan)
+            Column(
+                modifier = Modifier
+                    .padding(top = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    text = "VS",
+                    fontFamily = ClashFont,
+                    color = Color(0xFF8B6508),
+                    fontSize = 22.sp,
+                    style = TextStyle.Default.copy(
+                        shadow = Shadow(color = Color.Black, blurRadius = 2f)
+                    )
                 )
-            )
-            Spacer(Modifier.size(18.dp))
-            Text(text = warResponse.teamSize.toString(), fontFamily = ClashFont)
-            Icon(Icons.Default.Groups, contentDescription = null)
+                Spacer(Modifier.size(18.dp))
+                Text(text = war.teamSize.toString(), fontFamily = ClashFont)
+                Icon(Icons.Default.Groups, contentDescription = null)
+            }
+            ClanCard(clan = war.opponent)
         }
-        ClanCard(clan = warResponse.opponent)
+
+        val infoList = war.getDetailsForWarCard()
+        AnimatedVisibility(infoList.isNotEmpty()) {
+            ClashTripleInfoRowCard(
+                modifier = Modifier.padding(top = 12.dp),
+                infoList = infoList
+            )
+        }
     }
 }
 
 @Composable
-private fun ClanCard(
-    clan: ClanDetail
-) {
+private fun ClanCard(clan: ClanDetail) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -138,13 +142,13 @@ private fun ClanCard(
             modifier = Modifier.size(56.dp),
             contentDescription = clan.name
         )
-        Text(text = clan.name.orEmpty(), fontFamily = ClashFont)
-        Text(text = clan.tag.orEmpty(), fontFamily = ClashFont)
+        Text(text = clan.name.orEmpty(), color = MaterialTheme.colorScheme.onSurface)
+        Text(text = clan.tag.orEmpty(), color = MaterialTheme.colorScheme.onSurface)
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = clan.stars.toString(), fontFamily = ClashFont)
+            Text(text = clan.stars.toString(), color = MaterialTheme.colorScheme.onSurface)
             Spacer(Modifier.size(4.dp))
             Image(
                 modifier = Modifier.size(20.dp),
@@ -154,7 +158,7 @@ private fun ClanCard(
 
             Spacer(Modifier.size(12.dp))
 
-            Text(text = clan.attacks.toString(), fontFamily = ClashFont)
+            Text(text = clan.attacks.toString(), color = MaterialTheme.colorScheme.onSurface)
             Spacer(Modifier.size(4.dp))
             Image(
                 modifier = Modifier.size(28.dp),
