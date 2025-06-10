@@ -26,19 +26,20 @@ fun ClashCard(
 ) {
     Surface(
         onClick = onClick,
-        modifier = modifier
+        modifier = Modifier
             .padding(4.dp)
-            .border(2.dp, MaterialTheme.colorScheme.onPrimary, RoundedCornerShape(10.dp)), // soft gold border
+            .border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = .5f), RoundedCornerShape(10.dp)), // soft gold border
+
         shape = RoundedCornerShape(10.dp)
     ) {
         Column(
-            modifier = Modifier.padding(12.dp),
+            modifier = modifier.padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 title?.let {
                     Text(
-                        modifier = modifier.weight(1f),
+                        modifier = Modifier.weight(1f),
                         text = it,
                         color = Color(0xFF8B6508),
                         style = MaterialTheme.typography.titleMedium

@@ -10,7 +10,7 @@ data class Achievement(
     val target: Int,
     val info: String,
     val completionInfo: String? = null,
-    val village: String
+    val village: VillageType? = null
 )
 
 val FakeAchievement = Achievement(
@@ -20,5 +20,5 @@ val FakeAchievement = Achievement(
     target = 5000,
     info = "Donate 5,000 housing space worth of reinforcements to Clan mates.",
     completionInfo = "Total donations: 50,000",
-    village = "home"
+    village = VillageType.HOME
 )

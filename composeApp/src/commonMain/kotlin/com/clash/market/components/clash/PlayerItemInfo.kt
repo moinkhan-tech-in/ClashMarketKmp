@@ -10,6 +10,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -23,23 +27,28 @@ import com.clash.market.theme.ClashFont
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun PlayerItemInfo(
-    playerItem: PlayerItem
-) {
-
-}
-
-@Composable
 fun PlayerItemsInfoFlowRow(
     title: String,
     playerItems: List<PlayerItem>
 ) {
-    ClashCard(title = title) {
+    val village = playerItems.map { it.village }.distinct()
+    var currentVillage by remember { mutableStateOf(village.getOrNull(0)) }
+
+    val filteredItems = remember(currentVillage) {
+        playerItems.filter { it.village == currentVillage }
+    }
+
+    ClashCard(
+        title = title,
+        topEndContent = {
+            ClashQueueChip(items = village) { currentVillage = it }
+        }
+    ) {
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            playerItems.forEach { TroopCard(it) }
+            filteredItems.forEach { TroopCard(it) }
         }
     }
 }
@@ -57,7 +66,7 @@ fun TroopCard(
     ) {
         Box(modifier = Modifier.padding(6.dp)) {
             Image(
-                modifier = Modifier.size(58.dp),
+                modifier = Modifier.size(46.dp),
                 painter = painterResource(Res.drawable.ic_sward),
                 contentDescription = null
             )

@@ -3,8 +3,8 @@ package com.clash.market.network.data.repositories
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.WarFrequency
 import com.clash.market.models.dtos.ClanSearchResponse
+import com.clash.market.models.dtos.ClashResponse
 import com.clash.market.models.dtos.CurrentWarResponse
-import com.clash.market.models.dtos.FakeCurrentWarResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -18,6 +18,8 @@ interface ClanRepository {
     suspend fun getClanDetails(tag: String): ClanDetail
 
     suspend fun getCurrentWar(clanTag: String): CurrentWarResponse
+
+    suspend fun getClanWarLogs(clanTag: String, limit: Int = 20): ClashResponse<CurrentWarResponse>
 
     suspend fun searchClan(
         name: String,
@@ -38,13 +40,20 @@ class ClanRepositoryImpl(
 ) : ClanRepository {
 
     override suspend fun getClanDetails(tag: String): ClanDetail {
-//        return FakeClanDetailItem
         return client.get("proxy/clans/${tag.encodeURLPath()}").body()
     }
 
     override suspend fun getCurrentWar(tag: String): CurrentWarResponse {
-        return FakeCurrentWarResponse
-//        return client.get("proxy/clans/${tag.encodeURLPath()}/currentwar").body()
+        return client.get("proxy/clans/${tag.encodeURLPath()}/currentwar").body()
+    }
+
+    override suspend fun getClanWarLogs(tag: String, limit: Int): ClashResponse<CurrentWarResponse> {
+        return try {
+            client.get("proxy/clans/${tag.encodeURLPath()}/warlog").body()
+        } catch (e: Exception) {
+            print(e)
+            return ClashResponse()
+        }
     }
 
     override suspend fun searchClan(
@@ -59,9 +68,6 @@ class ClanRepositoryImpl(
         after: String?,
         before: String?
     ): ClanSearchResponse {
-
-//        return FakeClanSearchResponse
-
         return client.get("proxy/clans") {
             parameter("name", name)
             parameter("limit", DefaultSearchClanLimit)

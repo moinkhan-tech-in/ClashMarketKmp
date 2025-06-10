@@ -5,6 +5,9 @@ import kotlinx.serialization.Serializable
 sealed interface ScreenRouts {
 
     @Serializable
+    object Splash : ScreenRouts
+
+    @Serializable
     data class PlayerDetail(
         val tag: String,
         val name: String? = null
@@ -29,5 +32,16 @@ sealed interface ScreenRouts {
     object War : ScreenRouts
 
     @Serializable
+    data class WarLogs(
+        val tag: String,
+        val name: String
+    ) : ScreenRouts
+
+    @Serializable
     object More : ScreenRouts
+
+    @Serializable
+    data class VerifyAccount(
+        val tag: String
+    ) : ScreenRouts
 }

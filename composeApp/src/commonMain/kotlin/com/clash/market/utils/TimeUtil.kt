@@ -1,7 +1,9 @@
 package com.clash.market.utils
 
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
-import kotlin.time.Clock
+import kotlinx.datetime.until
 import kotlin.time.ExperimentalTime
 
 fun parseWarTime(raw: String): Instant {
@@ -40,5 +42,31 @@ fun getTimeRemainingLabel(targetTime: Instant): String {
         val minutes = (totalSeconds % 3600) / 60
         val seconds = totalSeconds % 60
         "${hours}h ${minutes}m ${seconds}s"
+    }
+}
+
+fun getTimeAgoLabel(targetTime: Instant): String {
+    val now = Clock.System.now()
+    val totalSeconds = targetTime.until(now, DateTimeUnit.SECOND)
+
+    return when {
+        totalSeconds < 60 -> "$totalSeconds seconds ago"
+        totalSeconds < 3600 -> "${totalSeconds / 60} minutes ago"
+        totalSeconds < 86400 -> "${totalSeconds / 3600} hours ago"
+        totalSeconds < 2592000 -> "${totalSeconds / 86400} days ago"
+        totalSeconds < 31536000 -> {
+            val months = totalSeconds / 2592000
+            val remainingDays = (totalSeconds % 2592000) / 86400
+            buildString {
+                append("$months month")
+                if (months > 1) append("s")
+                if (remainingDays > 0) {
+                    append(" $remainingDays day")
+                    if (remainingDays > 1) append("s")
+                }
+                append(" ago")
+            }
+        }
+        else -> "${totalSeconds / 31536000} years ago"
     }
 }

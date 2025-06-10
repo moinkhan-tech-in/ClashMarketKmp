@@ -7,12 +7,12 @@ data class PlayerItem(
     val name: String,
     val level: Int,
     val maxLevel: Int,
-    val village: String
+    val village: VillageType? = null
 )
 
 val FakePlayerItem = PlayerItem(
     name = "Archer",
     level = 10,
     maxLevel = 15,
-    village = "home"
+    village = VillageType.HOME
 )

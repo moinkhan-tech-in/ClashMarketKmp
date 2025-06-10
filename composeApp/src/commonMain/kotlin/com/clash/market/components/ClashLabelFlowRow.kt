@@ -15,9 +15,7 @@ fun ClashLabelFlowRow(
     list: List<Label>,
     clashLabelSize: Dp = 40.dp
 ) {
-    FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
+    FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         list.forEach {
             ClashTooltipBox(it.name) {
                 AsyncImage(

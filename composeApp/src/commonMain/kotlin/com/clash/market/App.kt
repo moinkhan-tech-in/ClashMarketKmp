@@ -14,6 +14,8 @@ import com.clash.market.theme.ClashTypography
 import com.clash.market.ui.screens.clandetail.ClanDetailScreen
 import com.clash.market.ui.screens.home.HomeScreen
 import com.clash.market.ui.screens.playerdetail.PlayerDetailScreen
+import com.clash.market.ui.screens.splash.SplashScreen
+import com.clash.market.ui.screens.warlogs.WarLogsScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -43,6 +45,16 @@ fun ClashNavHost() {
 
     NavHost(navController, startDestination = ScreenRouts.Home) {
 
+        composable<ScreenRouts.Splash> {
+            SplashScreen(
+                onReady = {
+                    navController.navigate(ScreenRouts.Home) {
+                        popUpTo(ScreenRouts.Splash) { inclusive = true }
+                    }
+                }
+            )
+        }
+
         composable<ScreenRouts.Home> {
             HomeScreen(onNavigate = { navController.navigate(it) })
         }
@@ -60,6 +72,14 @@ fun ClashNavHost() {
             ClanDetailScreen(
                 clanDetailRoute = clan,
                 onNavigate = { navController.navigate(it) },
+                onBackClick = { navController.popBackStack() }
+            )
+        }
+
+        composable<ScreenRouts.WarLogs> { backStackEntry ->
+            val warLogs = backStackEntry.toRoute<ScreenRouts.WarLogs>()
+            WarLogsScreen(
+                warLogsRoute = warLogs,
                 onBackClick = { navController.popBackStack() }
             )
         }

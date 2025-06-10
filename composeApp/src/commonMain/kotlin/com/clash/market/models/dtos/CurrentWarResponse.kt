@@ -3,13 +3,15 @@ package com.clash.market.models.dtos
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.FakeClanDetailItem
 import com.clash.market.models.WarState
+import com.clash.market.utils.getTimeAgoLabel
 import com.clash.market.utils.getTimeRemainingLabel
 import com.clash.market.utils.parseWarTime
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class CurrentWarResponse(
-    val state: WarState,
+    val state: WarState? = null,
+    val result: String? = null,
     val teamSize: Int? = null,
     val startTime: String? = null,
     val endTime: String? = null,
@@ -30,7 +32,13 @@ data class CurrentWarResponse(
         return getTimeRemainingLabel(endTime) // → "18h 42m"
     }
 
+    fun getWarEndedTime(): String {
+        return getTimeAgoLabel(parseWarTime(endTime.orEmpty()))
+    }
+
     fun getDetailsForWarCard(): List<Triple<String, String, String>> {
+        if (state == null || state == WarState.PREPARATION) return emptyList()
+
         return arrayListOf<Triple<String, String, String>>().apply {
 
             clan.destructionPercentage?.let {

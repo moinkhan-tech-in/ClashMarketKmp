@@ -8,6 +8,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -24,11 +28,22 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun PlayerAchievementInfo(achievements: List<Achievement>) {
-    ClashCard(title = "Achievements") {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            achievements.forEachIndexed { index, item ->
+
+    val village = achievements.map { it.village }.distinct()
+    var currentVillage by remember { mutableStateOf(village.getOrNull(0)) }
+
+    val filteredAchievements = remember(currentVillage) {
+        achievements.filter { it.village == currentVillage }
+    }
+
+    ClashCard(
+        title = "Achievements",
+        topEndContent = {
+            ClashQueueChip(items = village) { currentVillage = it }
+        }
+    ) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            filteredAchievements.forEachIndexed { index, item ->
                 PlayerAchievementItem(item)
                 if (index != achievements.lastIndex) {
                     HorizontalDivider(Modifier.size(1.dp))
@@ -80,7 +95,10 @@ private fun PlayerAchievementItem(achievement: Achievement) {
         }
         ClashProgressBar(
             label = value,
-            progress = (achievement.value.toFloat() / achievement.target.toFloat()).coerceIn(0f, 1f),
+            progress = (achievement.value.toFloat() / achievement.target.toFloat()).coerceIn(
+                0f,
+                1f
+            ),
             height = 20.dp
         )
     }

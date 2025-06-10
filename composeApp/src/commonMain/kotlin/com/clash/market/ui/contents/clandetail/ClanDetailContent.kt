@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.clash.market.components.ResultStateCrossFade
+import com.clash.market.components.clash.ClanCapitalInfo
 import com.clash.market.components.clash.ClanListItem
 import com.clash.market.components.clash.ClanMembersInfo
 import com.clash.market.navigation.ScreenRouts
@@ -36,12 +37,28 @@ fun ClanDetailContent(
             )
         ) {
             item {
-                ClanListItem(clanDetail)
+                ClanListItem(
+                    clanDetail = clanDetail,
+                    onWarLogsClick = {
+                        onNavigate.invoke(
+                            ScreenRouts.WarLogs(clanDetail.tag.orEmpty(), clanDetail.name.orEmpty())
+                        )
+                    })
+            }
+
+            item {
+                clanDetail.clanCapital?.let {
+                    ClanCapitalInfo(
+                        points = clanDetail.clanCapitalPoints ?: 0,
+                        detail = clanDetail.clanCapital,
+                        league = clanDetail.capitalLeague
+                    )
+                }
             }
 
             item {
                 ClanMembersInfo(
-                   memberList = clanDetail.memberList.orEmpty(),
+                    memberList = clanDetail.memberList.orEmpty(),
                     onMemberClick = {
                         onNavigate(ScreenRouts.PlayerDetail(tag = it.tag, name = it.name))
                     }
