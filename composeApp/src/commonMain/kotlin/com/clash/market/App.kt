@@ -43,7 +43,7 @@ fun ClashTheme(
 fun ClashNavHost() {
     val navController = rememberNavController()
 
-    NavHost(navController, startDestination = ScreenRouts.Home) {
+    NavHost(navController, startDestination = ScreenRouts.Splash) {
 
         composable<ScreenRouts.Splash> {
             SplashScreen(

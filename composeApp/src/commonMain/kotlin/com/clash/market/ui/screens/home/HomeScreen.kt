@@ -76,7 +76,7 @@ private fun HomeScreenContent(
     val topBarScrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     val childNavController = rememberNavController()
-    var currentRoute by remember { mutableStateOf<ScreenRouts>(ScreenRouts.MyClan) }
+    var currentRoute by remember { mutableStateOf<ScreenRouts>(ScreenRouts.Dashboard) }
     var showFloatingOption by remember { mutableStateOf(false) }
 
     val title = remember(currentRoute) {
