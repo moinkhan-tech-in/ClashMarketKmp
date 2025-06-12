@@ -9,9 +9,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Group
+import androidx.compose.material.icons.filled.Leaderboard
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -39,6 +39,7 @@ import com.clash.market.theme.ClashFont
 import com.clash.market.ui.contents.clandetail.ClanDetailContent
 import com.clash.market.ui.dialogs.SingleInputDialog
 import com.clash.market.ui.screens.dashboard.DashboardScreen
+import com.clash.market.ui.screens.rankings.RankingsScreen
 import com.clash.market.ui.screens.search.SearchScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.mp.KoinPlatform.getKoin
@@ -47,7 +48,7 @@ val bottomNavItems = listOf(
     BottomNavItem(ScreenRouts.Dashboard, Icons.Default.Dashboard, null, null, "Home"),
     BottomNavItem(ScreenRouts.MyClan, Icons.Default.Group, null, null, "My Clan"),
     BottomNavItem(ScreenRouts.Search, Icons.Default.Search, null, null, "Search"),
-    BottomNavItem(ScreenRouts.War, Icons.Default.Shield, null, null, "War"),
+    BottomNavItem(ScreenRouts.Rankings, Icons.Default.Leaderboard, null, null, "Rankings"),
     BottomNavItem(ScreenRouts.More, Icons.Default.Settings, null, null, "Profile"),
 )
 
@@ -159,8 +160,8 @@ private fun HomeScreenContent(
 
             }
 
-            composable<ScreenRouts.War> {
-                Text("War")
+            composable<ScreenRouts.Rankings> {
+                RankingsScreen()
             }
 
             composable<ScreenRouts.More> {

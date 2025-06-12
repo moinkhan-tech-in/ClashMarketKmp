@@ -29,7 +29,7 @@ sealed interface ScreenRouts {
     object MyClan : ScreenRouts
 
     @Serializable
-    object War : ScreenRouts
+    object Rankings : ScreenRouts
 
     @Serializable
     data class WarLogs(

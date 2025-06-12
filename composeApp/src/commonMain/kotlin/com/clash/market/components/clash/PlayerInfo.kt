@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.LocalTextStyle
@@ -33,6 +34,7 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun PlayerInfo(
     player: Player,
+    showClanInfo: Boolean = false,
     onEdit: () -> Unit = {}
 ) {
     ClashCard(
@@ -74,6 +76,7 @@ fun PlayerInfo(
                 }
                 ClashLabelFlowRow(player.labels)
             }
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround,
@@ -111,12 +114,21 @@ fun PlayerInfo(
                     icon = painterResource(Res.drawable.ic_sward)
                 )
             }
-            ClashInfoRowCard(
-                infoList = listOf(
-                    Pair("Troops Donated", player.donations.toString()),
-                    Pair("Troops Received", player.donationsReceived.toString()),
+
+            if (player.donations != null && player.donationsReceived != null) {
+                ClashInfoRowCard(
+                    infoList = listOf(
+                        Pair("Troops Donated", player.donations.toString()),
+                        Pair("Troops Received", player.donationsReceived.toString()),
+                    )
                 )
-            )
+            }
+            if (showClanInfo) {
+                player.clan?.let {
+                    Spacer(Modifier.size(8.dp))
+                    ClanInfo(it)
+                }
+            }
         }
     }
 }

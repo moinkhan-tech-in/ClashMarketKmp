@@ -10,7 +10,7 @@ data class ClanDetail(
     val description: String? = null,
     val location: Location? = null,
     val badgeUrls: BadgeUrls? = null,
-    val clanLevel: Int,
+    val clanLevel: Int? = null,
     val clanCapital: ClanCapital? = null,
     val clanCapitalPoints: Int? = null,
     val capitalLeague: League? = null,

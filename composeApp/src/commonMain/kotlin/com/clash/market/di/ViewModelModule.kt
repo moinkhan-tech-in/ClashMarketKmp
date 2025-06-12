@@ -4,6 +4,7 @@ import com.clash.market.ui.contents.clandetail.ClanDetailContentViewModel
 import com.clash.market.ui.contents.playerdetail.PlayerDetailContentViewModel
 import com.clash.market.ui.screens.dashboard.DashboardViewModel
 import com.clash.market.ui.screens.home.HomeViewModel
+import com.clash.market.ui.screens.rankings.RankingsViewModel
 import com.clash.market.ui.screens.search.SearchViewModel
 import com.clash.market.ui.screens.splash.SplashViewModel
 import com.clash.market.ui.screens.warlogs.WarLogsViewModel
@@ -17,4 +18,5 @@ val viewModelModule = module {
     single { ClanDetailContentViewModel(get()) }
     single { PlayerDetailContentViewModel(get()) }
     single { WarLogsViewModel(get()) }
+    single { RankingsViewModel(get()) }
 }

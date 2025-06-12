@@ -2,21 +2,20 @@ package com.clash.market.ui.contents.playerdetail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import clashmarket.composeapp.generated.resources.Res
+import clashmarket.composeapp.generated.resources.ic_search_character
+import com.clash.market.components.ClashGuideMessage
 import com.clash.market.components.ResultStateCrossFade
 import com.clash.market.components.clash.ClanInfo
 import com.clash.market.components.clash.PlayerAchievementInfo
 import com.clash.market.components.clash.PlayerInfo
 import com.clash.market.components.clash.PlayerItemsInfoFlowRow
-import com.clash.market.theme.ClashFont
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
@@ -29,10 +28,9 @@ fun PlayerDetailContent(
     ResultStateCrossFade(
         resultState = playerSearchState.value,
         idealContent = {
-            Text(
-                modifier = Modifier.padding(top = 120.dp),
-                text = "Chief, Start searching for a player.",
-                fontFamily = ClashFont
+            ClashGuideMessage(
+                drawable = Res.drawable.ic_search_character,
+                message = "Chief, Start searching for a player."
             )
         }
     ) { result ->

@@ -19,7 +19,7 @@ import org.koin.mp.KoinPlatform.getKoin
 
 private val tabs = listOf<ClashTab>(
     ClashTab(0, "Player"),
-    ClashTab(1, "Clan")
+    ClashTab(1, "Clans")
 )
 
 @Composable
