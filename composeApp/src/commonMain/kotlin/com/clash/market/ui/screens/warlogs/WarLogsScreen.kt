@@ -25,7 +25,7 @@ import com.clash.market.components.ResultStateCrossFade
 import com.clash.market.components.clash.ClanCurrentWarInfo
 import com.clash.market.models.dtos.CurrentWarResponse
 import com.clash.market.navigation.ScreenRouts
-import org.koin.mp.KoinPlatform.getKoin
+import org.koin.compose.viewmodel.koinViewModel
 
 internal val WinGradiant = Brush.horizontalGradient(
     listOf(
@@ -47,7 +47,7 @@ internal val LossGradiant = Brush.horizontalGradient(
 @Composable
 fun WarLogsScreen(
     warLogsRoute: ScreenRouts.WarLogs,
-    viewModel: WarLogsViewModel = getKoin().get<WarLogsViewModel>(),
+    viewModel: WarLogsViewModel = koinViewModel(),
     onBackClick: () -> Unit
 ) {
     LaunchedEffect(Unit) { viewModel.fetchWarLogs(warLogsRoute.tag) }

@@ -18,7 +18,7 @@ import com.clash.market.ui.screens.home.HomeScreenScaffold
 import com.clash.market.ui.screens.search.tabs.SearchClanContent
 import com.clash.market.ui.screens.search.tabs.SearchPlayerContent
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.mp.KoinPlatform.getKoin
+import org.koin.compose.viewmodel.koinViewModel
 
 private val tabs = listOf<ClashTab>(
     ClashTab(0, "Player"),
@@ -27,7 +27,7 @@ private val tabs = listOf<ClashTab>(
 
 @Composable
 fun SearchScreen(
-    viewModel: SearchViewModel = getKoin().get<SearchViewModel>(),
+    viewModel: SearchViewModel = koinViewModel(),
     onBottomBarNavigate: (ScreenRouts) -> Unit,
     onNavigate: (ScreenRouts) -> Unit
 ) {

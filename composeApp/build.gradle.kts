@@ -59,7 +59,6 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.koin.android)
             implementation(libs.coil.network.okhttp)
         }
 
@@ -78,6 +77,7 @@ kotlin {
             implementation(libs.ui)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.koin.core)
+            implementation(libs.koin.viewmodel)
 
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)

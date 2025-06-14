@@ -1,65 +1,105 @@
 package com.clash.market.ui.screens.rankings
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import clashmarket.composeapp.generated.resources.Res
+import clashmarket.composeapp.generated.resources.ic_chevron_down
 import com.clash.market.base.ResultState
 import com.clash.market.components.ClashScrollableTabs
 import com.clash.market.components.ClashTab
-import com.clash.market.components.ResultStateLazyGridCrossFade
+import com.clash.market.components.ResultStateLazyGrid
 import com.clash.market.components.clash.ClanListItem
+import com.clash.market.components.clash.ClashLocationsSheet
 import com.clash.market.components.clash.PlayerInfo
-import com.clash.market.models.ClanDetail
-import com.clash.market.models.Player
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.screens.home.HomeScreenScaffold
-import org.koin.mp.KoinPlatform.getKoin
+import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 
 internal val tabs = listOf<ClashTab>(
-    ClashTab(0, "Player"),
-    ClashTab(1, "Clans"),
+    ClashTab(0, "Top Players"),
+    ClashTab(1, "Top Clans"),
     ClashTab(2, "Player Builder"),
     ClashTab(3, "Clan Builder")
 )
 
 @Composable
 fun RankingsScreen(
-    viewModel: RankingsViewModel = getKoin().get<RankingsViewModel>(),
+    viewModel: RankingsViewModel = koinViewModel(),
     onBottomBarNavigate: (ScreenRouts) -> Unit
 ) {
-    val topPlayerState by viewModel.topPlayerState.collectAsStateWithLifecycle()
-    val topClanState by viewModel.topClanState.collectAsStateWithLifecycle()
-    val topBuilderBasePlayerState by viewModel.topBuilderBasePlayerState.collectAsStateWithLifecycle()
-    val topBuilderBaseClanState by viewModel.topBuilderBaseClanState.collectAsStateWithLifecycle()
-
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     RankingsScreenContent(
         onBottomBarNavigate = onBottomBarNavigate,
-        topPlayerState = topPlayerState,
-        topClanState = topClanState,
-        topBuilderBasePlayerState = topBuilderBasePlayerState,
-        topBuilderBaseClanState = topBuilderBaseClanState
+        uiState = uiState,
+        onEvent = viewModel::onUiEvent
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RankingsScreenContent(
+    uiState: RankingUiState,
     onBottomBarNavigate: (ScreenRouts) -> Unit,
-    topPlayerState: ResultState<List<Player>>,
-    topClanState: ResultState<List<ClanDetail>>,
-    topBuilderBasePlayerState: ResultState<List<Player>>,
-    topBuilderBaseClanState: ResultState<List<ClanDetail>>
+    onEvent: (RankingUiEvent) -> Unit
 ) {
+    var showLocationSheet by remember { mutableStateOf(false) }
+
+    if (uiState.locations is ResultState.Success) {
+        ClashLocationsSheet(
+            show = showLocationSheet,
+            locations = uiState.locations.data,
+            onItemClick = { onEvent(RankingUiEvent.LocationChange(it)) },
+            onDismiss = { showLocationSheet = false }
+        )
+    }
+
     HomeScreenScaffold(
         currentRoute = ScreenRouts.Rankings,
-        onBottomBarNavigate = onBottomBarNavigate
+        onBottomBarNavigate = onBottomBarNavigate,
+        topBarAction = {
+            if (uiState.locations is ResultState.Success) {
+                Row(
+                    Modifier.padding(16.dp)
+                        .border(1.dp, color = Color.White, shape = RoundedCornerShape(12.dp)),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Spacer(Modifier.size(8.dp))
+                    Text(
+                        modifier = Modifier.clickable { showLocationSheet = true },
+                        text = uiState.selectedLocation.name,
+                        color = Color.White
+                    )
+                    Spacer(Modifier.size(2.dp))
+                    Image(
+                        painter = painterResource(Res.drawable.ic_chevron_down),
+                        modifier = Modifier.size(36.dp),
+                        contentDescription = null
+                    )
+                }
+            }
+        }
     ) { innerPadding ->
 
         var selectedTabIndex by rememberSaveable { mutableStateOf(0) }
@@ -71,38 +111,30 @@ private fun RankingsScreenContent(
         ) {
             when (it) {
                 0 -> {
-                    ResultStateLazyGridCrossFade(
-                        resultState = topPlayerState,
-                        idealContent = {}
-                    ) { players ->
+                    LaunchedEffect(uiState.selectedLocation) { onEvent(RankingUiEvent.FetchTopPlayers) }
+                    ResultStateLazyGrid(resultState = uiState.topPlayers) { players ->
                         items(players) { PlayerInfo(it, showClanInfo = true) }
                     }
                 }
 
                 1 -> {
-                    ResultStateLazyGridCrossFade(
-                        resultState = topClanState,
-                        idealContent = {}
-                    ) { players ->
-                        items(players) { ClanListItem(it) }
+                    LaunchedEffect(uiState.selectedLocation) { onEvent(RankingUiEvent.FetchTopClans) }
+                    ResultStateLazyGrid(resultState = uiState.topClans) { clans ->
+                        items(clans) { ClanListItem(it) }
                     }
                 }
 
                 2 -> {
-                    ResultStateLazyGridCrossFade(
-                        resultState = topBuilderBasePlayerState,
-                        idealContent = {}
-                    ) { players ->
+                    LaunchedEffect(uiState.selectedLocation) { onEvent(RankingUiEvent.FetchBuilderBaseTopPlayers) }
+                    ResultStateLazyGrid(resultState = uiState.topBuilderPlayers) { players ->
                         items(players) { PlayerInfo(it) }
                     }
                 }
 
                 3 -> {
-                    ResultStateLazyGridCrossFade(
-                        resultState = topBuilderBaseClanState,
-                        idealContent = {}
-                    ) { players ->
-                        items(players) { ClanListItem(it) }
+                    LaunchedEffect(uiState.selectedLocation) { onEvent(RankingUiEvent.FetchBuilderBaseTopClans) }
+                    ResultStateLazyGrid(resultState = uiState.topBuilderClans) { clans ->
+                        items(clans) { ClanListItem(it) }
                     }
                 }
             }

@@ -16,12 +16,12 @@ import com.clash.market.components.clash.ClanInfo
 import com.clash.market.components.clash.PlayerAchievementInfo
 import com.clash.market.components.clash.PlayerInfo
 import com.clash.market.components.clash.PlayerItemsInfoFlowRow
-import org.koin.mp.KoinPlatform.getKoin
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun PlayerDetailContent(
     playerTag: String,
-    viewModel: PlayerDetailContentViewModel = getKoin().get<PlayerDetailContentViewModel>()
+    viewModel: PlayerDetailContentViewModel = koinViewModel()
 ) {
     val playerSearchState = viewModel.playerSearchState.collectAsStateWithLifecycle()
     LaunchedEffect(playerTag) { viewModel.fetchPlayer(playerTag) }

@@ -18,11 +18,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_main_logo
 import org.jetbrains.compose.resources.painterResource
-import org.koin.mp.KoinPlatform.getKoin
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun SplashScreen(
-    viewModel: SplashViewModel = getKoin().get<SplashViewModel>(),
+    viewModel: SplashViewModel = koinViewModel(),
     onReady: () -> Unit
 ) {
     val isReady = viewModel.isReady.collectAsStateWithLifecycle()

@@ -13,13 +13,13 @@ import com.clash.market.components.clash.ClanCapitalInfo
 import com.clash.market.components.clash.ClanListItem
 import com.clash.market.components.clash.ClanMembersInfo
 import com.clash.market.navigation.ScreenRouts
-import org.koin.mp.KoinPlatform.getKoin
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ClanDetailContent(
     clanTag: String,
     onNavigate: (ScreenRouts) -> Unit,
-    viewModel: ClanDetailContentViewModel = getKoin().get<ClanDetailContentViewModel>()
+    viewModel: ClanDetailContentViewModel = koinViewModel()
 ) {
     val clanDetailState = viewModel.clanDetailState.collectAsStateWithLifecycle()
     LaunchedEffect(clanTag) { viewModel.fetchClanDetail(clanTag) }

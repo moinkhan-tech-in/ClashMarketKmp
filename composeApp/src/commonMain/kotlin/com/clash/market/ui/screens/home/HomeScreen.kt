@@ -24,7 +24,7 @@ import com.clash.market.ui.screens.myclan.MyClanScreen
 import com.clash.market.ui.screens.rankings.RankingsScreen
 import com.clash.market.ui.screens.search.SearchScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.mp.KoinPlatform.getKoin
+import org.koin.compose.viewmodel.koinViewModel
 
 val bottomNavItems = listOf(
     BottomNavItem(ScreenRouts.Dashboard, Icons.Default.Dashboard, null, null, "Home"),
@@ -36,7 +36,7 @@ val bottomNavItems = listOf(
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = getKoin().get<HomeViewModel>(),
+    viewModel: HomeViewModel = koinViewModel(),
     onNavigate: (ScreenRouts) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()

@@ -2,85 +2,92 @@ package com.clash.market.ui.screens.rankings
 
 import com.clash.market.base.BaseViewModel
 import com.clash.market.base.ResultState
-import com.clash.market.models.ClanDetail
-import com.clash.market.models.Location
-import com.clash.market.models.Player
+import com.clash.market.models.GlobalLocationId
+import com.clash.market.network.data.repositories.MetadataRepository
 import com.clash.market.network.data.repositories.RankingRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class RankingsViewModel(
-    val rankingRepository: RankingRepository
+    val rankingRepository: RankingRepository,
+    val metadataRepository: MetadataRepository
 ) : BaseViewModel() {
 
-    private val _topPlayerState = MutableStateFlow<ResultState<List<Player>>>(ResultState.Ideal)
-    val topPlayerState = _topPlayerState.asStateFlow()
-
-    private val _topClanState = MutableStateFlow<ResultState<List<ClanDetail>>>(ResultState.Ideal)
-    val topClanState = _topClanState.asStateFlow()
-
-    private val _topBuilderBasePlayerState = MutableStateFlow<ResultState<List<Player>>>(ResultState.Ideal)
-    val topBuilderBasePlayerState = _topBuilderBasePlayerState.asStateFlow()
-
-    private val _topBuilderBaseClanState = MutableStateFlow<ResultState<List<ClanDetail>>>(ResultState.Ideal)
-    val topBuilderBaseClanState = _topBuilderBaseClanState.asStateFlow()
-
-    private val _locationState = MutableStateFlow<ResultState<List<Location>>>(ResultState.Ideal)
-    val locationState = _locationState.asStateFlow()
+    private val _uiState = MutableStateFlow(RankingUiState())
+    val uiState = _uiState.asStateFlow()
 
     init {
-        fetchTopPlayers()
-        fetchTopClans()
-        fetchBuilderBaseTopPlayers()
-        fetchBuilderBaseTopClans()
+        fetchLocations()
     }
 
-    private fun fetchTopPlayers() {
-        launchIO {
-            _topPlayerState.update { ResultState.Loading }
-            try {
-                val response = rankingRepository.getTopPlayers("32000010")
-                _topPlayerState.update { ResultState.Success(response.items) }
-            } catch (e: Exception) {
-                _topPlayerState.update { ResultState.Error(e.message) }
+    fun onUiEvent(event: RankingUiEvent) {
+        val locationId = uiState.value.selectedLocation.id ?: GlobalLocationId
+        when (event) {
+            RankingUiEvent.FetchTopPlayers -> fetchTopPlayers(locationId.toString())
+            RankingUiEvent.FetchTopClans -> fetchTopClans(locationId.toString())
+            RankingUiEvent.FetchBuilderBaseTopPlayers -> fetchBuilderBaseTopPlayers(locationId.toString())
+            RankingUiEvent.FetchBuilderBaseTopClans -> fetchBuilderBaseTopClans(locationId.toString())
+            is RankingUiEvent.LocationChange -> {
+                _uiState.update { it.copy(selectedLocation = event.location) }
             }
         }
     }
 
-    private fun fetchTopClans() {
-        launchIO {
-            _topClanState.update { ResultState.Loading }
-            try {
-                val response = rankingRepository.getTopClans("32000010")
-                _topClanState.update { ResultState.Success(response.items) }
-            } catch (e: Exception) {
-                _topClanState.update { ResultState.Error(e.message) }
-            }
+    private fun fetchTopPlayers(locationId: String) = launchIO {
+        _uiState.update { it.copy(topPlayers = ResultState.Loading) }
+        runCatching {
+            rankingRepository.getTopPlayers(locationId).items
+        }.onSuccess { players ->
+            _uiState.update { it.copy(topPlayers = ResultState.Success(players)) }
+        }.onFailure { error ->
+            _uiState.update { it.copy(topPlayers = ResultState.Error(error.message)) }
         }
     }
 
-    private fun fetchBuilderBaseTopPlayers() {
-        launchIO {
-            _topBuilderBasePlayerState.update { ResultState.Loading }
-            try {
-                val response = rankingRepository.getTopBuilderBasePlayers("32000010")
-                _topBuilderBasePlayerState.update { ResultState.Success(response.items) }
-            } catch (e: Exception) {
-                _topBuilderBasePlayerState.update { ResultState.Error(e.message) }
-            }
+    private fun fetchTopClans(locationId: String) = launchIO {
+        _uiState.update { it.copy(topClans = ResultState.Loading) }
+        runCatching {
+            rankingRepository.getTopClans(locationId).items
+        }.onSuccess { clans ->
+            _uiState.update { it.copy(topClans = ResultState.Success(clans)) }
+        }.onFailure { error ->
+            _uiState.update { it.copy(topClans = ResultState.Error(error.message)) }
         }
     }
 
-    private fun fetchBuilderBaseTopClans() {
-        launchIO {
-            _topBuilderBaseClanState.update { ResultState.Loading }
-            try {
-                val response = rankingRepository.getTopBuilderBaseClans("32000010")
-                _topBuilderBaseClanState.update { ResultState.Success(response.items) }
-            } catch (e: Exception) {
-                _topBuilderBaseClanState.update { ResultState.Error(e.message) }
-            }
+    private fun fetchBuilderBaseTopPlayers(locationId: String) = launchIO {
+        _uiState.update { it.copy(topBuilderPlayers = ResultState.Loading) }
+        runCatching {
+            rankingRepository.getTopBuilderBasePlayers(locationId).items
+        }.onSuccess { players ->
+            _uiState.update { it.copy(topBuilderPlayers = ResultState.Success(players)) }
+        }.onFailure { error ->
+            _uiState.update { it.copy(topBuilderPlayers = ResultState.Error(error.message)) }
+        }
+    }
+
+    private fun fetchBuilderBaseTopClans(locationId: String) = launchIO {
+        _uiState.update { it.copy(topBuilderClans = ResultState.Loading) }
+        runCatching {
+            rankingRepository.getTopBuilderBaseClans(locationId).items
+        }.onSuccess { clans ->
+            _uiState.update { it.copy(topBuilderClans = ResultState.Success(clans)) }
+        }.onFailure { error ->
+            _uiState.update { it.copy(topBuilderClans = ResultState.Error(error.message)) }
+        }
+    }
+
+    private fun fetchLocations() = launchIO {
+        _uiState.update { it.copy(locations = ResultState.Loading) }
+        runCatching {
+            metadataRepository.getLocations()
+                .items.filter { it.isCountry == true }
+                .sortedBy { it.name }
+        }.onSuccess { locations ->
+            _uiState.update { it.copy(locations = ResultState.Success(locations)) }
+        }.onFailure { error ->
+            _uiState.update { it.copy(locations = ResultState.Error(error.message)) }
         }
     }
 }

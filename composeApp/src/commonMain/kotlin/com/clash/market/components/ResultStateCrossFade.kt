@@ -49,9 +49,9 @@ fun <T> ResultStateCrossFade(
 }
 
 @Composable
-fun <T> ResultStateLazyGridCrossFade(
+fun <T> ResultStateLazyGrid(
     resultState: ResultState<T>,
-    idealContent: @Composable BoxScope.() -> Unit,
+    idealContent: @Composable BoxScope.() -> Unit = {},
     successContent: LazyStaggeredGridScope.(T) -> Unit
 ) {
     Crossfade(

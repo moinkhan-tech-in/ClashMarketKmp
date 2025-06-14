@@ -8,15 +8,16 @@ import com.clash.market.ui.screens.rankings.RankingsViewModel
 import com.clash.market.ui.screens.search.SearchViewModel
 import com.clash.market.ui.screens.splash.SplashViewModel
 import com.clash.market.ui.screens.warlogs.WarLogsViewModel
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    single { SplashViewModel(get()) }
-    single { HomeViewModel(get()) }
-    single { DashboardViewModel(get(), get(), get(), get()) }
-    single { SearchViewModel(get()) }
-    single { ClanDetailContentViewModel(get()) }
-    single { PlayerDetailContentViewModel(get()) }
-    single { WarLogsViewModel(get()) }
-    single { RankingsViewModel(get()) }
+    viewModelOf(::SplashViewModel)
+    viewModelOf(::HomeViewModel)
+    viewModelOf(::DashboardViewModel)
+    viewModelOf(::SearchViewModel)
+    viewModelOf(::ClanDetailContentViewModel)
+    viewModelOf(::PlayerDetailContentViewModel)
+    viewModelOf(::WarLogsViewModel)
+    viewModelOf(::RankingsViewModel)
 }

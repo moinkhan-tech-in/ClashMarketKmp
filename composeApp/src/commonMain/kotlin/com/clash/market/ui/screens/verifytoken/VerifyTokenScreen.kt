@@ -24,12 +24,12 @@ import clashmarket.composeapp.generated.resources.ic_back
 import com.clash.market.components.ClashPositiveButton
 import com.clash.market.components.ClashTextField
 import com.clash.market.components.ClashTopBar
-import org.koin.mp.KoinPlatform.getKoin
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VerifyAccountScreen(
-    viewModel: VerifyAccountViewModel = getKoin().get<VerifyAccountViewModel>(),
+    viewModel: VerifyAccountViewModel = koinViewModel(),
     onBack: () -> Unit
 ) {
 
