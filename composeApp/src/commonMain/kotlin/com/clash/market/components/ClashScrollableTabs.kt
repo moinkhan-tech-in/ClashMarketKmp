@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ClashScrollableTabs(
+    modifier: Modifier,
     tabs: List<ClashTab>,
     selectedTabIndex: Int,
     onTabSelected: (ClashTab) -> Unit,
@@ -28,7 +29,7 @@ fun ClashScrollableTabs(
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = { tabs.size })
 
-    Column(Modifier.fillMaxSize()) {
+    Column(modifier.fillMaxSize()) {
         ScrollableTabRow(
             selectedTabIndex = selectedTabIndex,
             edgePadding = 8.dp,

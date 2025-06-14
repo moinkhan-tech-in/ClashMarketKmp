@@ -1,5 +1,6 @@
 package com.clash.market.ui.screens.rankings
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -7,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.clash.market.base.ResultState
 import com.clash.market.components.ClashScrollableTabs
@@ -16,6 +18,8 @@ import com.clash.market.components.clash.ClanListItem
 import com.clash.market.components.clash.PlayerInfo
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.Player
+import com.clash.market.navigation.ScreenRouts
+import com.clash.market.ui.screens.home.HomeScreenScaffold
 import org.koin.mp.KoinPlatform.getKoin
 
 internal val tabs = listOf<ClashTab>(
@@ -25,10 +29,10 @@ internal val tabs = listOf<ClashTab>(
     ClashTab(3, "Clan Builder")
 )
 
-
 @Composable
 fun RankingsScreen(
-    viewModel: RankingsViewModel = getKoin().get<RankingsViewModel>()
+    viewModel: RankingsViewModel = getKoin().get<RankingsViewModel>(),
+    onBottomBarNavigate: (ScreenRouts) -> Unit
 ) {
     val topPlayerState by viewModel.topPlayerState.collectAsStateWithLifecycle()
     val topClanState by viewModel.topClanState.collectAsStateWithLifecycle()
@@ -36,6 +40,7 @@ fun RankingsScreen(
     val topBuilderBaseClanState by viewModel.topBuilderBaseClanState.collectAsStateWithLifecycle()
 
     RankingsScreenContent(
+        onBottomBarNavigate = onBottomBarNavigate,
         topPlayerState = topPlayerState,
         topClanState = topClanState,
         topBuilderBasePlayerState = topBuilderBasePlayerState,
@@ -46,52 +51,59 @@ fun RankingsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RankingsScreenContent(
+    onBottomBarNavigate: (ScreenRouts) -> Unit,
     topPlayerState: ResultState<List<Player>>,
     topClanState: ResultState<List<ClanDetail>>,
     topBuilderBasePlayerState: ResultState<List<Player>>,
     topBuilderBaseClanState: ResultState<List<ClanDetail>>
 ) {
+    HomeScreenScaffold(
+        currentRoute = ScreenRouts.Rankings,
+        onBottomBarNavigate = onBottomBarNavigate
+    ) { innerPadding ->
 
-    var selectedTabIndex by rememberSaveable { mutableStateOf(0) }
-    ClashScrollableTabs(
-        tabs = tabs,
-        selectedTabIndex = selectedTabIndex,
-        onTabSelected = { selectedTabIndex = it.index }
-    ) {
-        when (it) {
-            0 -> {
-                ResultStateLazyGridCrossFade(
-                    resultState = topPlayerState,
-                    idealContent = {}
-                ) { players ->
-                    items(players) { PlayerInfo(it, showClanInfo = true) }
+        var selectedTabIndex by rememberSaveable { mutableStateOf(0) }
+        ClashScrollableTabs(
+            modifier = Modifier.padding(innerPadding),
+            tabs = tabs,
+            selectedTabIndex = selectedTabIndex,
+            onTabSelected = { selectedTabIndex = it.index }
+        ) {
+            when (it) {
+                0 -> {
+                    ResultStateLazyGridCrossFade(
+                        resultState = topPlayerState,
+                        idealContent = {}
+                    ) { players ->
+                        items(players) { PlayerInfo(it, showClanInfo = true) }
+                    }
                 }
-            }
 
-            1 -> {
-                ResultStateLazyGridCrossFade(
-                    resultState = topClanState,
-                    idealContent = {}
-                ) { players ->
-                    items(players) { ClanListItem(it) }
+                1 -> {
+                    ResultStateLazyGridCrossFade(
+                        resultState = topClanState,
+                        idealContent = {}
+                    ) { players ->
+                        items(players) { ClanListItem(it) }
+                    }
                 }
-            }
 
-            2 -> {
-                ResultStateLazyGridCrossFade(
-                    resultState = topBuilderBasePlayerState,
-                    idealContent = {}
-                ) { players ->
-                    items(players) { PlayerInfo(it) }
+                2 -> {
+                    ResultStateLazyGridCrossFade(
+                        resultState = topBuilderBasePlayerState,
+                        idealContent = {}
+                    ) { players ->
+                        items(players) { PlayerInfo(it) }
+                    }
                 }
-            }
 
-            3 -> {
-                ResultStateLazyGridCrossFade(
-                    resultState = topBuilderBaseClanState,
-                    idealContent = {}
-                ) { players ->
-                    items(players) { ClanListItem(it) }
+                3 -> {
+                    ResultStateLazyGridCrossFade(
+                        resultState = topBuilderBaseClanState,
+                        idealContent = {}
+                    ) { players ->
+                        items(players) { ClanListItem(it) }
+                    }
                 }
             }
         }

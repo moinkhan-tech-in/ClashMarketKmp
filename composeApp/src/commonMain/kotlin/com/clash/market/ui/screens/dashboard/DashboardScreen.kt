@@ -17,42 +17,58 @@ import com.clash.market.components.clash.PlayerAchievementInfo
 import com.clash.market.components.clash.PlayerInfo
 import com.clash.market.models.Player
 import com.clash.market.models.dtos.CurrentWarResponse
+import com.clash.market.navigation.ScreenRouts
+import com.clash.market.ui.screens.home.HomeScreenScaffold
 import org.koin.mp.KoinPlatform.getKoin
 
 @Composable
 fun DashboardScreen(
-    viewModel: DashboardViewModel = getKoin().get<DashboardViewModel>()
+    viewModel: DashboardViewModel = getKoin().get<DashboardViewModel>(),
+    onBottomBarNavigate: (ScreenRouts) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    DashboardScreenContent(uiState = uiState)
+    DashboardScreenContent(
+        uiState = uiState,
+        onBottomBarNavigate = onBottomBarNavigate,
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DashboardScreenContent(uiState: DashboardUiState) {
-    LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        contentPadding = PaddingValues(
-            top = 12.dp, bottom = 56.dp,
-            start = 12.dp, end = 12.dp
-        )
-    ) {
-        item {
-            PlayerInfoStateUi(uiState.player)
-        }
+private fun DashboardScreenContent(
+    uiState: DashboardUiState,
+    onBottomBarNavigate: (ScreenRouts) -> Unit
+) {
+    HomeScreenScaffold(
+        currentRoute = ScreenRouts.Dashboard,
+        onBottomBarNavigate = onBottomBarNavigate
+    ) { innerPadding ->
 
-        item {
-            ClanInfoStateUi(uiState.player)
-        }
+        LazyVerticalStaggeredGrid(
+            columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            contentPadding = PaddingValues(
+                top = innerPadding.calculateTopPadding() + 12.dp,
+                bottom = 56.dp,
+                start = 12.dp, end = 12.dp
+            )
+        ) {
+            item {
+                PlayerInfoStateUi(uiState.player)
+            }
 
-        item {
-            CurrentWarStateUi(uiState.currentWar)
-        }
+            item {
+                ClanInfoStateUi(uiState.player)
+            }
 
-        item {
-            if (uiState.player is ResultState.Success) {
-                PlayerAchievementInfo(uiState.player.data.achievements)
+            item {
+                CurrentWarStateUi(uiState.currentWar)
+            }
+
+            item {
+                if (uiState.player is ResultState.Success) {
+                    PlayerAchievementInfo(uiState.player.data.achievements)
+                }
             }
         }
     }
