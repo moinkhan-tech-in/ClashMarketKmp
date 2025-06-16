@@ -23,8 +23,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.clash.market.components.ClashNegativeButton
-import com.clash.market.components.ClashPositiveButton
+import com.clash.market.components.ClashGlossyButton
+import com.clash.market.components.ClashStyleButtonType
 import com.clash.market.components.ClashTextField
 import com.clash.market.theme.ClashFont
 
@@ -109,14 +109,16 @@ fun ClashDialog(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     dismissText?.let {
-                        ClashNegativeButton(
+                        ClashGlossyButton(
+                            type = ClashStyleButtonType.Negative,
                             text = it,
                             onClick = onDismiss
                         )
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     confirmText?.let {
-                        ClashPositiveButton(
+                        ClashGlossyButton(
+                            type = ClashStyleButtonType.Positive,
                             text = it,
                             onClick = onConfirm
                         )

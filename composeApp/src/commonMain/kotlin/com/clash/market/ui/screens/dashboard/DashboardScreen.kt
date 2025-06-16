@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,6 +48,7 @@ private fun DashboardScreenContent(
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalItemSpacing = 4.dp,
             contentPadding = PaddingValues(
                 top = innerPadding.calculateTopPadding() + 12.dp,
                 bottom = 56.dp,
@@ -65,7 +67,7 @@ private fun DashboardScreenContent(
                 CurrentWarStateUi(uiState.currentWar)
             }
 
-            item {
+            item(span = StaggeredGridItemSpan.FullLine) {
                 if (uiState.player is ResultState.Success) {
                     PlayerAchievementInfo(uiState.player.data.achievements)
                 }

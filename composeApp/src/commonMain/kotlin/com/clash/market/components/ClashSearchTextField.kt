@@ -30,7 +30,8 @@ fun ClashSearchTextField(
             onValueChange = onValueChange
         )
         btnText?.let {
-            ClashPositiveButton(
+            ClashGlossyButton(
+                type = ClashStyleButtonType.Positive,
                 modifier = Modifier.align(Alignment.CenterEnd).padding(4.dp),
                 enabled = btnEnabled.invoke(),
                 text = it,

@@ -34,7 +34,7 @@ fun ClashCard(
     ) {
         Column(
             modifier = modifier.padding(12.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 title?.let {

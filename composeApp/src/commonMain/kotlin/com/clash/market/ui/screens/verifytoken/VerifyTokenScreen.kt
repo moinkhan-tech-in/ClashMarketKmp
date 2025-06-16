@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_back
-import com.clash.market.components.ClashPositiveButton
+import com.clash.market.components.ClashGlossyButton
 import com.clash.market.components.ClashTextField
 import com.clash.market.components.ClashTopBar
 import org.koin.compose.viewmodel.koinViewModel
@@ -78,7 +78,7 @@ private fun VerifyTokenScreenContent(
             }
         }
 
-        ClashPositiveButton(
+        ClashGlossyButton(
             text = "Verify",
             onClick = { onSubmit(token.trim()) },
             enabled = token.isNotBlank()

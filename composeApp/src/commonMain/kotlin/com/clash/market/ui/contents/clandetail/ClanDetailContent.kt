@@ -31,6 +31,7 @@ fun ClanDetailContent(
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalItemSpacing = 4.dp,
             contentPadding = PaddingValues(
                 top = 12.dp, bottom = 56.dp,
                 start = 12.dp, end = 12.dp

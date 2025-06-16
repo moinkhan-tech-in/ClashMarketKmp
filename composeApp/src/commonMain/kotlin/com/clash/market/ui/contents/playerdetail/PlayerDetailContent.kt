@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.unit.dp
@@ -37,6 +38,7 @@ fun PlayerDetailContent(
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalItemSpacing = 4.dp,
             contentPadding = PaddingValues(
                 top = 12.dp, bottom = 56.dp,
                 start = 12.dp, end = 12.dp
@@ -80,7 +82,7 @@ fun PlayerDetailContent(
                 )
             }
 
-            item {
+            item(span = StaggeredGridItemSpan.FullLine) {
                 PlayerAchievementInfo(result.achievements)
             }
         }

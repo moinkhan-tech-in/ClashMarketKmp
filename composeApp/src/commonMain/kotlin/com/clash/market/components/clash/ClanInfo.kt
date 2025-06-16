@@ -16,8 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.clash.market.components.ClashCard
+import com.clash.market.components.ClashGlossyButton
 import com.clash.market.components.ClashLabelFlowRow
-import com.clash.market.components.ClashPositiveButton
 import com.clash.market.components.StatRow
 import com.clash.market.models.ClanDetail
 
@@ -46,7 +46,7 @@ internal fun ClanInfo(clan: ClanDetail) {
             if (clan.labels.orEmpty().isNotEmpty()) {
                 ClashLabelFlowRow(clan.labels.orEmpty())
             } else {
-                ClashPositiveButton(
+                ClashGlossyButton(
                     text = "Share",
                     onClick = {},
                     rightIcon = Icons.Default.Share

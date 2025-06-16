@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_star
+import com.clash.market.components.AutoColumnGrid
 import com.clash.market.components.ClashCard
 import com.clash.market.components.ClashProgressBar
 import com.clash.market.models.Achievement
@@ -38,17 +38,13 @@ fun PlayerAchievementInfo(achievements: List<Achievement>) {
 
     ClashCard(
         title = "Achievements",
-        topEndContent = {
-            ClashQueueChip(items = village) { currentVillage = it }
-        }
+        topEndContent = { ClashQueueChip(items = village) { currentVillage = it } }
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            filteredAchievements.forEachIndexed { index, item ->
-                PlayerAchievementItem(item)
-                if (index != achievements.lastIndex) {
-                    HorizontalDivider(Modifier.size(1.dp))
-                }
-            }
+        AutoColumnGrid(
+            items = filteredAchievements,
+            minCellWidth = 300.dp
+        ) {
+            PlayerAchievementItem(it)
         }
     }
 }

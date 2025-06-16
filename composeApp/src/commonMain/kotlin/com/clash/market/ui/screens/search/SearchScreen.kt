@@ -1,15 +1,18 @@
 package com.clash.market.ui.screens.search
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.clash.market.base.ResultState
+import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ClashTab
 import com.clash.market.components.ClashTabs
 import com.clash.market.models.ClanDetail
@@ -48,12 +51,32 @@ private fun SearchScreenContent(
     onNavigate: (ScreenRouts) -> Unit = {},
     onClanSearchQuery: (String) -> Unit = {}
 ) {
+    var selectedTabIndex by rememberSaveable { mutableStateOf(0) }
     HomeScreenScaffold(
         currentRoute = ScreenRouts.Search,
-        onBottomBarNavigate = onBottomBarNavigate
+        onBottomBarNavigate = onBottomBarNavigate,
+        topBarAction = {
+            Crossfade(selectedTabIndex) {
+                when (it) {
+                    0 -> {}
+                    1 -> {
+                        var showSearchOptions by remember { mutableStateOf(false) }
+                        ClashChipLight(
+                            text = "Filter",
+                            onClick = { showSearchOptions = showSearchOptions.not() }
+                        )
+                        if (showSearchOptions) {
+                            SearchClanFilterOptionsSheet(
+                                show = showSearchOptions,
+                                onDismiss = { showSearchOptions = false }
+                            )
+                        }
+                    }
+                }
+            }
+        }
     ) { innerPadding ->
 
-        var selectedTabIndex by rememberSaveable { mutableStateOf(0) }
         ClashTabs(
             modifier = Modifier.padding(innerPadding),
             tabs = tabs,
