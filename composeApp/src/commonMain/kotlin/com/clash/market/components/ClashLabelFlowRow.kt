@@ -12,10 +12,15 @@ import com.clash.market.models.Label
 
 @Composable
 fun ClashLabelFlowRow(
+    modifier: Modifier = Modifier,
     list: List<Label>,
     clashLabelSize: Dp = 40.dp
 ) {
-    FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+    FlowRow(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
         list.forEach {
             ClashTooltipBox(it.name) {
                 AsyncImage(

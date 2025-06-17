@@ -74,7 +74,7 @@ fun PlayerInfo(
                         Text(text = it, color = MaterialTheme.colorScheme.onSurface)
                     }
                 }
-                ClashLabelFlowRow(player.labels)
+                ClashLabelFlowRow(list = player.labels)
             }
 
             Row(

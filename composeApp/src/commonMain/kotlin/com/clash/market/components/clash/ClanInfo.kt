@@ -44,7 +44,7 @@ internal fun ClanInfo(clan: ClanDetail) {
             }
 
             if (clan.labels.orEmpty().isNotEmpty()) {
-                ClashLabelFlowRow(clan.labels.orEmpty())
+                ClashLabelFlowRow(list = clan.labels.orEmpty())
             } else {
                 ClashGlossyButton(
                     text = "Share",

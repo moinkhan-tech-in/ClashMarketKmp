@@ -66,7 +66,7 @@ private fun HomeScreenContent(
     NavHost(
         modifier = Modifier.fillMaxSize(),
         navController = childNavController,
-        startDestination = ScreenRouts.Dashboard
+        startDestination = ScreenRouts.Search
     ) {
         composable<ScreenRouts.Dashboard> {
             DashboardScreen(onBottomBarNavigate = { childNavController.navigate(it) })

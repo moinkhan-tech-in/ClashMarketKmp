@@ -100,7 +100,7 @@ fun ClashGlossyButton(
         // Content
         Row(
             modifier = Modifier.align(Alignment.Center)
-                .padding(horizontal = 28.dp),
+                .padding(horizontal = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {

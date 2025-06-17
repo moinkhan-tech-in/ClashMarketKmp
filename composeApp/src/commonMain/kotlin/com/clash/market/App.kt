@@ -2,15 +2,18 @@ package com.clash.market
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.clash.market.di.startSharedKoin
 import com.clash.market.navigation.ScreenRouts
+import com.clash.market.theme.ClashColors
 import com.clash.market.theme.ClashDarkColors
 import com.clash.market.theme.ClashLightColors
 import com.clash.market.theme.ClashTypography
+import com.clash.market.theme.LocalClashColors
 import com.clash.market.ui.screens.clandetail.ClanDetailScreen
 import com.clash.market.ui.screens.home.HomeScreen
 import com.clash.market.ui.screens.playerdetail.PlayerDetailScreen
@@ -31,12 +34,16 @@ fun ClashTheme(
     content: @Composable () -> Unit
 ) {
     val colors = if (useDarkTheme) ClashDarkColors else ClashLightColors
-    MaterialTheme(
-        colorScheme = colors,
-        typography = ClashTypography,
-        shapes = MaterialTheme.shapes.copy(),
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalClashColors provides ClashColors()
+    ) {
+        MaterialTheme(
+            colorScheme = colors,
+            typography = ClashTypography,
+            shapes = MaterialTheme.shapes.copy(),
+            content = content
+        )
+    }
 }
 
 @Composable

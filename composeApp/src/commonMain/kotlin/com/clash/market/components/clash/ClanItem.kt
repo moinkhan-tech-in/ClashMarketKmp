@@ -78,7 +78,7 @@ fun ClanListItem(
                         )
                     }
                 }
-                clanDetail.labels?.let { ClashLabelFlowRow(it) }
+                clanDetail.labels?.let { ClashLabelFlowRow(list = it) }
             }
 
             Column(

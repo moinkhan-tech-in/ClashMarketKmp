@@ -16,6 +16,7 @@ import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ClashTab
 import com.clash.market.components.ClashTabs
 import com.clash.market.models.ClanDetail
+import com.clash.market.models.Label
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.screens.home.HomeScreenScaffold
 import com.clash.market.ui.screens.search.tabs.SearchClanContent
@@ -35,8 +36,10 @@ fun SearchScreen(
     onNavigate: (ScreenRouts) -> Unit
 ) {
     val clanSearchState by viewModel.clanSearchState.collectAsStateWithLifecycle()
+    val clanLabelsState by viewModel.clanLabels.collectAsStateWithLifecycle()
     SearchScreenContent(
         clanSearchState = clanSearchState,
+        clanLabelsState = clanLabelsState,
         onNavigate = onNavigate,
         onClanSearchQuery = viewModel::searchClans,
         onBottomBarNavigate = onBottomBarNavigate
@@ -47,11 +50,12 @@ fun SearchScreen(
 @Composable
 private fun SearchScreenContent(
     clanSearchState: ResultState<List<ClanDetail>>,
+    clanLabelsState: ResultState<List<Label>>,
     onBottomBarNavigate: (ScreenRouts) -> Unit,
     onNavigate: (ScreenRouts) -> Unit = {},
     onClanSearchQuery: (String) -> Unit = {}
 ) {
-    var selectedTabIndex by rememberSaveable { mutableStateOf(0) }
+    var selectedTabIndex by rememberSaveable { mutableStateOf(1) }
     HomeScreenScaffold(
         currentRoute = ScreenRouts.Search,
         onBottomBarNavigate = onBottomBarNavigate,
@@ -68,6 +72,7 @@ private fun SearchScreenContent(
                         if (showSearchOptions) {
                             SearchClanFilterOptionsSheet(
                                 show = showSearchOptions,
+                                clanLabelsState = clanLabelsState,
                                 onDismiss = { showSearchOptions = false }
                             )
                         }
@@ -101,6 +106,7 @@ private fun SearchScreenContent(
 private fun SearchScreenContentPreview() {
     SearchScreenContent(
         clanSearchState = ResultState.Ideal,
-        onBottomBarNavigate = {}
+        onBottomBarNavigate = {},
+        clanLabelsState = ResultState.Ideal
     )
 }
