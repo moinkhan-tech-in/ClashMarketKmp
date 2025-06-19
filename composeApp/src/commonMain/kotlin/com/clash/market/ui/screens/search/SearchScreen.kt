@@ -17,6 +17,7 @@ import com.clash.market.components.ClashTab
 import com.clash.market.components.ClashTabs
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.Label
+import com.clash.market.models.Location
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.screens.home.HomeScreenScaffold
 import com.clash.market.ui.screens.search.tabs.SearchClanContent
@@ -37,12 +38,18 @@ fun SearchScreen(
 ) {
     val clanSearchState by viewModel.clanSearchState.collectAsStateWithLifecycle()
     val clanLabelsState by viewModel.clanLabels.collectAsStateWithLifecycle()
+    val clanFilterOptions by viewModel.clanFilterOptions.collectAsStateWithLifecycle()
+    val locations by viewModel.locations.collectAsStateWithLifecycle()
+
     SearchScreenContent(
         clanSearchState = clanSearchState,
         clanLabelsState = clanLabelsState,
+        clanFilterOptions = clanFilterOptions,
+        locations = locations,
         onNavigate = onNavigate,
         onClanSearchQuery = viewModel::searchClans,
-        onBottomBarNavigate = onBottomBarNavigate
+        onBottomBarNavigate = onBottomBarNavigate,
+        onFilterApply = viewModel::applyFilter
     )
 }
 
@@ -50,10 +57,13 @@ fun SearchScreen(
 @Composable
 private fun SearchScreenContent(
     clanSearchState: ResultState<List<ClanDetail>>,
-    clanLabelsState: ResultState<List<Label>>,
+    clanLabelsState: List<Label>,
+    clanFilterOptions: ClanFilterOptions,
+    locations: List<Location>,
     onBottomBarNavigate: (ScreenRouts) -> Unit,
     onNavigate: (ScreenRouts) -> Unit = {},
-    onClanSearchQuery: (String) -> Unit = {}
+    onClanSearchQuery: (String) -> Unit = {},
+    onFilterApply: (ClanFilterOptions) -> Unit
 ) {
     var selectedTabIndex by rememberSaveable { mutableStateOf(1) }
     HomeScreenScaffold(
@@ -72,8 +82,11 @@ private fun SearchScreenContent(
                         if (showSearchOptions) {
                             SearchClanFilterOptionsSheet(
                                 show = showSearchOptions,
+                                clanFilterOptions = clanFilterOptions,
+                                locations = locations,
                                 clanLabelsState = clanLabelsState,
-                                onDismiss = { showSearchOptions = false }
+                                onDismiss = { showSearchOptions = false },
+                                onFilterApply = onFilterApply
                             )
                         }
                     }
@@ -107,6 +120,10 @@ private fun SearchScreenContentPreview() {
     SearchScreenContent(
         clanSearchState = ResultState.Ideal,
         onBottomBarNavigate = {},
-        clanLabelsState = ResultState.Ideal
+        clanLabelsState = emptyList(),
+        locations = emptyList(),
+        clanFilterOptions = ClanFilterOptions(),
+        onFilterApply = {},
+
     )
 }

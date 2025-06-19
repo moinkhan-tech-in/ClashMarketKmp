@@ -1,6 +1,7 @@
 package com.clash.market.network.data.repositories
 
 import com.clash.market.models.ClanDetail
+import com.clash.market.models.Label
 import com.clash.market.models.WarFrequency
 import com.clash.market.models.dtos.ClanSearchResponse
 import com.clash.market.models.dtos.ClashResponse
@@ -30,6 +31,7 @@ interface ClanRepository {
         minClanPoints: Int? = null,
         minClanLevel: Int? = null,
         limit: Int? = null,
+        labels: List<Label>? = null,
         after: String? = null,
         before: String? = null
     ): ClanSearchResponse
@@ -48,12 +50,7 @@ class ClanRepositoryImpl(
     }
 
     override suspend fun getClanWarLogs(tag: String, limit: Int): ClashResponse<CurrentWarResponse> {
-        return try {
-            client.get("proxy/clans/${tag.encodeURLPath()}/warlog").body()
-        } catch (e: Exception) {
-            print(e)
-            return ClashResponse()
-        }
+        return client.get("proxy/clans/${tag.encodeURLPath()}/warlog").body()
     }
 
     override suspend fun searchClan(
@@ -65,18 +62,20 @@ class ClanRepositoryImpl(
         minClanPoints: Int?,
         minClanLevel: Int?,
         limit: Int?,
+        labels: List<Label>?,
         after: String?,
         before: String?
     ): ClanSearchResponse {
         return client.get("proxy/clans") {
             parameter("name", name)
             parameter("limit", DefaultSearchClanLimit)
-            warFrequency?.let { parameter("warFrequency", it.toString()) }
+            warFrequency?.let { parameter("warFrequency", it.serializeValue()) }
             locationId?.let { parameter("locationId", it) }
             minMembers?.let { parameter("minMembers", it) }
             maxMembers?.let { parameter("maxMembers", it) }
             minClanPoints?.let { parameter("minClanPoints", it) }
             minClanLevel?.let { parameter("minClanLevel", it) }
+            labels?.let { parameter("labelIds", it.joinToString(",")) }
             limit?.let { parameter("limit", it) }
             after?.let { parameter("after", it) }
             before?.let { parameter("before", it) }

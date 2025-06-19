@@ -24,4 +24,13 @@ enum class WarFrequency(val displayName: String) {
     UNKNOWN("Unknown");
 
     override fun toString(): String = displayName
+
+    fun serializeValue() = when(this) {
+        ALWAYS -> "always"
+        MORE_THAN_ONCE_PER_WEEK -> "moreThanOncePerWeek"
+        ONCE_PER_WEEK -> "oncePerWeek"
+        LESS_THAN_ONCE_PER_WEEK -> "lessThanOncePerWeek"
+        NEVER -> "never"
+        UNKNOWN -> "unknown"
+    }
 }

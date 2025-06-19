@@ -46,7 +46,11 @@ fun <T> ClashPicker(
                 .padding(horizontal = 12.dp),
             contentAlignment = Alignment.Center
         ) {
-            AnimatedContent(currentIndex) {
+            AnimatedContent(
+                targetState = currentIndex,
+                contentAlignment = Alignment.Center,
+                contentKey = { items[currentIndex] }
+            ) {
                 Text(text = items[currentIndex].toString(), textAlign = TextAlign.Center)
             }
         }

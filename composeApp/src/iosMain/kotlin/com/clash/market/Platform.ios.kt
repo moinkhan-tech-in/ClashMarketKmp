@@ -1,5 +1,6 @@
 package com.clash.market
 
+import androidx.compose.runtime.Composable
 import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.engine.darwin.Darwin
 import kotlinx.coroutines.CoroutineDispatcher
@@ -11,6 +12,8 @@ import platform.UIKit.UIPasteboard
 
 class IOSPlatform: Platform {
     override val name: String = UIDevice.currentDevice.systemName() + " " + UIDevice.currentDevice.systemVersion
+
+    override val isAndroid: Boolean = false
 }
 
 actual fun getPlatform(): Platform = IOSPlatform()
@@ -32,4 +35,9 @@ actual fun openClashClan(tag: String) {
 
 actual fun copyToClipboard(label: String, text: String) {
     UIPasteboard.generalPasteboard.string = text
+}
+
+@Composable
+actual fun BackPressHandler(enabled: Boolean, onBack: () -> Unit) {
+    // No-op or implement custom logic if needed
 }

@@ -26,13 +26,14 @@ fun ClashChipLight(
     onClick: () -> Unit
 ) {
     Row(
-        Modifier.padding(16.dp)
+        Modifier
+            .clickable(onClick = onClick)
+            .padding(16.dp)
             .border(1.dp, color = Color.White, shape = RoundedCornerShape(12.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Spacer(Modifier.size(8.dp))
         Text(
-            modifier = Modifier.clickable(onClick = onClick),
             text = text,
             color = Color.White
         )
