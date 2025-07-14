@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import clashmarket.composeapp.generated.resources.Res
@@ -22,7 +23,8 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun PlayerDetailContent(
     playerTag: String,
-    viewModel: PlayerDetailContentViewModel = koinViewModel()
+    viewModel: PlayerDetailContentViewModel = koinViewModel(),
+    topPadding: Dp = 12.dp
 ) {
     val playerSearchState = viewModel.playerSearchState.collectAsStateWithLifecycle()
     LaunchedEffect(playerTag) { viewModel.fetchPlayer(playerTag) }
@@ -40,7 +42,7 @@ fun PlayerDetailContent(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalItemSpacing = 4.dp,
             contentPadding = PaddingValues(
-                top = 12.dp, bottom = 56.dp,
+                top = topPadding, bottom = 56.dp,
                 start = 12.dp, end = 12.dp
             )
         ) {

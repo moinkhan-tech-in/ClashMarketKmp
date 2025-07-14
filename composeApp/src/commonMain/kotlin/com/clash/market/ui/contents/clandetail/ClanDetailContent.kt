@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.clash.market.components.ResultStateCrossFade
@@ -19,7 +20,8 @@ import org.koin.compose.viewmodel.koinViewModel
 fun ClanDetailContent(
     clanTag: String,
     onNavigate: (ScreenRouts) -> Unit,
-    viewModel: ClanDetailContentViewModel = koinViewModel()
+    viewModel: ClanDetailContentViewModel = koinViewModel(),
+    topPadding: Dp = 12.dp
 ) {
     val clanDetailState = viewModel.clanDetailState.collectAsStateWithLifecycle()
     LaunchedEffect(clanTag) { viewModel.fetchClanDetail(clanTag) }
@@ -33,7 +35,7 @@ fun ClanDetailContent(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalItemSpacing = 4.dp,
             contentPadding = PaddingValues(
-                top = 12.dp, bottom = 56.dp,
+                top = topPadding, bottom = 56.dp,
                 start = 12.dp, end = 12.dp
             )
         ) {

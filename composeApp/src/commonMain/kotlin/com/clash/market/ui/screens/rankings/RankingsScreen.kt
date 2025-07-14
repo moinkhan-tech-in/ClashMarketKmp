@@ -67,6 +67,7 @@ private fun RankingsScreenContent(
     HomeScreenScaffold(
         currentRoute = ScreenRouts.Rankings,
         onBottomBarNavigate = onBottomBarNavigate,
+        ignoreStatusBarAlphaChange = true,
         topBarAction = {
             if (uiState.locations is ResultState.Success) {
                 ClashChipLight(
