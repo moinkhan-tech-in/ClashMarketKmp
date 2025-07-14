@@ -24,7 +24,7 @@ class SearchViewModel(
     private val _locations = MutableStateFlow<List<Location>>(emptyList())
     val locations = _locations
 
-    private val _clanFilterOptions = MutableStateFlow<ClanFilterOptions>(ClanFilterOptions())
+    private val _clanFilterOptions = MutableStateFlow(ClanFilterOptions())
     val clanFilterOptions = _clanFilterOptions
 
     private var searchQuery: String = ""
@@ -60,7 +60,8 @@ class SearchViewModel(
                     maxMembers = filterOptions.maxMember,
                     minClanPoints = filterOptions.minClanPoint,
                     minClanLevel = filterOptions.clanLevel,
-                    locationId = filterOptions.location?.id
+                    locationId = filterOptions.location?.id,
+                    labels = filterOptions.labels
                 )
                 _clanSearchState.update { ResultState.Success(clans.items.orEmpty()) }
             } catch (e: Exception) {

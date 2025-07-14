@@ -75,7 +75,11 @@ class ClanRepositoryImpl(
             maxMembers?.let { parameter("maxMembers", it) }
             minClanPoints?.let { parameter("minClanPoints", it) }
             minClanLevel?.let { parameter("minClanLevel", it) }
-            labels?.let { parameter("labelIds", it.joinToString(",")) }
+            labels.takeIf { labels ->
+                labels?.isNotEmpty() == true
+            }?.let { labels ->
+                parameter("labelIds", labels.map { it.id }.joinToString(","))
+            }
             limit?.let { parameter("limit", it) }
             after?.let { parameter("after", it) }
             before?.let { parameter("before", it) }

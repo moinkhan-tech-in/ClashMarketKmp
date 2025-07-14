@@ -92,7 +92,7 @@ fun SearchClanFilterOptionsSheet(
                             var totalMembers by remember { mutableStateOf(clanFilterOptions.minMember.toFloat()..clanFilterOptions.maxMember.toFloat()) }
                             var minimumTrophies by remember { mutableStateOf(clanFilterOptions.minClanPoint.toFloat()) }
                             var warFrequency by remember { mutableStateOf(clanFilterOptions.warFrequency) }
-                            val clanLabels = remember { mutableStateListOf<Label>() }
+                            val clanLabels = remember { mutableStateListOf<Label>().apply { clanFilterOptions.labels.forEach { add(it) } } }
 
                             Scaffold(
                                 topBar = {
@@ -102,6 +102,7 @@ fun SearchClanFilterOptionsSheet(
                                             minimumTrophies = 2f
                                             warFrequency = WarFrequency.entries[0]
                                             chosenLocation = null
+                                            clanLabels.clear()
                                         },
                                         onFilter = {
                                             scope.launch {
@@ -112,7 +113,8 @@ fun SearchClanFilterOptionsSheet(
                                                         minMember = totalMembers.start.toInt(),
                                                         maxMember = totalMembers.endInclusive.toInt(),
                                                         minClanPoint = minimumTrophies.toInt(),
-                                                        location = chosenLocation
+                                                        location = chosenLocation,
+                                                        labels = clanLabels
                                                     )
                                                 )
                                                 onDismiss()
@@ -135,9 +137,14 @@ fun SearchClanFilterOptionsSheet(
                                     verticalArrangement = Arrangement.spacedBy(16.dp)
                                 ) {
                                     SearchOptionRow {
-                                        Text(text = "Clan Location", fontSize = 14.sp)
+                                        Text(
+                                            modifier = Modifier.padding(horizontal = 2.dp),
+                                            text = "Clan Location",
+                                            fontSize = 14.sp
+                                        )
                                         ClashGlossyButton(
-                                            text = chosenLocation?.name ?: "Any",
+                                            modifier = Modifier.padding(horizontal = 2.dp),
+                                            text = (chosenLocation?.name ?: "Any") + " >",
                                             onClick = {
                                                 scope.launch {
                                                     pagerState.animateScrollToPage(1)
@@ -193,7 +200,7 @@ fun SearchClanFilterOptionsSheet(
                                             ) {
                                                 Text("Clan Labels", fontSize = 14.sp)
                                                 Text(
-                                                    text = "${clanLabels.size}/3",
+                                                    text = "Selected ${clanLabels.size}/3",
                                                     fontSize = 14.sp
                                                 )
                                             }
@@ -202,8 +209,21 @@ fun SearchClanFilterOptionsSheet(
                                                 items = clanLabelsState,
                                                 minCellWidth = 150.dp,
                                                 verticalSpacing = 12.dp,
+                                                horizontalSpacing = 12.dp,
                                                 itemContent = {
-                                                    ClashLabelItem(item = it, showText = true)
+                                                    ClashLabelItem(
+                                                        item = it,
+                                                        showText = true,
+                                                        isSelected = clanLabels.contains(it),
+                                                        onClick = {
+                                                            if (clanLabels.contains(it)) {
+                                                                clanLabels.remove(it)
+                                                            } else {
+                                                                if (clanLabels.size == 3) return@ClashLabelItem
+                                                                clanLabels.add(it)
+                                                            }
+                                                        }
+                                                    )
                                                 }
                                             )
                                         }
@@ -213,11 +233,7 @@ fun SearchClanFilterOptionsSheet(
                         }
 
                         1 -> {
-                            BackPressHandler {
-                                scope.launch {
-                                    pagerState.animateScrollToPage(0)
-                                }
-                            }
+                            BackPressHandler { scope.launch { pagerState.animateScrollToPage(0) } }
                             ClashLocationsList(
                                 locations = locations,
                                 onItemClick = {
@@ -289,7 +305,7 @@ private fun SingleValueSliderFilterItem(
             value = value,
             onValueChange = onValueChange,
             valueRange = 1f..5000f,
-            steps = 8
+            steps = 50
         )
     }
 }
