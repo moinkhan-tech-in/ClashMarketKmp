@@ -65,5 +65,11 @@ val ClashTypography: Typography
             fontWeight = FontWeight.Medium,
             fontSize = 10.sp,
             letterSpacing = 0.5.sp
+        ),
+        labelMedium = TextStyle(
+            fontFamily = ClashFont,
+            fontWeight = FontWeight.Medium,
+            fontSize = 11.sp,
+            letterSpacing = 0.5.sp
         )
     )

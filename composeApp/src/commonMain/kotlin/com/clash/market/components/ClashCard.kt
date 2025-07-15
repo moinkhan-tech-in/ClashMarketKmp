@@ -36,16 +36,18 @@ fun ClashCard(
             modifier = modifier.padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                title?.let {
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = it,
-                        color = Color(0xFF8B6508),
-                        style = MaterialTheme.typography.titleMedium
-                    )
+            if (title != null || topEndContent != null) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    title?.let {
+                        Text(
+                            modifier = Modifier.weight(1f),
+                            text = it,
+                            color = Color(0xFF8B6508),
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                    topEndContent?.let { it() }
                 }
-                topEndContent?.let { it() }
             }
             content()
         }

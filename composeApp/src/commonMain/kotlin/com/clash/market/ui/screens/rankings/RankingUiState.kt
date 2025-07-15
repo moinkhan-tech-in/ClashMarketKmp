@@ -12,5 +12,6 @@ data class RankingUiState(
     val topBuilderPlayers: ResultState<List<Player>> = ResultState.Ideal,
     val topBuilderClans: ResultState<List<ClanDetail>> = ResultState.Ideal,
     val locations: ResultState<List<Location>> = ResultState.Ideal,
-    val selectedLocation: Location = WorldWideLocation
+    val selectedLocation: Location = WorldWideLocation,
+    val selectedTabIndex: Int = 0
 )

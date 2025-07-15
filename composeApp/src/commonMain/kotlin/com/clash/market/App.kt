@@ -3,6 +3,10 @@ package com.clash.market
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -24,7 +28,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 @Preview
 fun App() {
-    startSharedKoin()
+    var started by rememberSaveable { mutableStateOf(false) }
+    if (started.not()) {
+        startSharedKoin()
+        started = true
+    }
     ClashTheme { ClashNavHost() }
 }
 

@@ -89,6 +89,7 @@ private fun HomeScreenContent(
 
         composable<ScreenRouts.Rankings> {
             RankingsScreen(
+                onNavigate = onNavigate,
                 onBottomBarNavigate = { childNavController.navigate(it) }
             )
         }

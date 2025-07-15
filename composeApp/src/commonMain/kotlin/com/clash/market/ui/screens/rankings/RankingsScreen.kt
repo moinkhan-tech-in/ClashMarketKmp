@@ -19,29 +19,33 @@ import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ClashScrollableTabs
 import com.clash.market.components.ClashTab
 import com.clash.market.components.ResultStateLazyGrid
-import com.clash.market.components.clash.ClanListItem
 import com.clash.market.components.clash.ClashLocationsSheet
-import com.clash.market.components.clash.PlayerInfo
+import com.clash.market.components.clash.TopBuilderBaseClanItem
+import com.clash.market.components.clash.TopBuilderBasePlayerItem
+import com.clash.market.components.clash.TopClanItem
+import com.clash.market.components.clash.TopPlayerItem
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.screens.home.HomeScreenScaffold
 import org.koin.compose.viewmodel.koinViewModel
 
-internal val tabs = listOf<ClashTab>(
+internal val tabs = listOf(
     ClashTab(0, "Top Players"),
     ClashTab(1, "Top Clans"),
-    ClashTab(2, "Player Builder"),
-    ClashTab(3, "Clan Builder")
+    ClashTab(2, "Builder Players"),
+    ClashTab(3, "Builder Clans")
 )
 
 @Composable
 fun RankingsScreen(
     viewModel: RankingsViewModel = koinViewModel(),
+    onNavigate: (ScreenRouts) -> Unit,
     onBottomBarNavigate: (ScreenRouts) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     RankingsScreenContent(
         onBottomBarNavigate = onBottomBarNavigate,
         uiState = uiState,
+        onNavigate = onNavigate,
         onEvent = viewModel::onUiEvent
     )
 }
@@ -50,6 +54,7 @@ fun RankingsScreen(
 @Composable
 private fun RankingsScreenContent(
     uiState: RankingUiState,
+    onNavigate: (ScreenRouts) -> Unit,
     onBottomBarNavigate: (ScreenRouts) -> Unit,
     onEvent: (RankingUiEvent) -> Unit
 ) {
@@ -80,6 +85,11 @@ private fun RankingsScreenContent(
     ) { innerPadding ->
 
         var selectedTabIndex by rememberSaveable { mutableStateOf(0) }
+
+        LaunchedEffect(selectedTabIndex) {
+            onEvent(RankingUiEvent.TabChange(selectedTabIndex))
+        }
+
         ClashScrollableTabs(
             modifier = Modifier.padding(innerPadding),
             tabs = tabs,
@@ -88,30 +98,46 @@ private fun RankingsScreenContent(
         ) {
             when (it) {
                 0 -> {
-                    LaunchedEffect(uiState.selectedLocation) { onEvent(RankingUiEvent.FetchTopPlayers) }
                     ResultStateLazyGrid(resultState = uiState.topPlayers) { players ->
-                        items(players) { PlayerInfo(it, showClanInfo = true) }
+                        items(players) { player ->
+                            TopPlayerItem(
+                                player = player,
+                                onClick = { onNavigate(ScreenRouts.PlayerDetail(player.tag)) }
+                            )
+                        }
                     }
                 }
 
                 1 -> {
-                    LaunchedEffect(uiState.selectedLocation) { onEvent(RankingUiEvent.FetchTopClans) }
                     ResultStateLazyGrid(resultState = uiState.topClans) { clans ->
-                        items(clans) { ClanListItem(it) }
+                        items(clans) { clan ->
+                            TopClanItem(
+                                clan = clan,
+                                onClick = { onNavigate(ScreenRouts.ClanDetail(clan.tag.orEmpty())) }
+                            )
+                        }
                     }
                 }
 
                 2 -> {
-                    LaunchedEffect(uiState.selectedLocation) { onEvent(RankingUiEvent.FetchBuilderBaseTopPlayers) }
                     ResultStateLazyGrid(resultState = uiState.topBuilderPlayers) { players ->
-                        items(players) { PlayerInfo(it) }
+                        items(players) { player ->
+                            TopBuilderBasePlayerItem(
+                                player = player,
+                                onClick = { onNavigate(ScreenRouts.PlayerDetail(player.tag)) }
+                            )
+                        }
                     }
                 }
 
                 3 -> {
-                    LaunchedEffect(uiState.selectedLocation) { onEvent(RankingUiEvent.FetchBuilderBaseTopClans) }
                     ResultStateLazyGrid(resultState = uiState.topBuilderClans) { clans ->
-                        items(clans) { ClanListItem(it) }
+                        items(clans) { clan ->
+                            TopBuilderBaseClanItem(
+                                clan = clan,
+                                onClick = { onNavigate(ScreenRouts.ClanDetail(clan.tag.orEmpty())) }
+                            )
+                        }
                     }
                 }
             }
