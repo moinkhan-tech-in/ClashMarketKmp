@@ -40,10 +40,7 @@ fun PlayerAchievementInfo(achievements: List<Achievement>) {
         title = "Achievements",
         topEndContent = { ClashQueueChip(items = village) { currentVillage = it } }
     ) {
-        AutoColumnGrid(
-            items = filteredAchievements,
-            minCellWidth = 300.dp
-        ) {
+        AutoColumnGrid(items = filteredAchievements) {
             PlayerAchievementItem(it)
         }
     }

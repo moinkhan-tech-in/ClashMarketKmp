@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.grid.GridCells.Adaptive
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -17,12 +16,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import clashmarket.composeapp.generated.resources.Res
-import clashmarket.composeapp.generated.resources.ic_back
 import com.clash.market.base.ResultState
-import com.clash.market.components.ClashTopBar
 import com.clash.market.components.ResultStateCrossFade
 import com.clash.market.components.clash.ClanCurrentWarInfo
+import com.clash.market.components.clash.ClashScaffold
 import com.clash.market.models.dtos.CurrentWarResponse
 import com.clash.market.navigation.ScreenRouts
 import org.koin.compose.viewmodel.koinViewModel
@@ -66,18 +63,14 @@ private fun WarLogsScreenContent(
     uiState: ResultState<List<CurrentWarResponse>>,
     onBackClick: () -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            ClashTopBar(
-                title = clanName,
-                navigationIcon = Res.drawable.ic_back,
-                onBackClick = onBackClick
-            )
-        }
+    ClashScaffold(
+        title = clanName,
+        onBackClick = onBackClick
     ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)) {
             ResultStateCrossFade(
                 resultState = uiState,
+                topPadding = padding.calculateTopPadding() + 120.dp,
                 idealContent = { }
             ) { result ->
                 LazyVerticalGrid(

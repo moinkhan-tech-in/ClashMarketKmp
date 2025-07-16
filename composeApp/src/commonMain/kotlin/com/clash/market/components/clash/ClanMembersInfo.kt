@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_trophy
 import coil3.compose.AsyncImage
+import com.clash.market.components.AutoColumnGrid
 import com.clash.market.components.ClashCard
 import com.clash.market.components.ClashChip
 import com.clash.market.models.Player
@@ -23,16 +24,12 @@ fun ClanMembersInfo(
     memberList: List<Player>,
     onMemberClick: (Player) -> Unit
 ) {
-    ClashCard(
-        title = "Members (${memberList.size}/50)"
-    ) {
-        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            memberList.forEachIndexed { index, item ->
-                ClanMemberItem(
-                    member = item,
-                    onClick = { onMemberClick(item) }
-                )
-            }
+    ClashCard(title = "Members (${memberList.size}/50)") {
+        AutoColumnGrid(items = memberList) {
+            ClanMemberItem(
+                member = it,
+                onClick = { onMemberClick(it) }
+            )
         }
     }
 }

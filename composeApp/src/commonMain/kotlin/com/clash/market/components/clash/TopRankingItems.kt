@@ -47,7 +47,7 @@ fun TopPlayerItem(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                modifier = Modifier.width(38.dp),
+                modifier = Modifier.width(34.dp),
                 text = "#${player.rank.toString()}",
                 textAlign = TextAlign.Center,
                 fontFamily = ClashFont,
@@ -84,7 +84,7 @@ fun TopBuilderBasePlayerItem(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                modifier = Modifier.width(38.dp),
+                modifier = Modifier.width(34.dp),
                 text = "#${player.rank.toString()}",
                 textAlign = TextAlign.Center,
                 fontFamily = ClashFont,
@@ -121,7 +121,7 @@ fun TopClanItem(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                modifier = Modifier.width(38.dp),
+                modifier = Modifier.width(34.dp),
                 text = "#${clan.rank.toString()}",
                 textAlign = TextAlign.Center,
                 fontFamily = ClashFont,
@@ -178,7 +178,7 @@ fun TopBuilderBaseClanItem(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                modifier = Modifier.width(38.dp),
+                modifier = Modifier.width(34.dp),
                 text = "#${clan.rank.toString()}",
                 textAlign = TextAlign.Center,
                 fontFamily = ClashFont,

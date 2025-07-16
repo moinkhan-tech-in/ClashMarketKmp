@@ -45,7 +45,7 @@ fun ClashLabelFlowRow(
                     item = it,
                     showText = showText,
                     clashLabelSize = clashLabelSize,
-                    onClick = {}
+                    onClick = null
                 )
             }
         }
@@ -58,11 +58,11 @@ fun ClashLabelItem(
     showText: Boolean = false,
     isSelected: Boolean = false,
     clashLabelSize: Dp = 40.dp,
-    onClick: () -> Unit
+    onClick: (() -> Unit)? = null
 ) {
-    Box(modifier = Modifier.clickable(onClick = onClick)) {
+    Box(modifier = Modifier.clickable(onClick = { onClick?.invoke() })) {
         Row(
-            modifier = Modifier.padding(end = 8.dp),
+            modifier = Modifier.padding(end = if (onClick != null) 8.dp else 0.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {

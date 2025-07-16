@@ -44,7 +44,7 @@ fun ClashGuideMessage(
             fontSize = 20.sp,
             fontFamily = ClashFont,
             style = TextStyle.Default.copy(
-                shadow = Shadow(color = Color(0xFFFED36A), blurRadius = 10f)
+                shadow = Shadow(color = Color.White, blurRadius = 10f)
             )
         )
     }

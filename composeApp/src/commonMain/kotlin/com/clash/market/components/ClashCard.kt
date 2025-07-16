@@ -28,8 +28,11 @@ fun ClashCard(
         onClick = onClick,
         modifier = Modifier
             .padding(4.dp)
-            .border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = .5f), RoundedCornerShape(10.dp)), // soft gold border
-
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.primary.copy(alpha = .3f),
+                shape = RoundedCornerShape(10.dp)
+            ),
         shape = RoundedCornerShape(10.dp)
     ) {
         Column(

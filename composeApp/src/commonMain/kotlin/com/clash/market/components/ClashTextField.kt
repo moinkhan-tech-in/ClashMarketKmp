@@ -1,14 +1,14 @@
 package com.clash.market.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.TextField
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,7 +48,6 @@ fun ClashTextField(
             .fillMaxWidth()
             .height(50.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(Color(0xFFFDF6E3)) // Pale stone-like background
             .border(2.dp, MaterialTheme.colorScheme.primary.copy(alpha = .5f), RoundedCornerShape(12.dp)), // Dark brown border
         textStyle = TextStyle(
             color = Color.Black,
@@ -56,11 +55,9 @@ fun ClashTextField(
             fontFamily = ClashFont
         ),
         singleLine = true,
-        colors = androidx.compose.material.TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            cursorColor = Color(0xFF4E342E)
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
         )
     )
 }

@@ -44,7 +44,7 @@ fun <T> NonLazyVerticalGrid(
 @Composable
 fun <T> AutoColumnGrid(
     items: List<T>,
-    minCellWidth: Dp,
+    minCellWidth: Dp = 300.dp,
     verticalSpacing: Dp = 32.dp,
     horizontalSpacing: Dp = 32.dp,
     modifier: Modifier = Modifier,

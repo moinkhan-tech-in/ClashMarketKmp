@@ -10,17 +10,18 @@ val ClashLightColors = lightColorScheme(
     onPrimary = Color(0xFFFED36A),
     background = Color(0xFFFFF9E5),  // Light beige
     onBackground = Color(0xFF1E1E1E),
-    surface = Color(0xFFFDF6E3),
-    onSurface = Color.Black
+    surface = Color.White,
+    onSurface = Color(0xFF2C2C2C),
+    surfaceContainerLow = Color(0xFFFFF9E5)
 )
 
 val ClashDarkColors = darkColorScheme(
     primary = Color(0xFF2C2C2C),     // Bright gold
     onPrimary = Color(0xFFFED36A),
-    background = Color(0xFF121212),
+    background = Color(0xFFFFF9E5),
     onBackground = Color(0xFFE0E0E0),
-    surface = Color(0xFF2C2C2C),
-    onSurface = Color.White
+    surface = Color.White,
+    onSurface = Color(0xFF2C2C2C)
 )
 
 data class ClashColors(

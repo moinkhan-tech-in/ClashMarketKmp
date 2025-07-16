@@ -43,7 +43,7 @@ fun ClashInfoRowCard(
                             .fillMaxWidth()
                             .padding(vertical = 4.dp),
                         thickness = 1.dp,
-                        color = Color.Black.copy(alpha = 0.5f)
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = .2f)
                     )
                 }
             }

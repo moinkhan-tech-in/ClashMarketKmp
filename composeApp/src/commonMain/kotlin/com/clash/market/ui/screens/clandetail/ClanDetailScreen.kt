@@ -1,11 +1,9 @@
 package com.clash.market.ui.screens.clandetail
 
-import androidx.compose.material.Scaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import clashmarket.composeapp.generated.resources.Res
-import clashmarket.composeapp.generated.resources.ic_back
-import com.clash.market.components.ClashTopBar
+import androidx.compose.ui.unit.dp
+import com.clash.market.components.clash.ClashScaffold
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.contents.clandetail.ClanDetailContent
 
@@ -16,16 +14,12 @@ fun ClanDetailScreen(
     onNavigate: (ScreenRouts) -> Unit,
     onBackClick: () -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            ClashTopBar(
-                title = clanDetailRoute.tag,
-                navigationIcon = Res.drawable.ic_back,
-                onBackClick = onBackClick
-            )
-        }
+    ClashScaffold(
+        title = clanDetailRoute.tag,
+        onBackClick = onBackClick
     ) {
         ClanDetailContent(
+            topPadding = it.calculateTopPadding() + 12.dp,
             clanTag = clanDetailRoute.tag,
             onNavigate = onNavigate
         )

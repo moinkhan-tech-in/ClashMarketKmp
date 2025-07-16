@@ -10,18 +10,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridScope
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.clash.market.base.ResultState
 
 @Composable
 fun <T> ResultStateCrossFade(
     resultState: ResultState<T>,
+    topPadding: Dp = 120.dp,
     idealContent: @Composable BoxScope.() -> Unit,
-    successContent: @Composable BoxScope.(T) -> Unit
+    successContent: @Composable BoxScope.(T) -> Unit,
 ) {
     Crossfade(
         modifier = Modifier.fillMaxWidth(),
@@ -34,13 +36,13 @@ fun <T> ResultStateCrossFade(
             when (it) {
                 is ResultState.Error -> {
                     Text(
-                        modifier = Modifier.padding(top = 120.dp),
+                        modifier = Modifier.padding(top = topPadding),
                         text = "Oops, Something went wrong. [${it.message}]"
                     )
                 }
                 ResultState.Ideal -> idealContent()
                 ResultState.Loading -> {
-                    ClashLoadingIndicator(modifier = Modifier.padding(top = 120.dp))
+                    ClashLoadingIndicator(modifier = Modifier.padding(top = topPadding))
                 }
                 is ResultState.Success<T> -> successContent(it.data)
             }

@@ -30,6 +30,7 @@ fun PlayerDetailContent(
     LaunchedEffect(playerTag) { viewModel.fetchPlayer(playerTag) }
     ResultStateCrossFade(
         resultState = playerSearchState.value,
+        topPadding = topPadding + 120.dp,
         idealContent = {
             ClashGuideMessage(
                 drawable = Res.drawable.ic_search_character,
