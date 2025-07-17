@@ -18,7 +18,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.clash.market.components.BottomNavItem
 import com.clash.market.navigation.ScreenRouts
-import com.clash.market.ui.dialogs.SingleInputDialog
 import com.clash.market.ui.screens.dashboard.DashboardScreen
 import com.clash.market.ui.screens.myclan.MyClanScreen
 import com.clash.market.ui.screens.rankings.RankingsScreen
@@ -42,8 +41,7 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     HomeScreenContent(
         uiState = uiState,
-        onNavigate = onNavigate,
-        onSavePlayerTag = viewModel::onPlayerTagSave
+        onNavigate = onNavigate
     )
 }
 
@@ -51,18 +49,9 @@ fun HomeScreen(
 @Composable
 private fun HomeScreenContent(
     uiState: HomeUiState,
-    onSavePlayerTag: (String) -> Unit,
     onNavigate: (ScreenRouts) -> Unit
 ) {
     val childNavController = rememberNavController()
-    if (uiState.showPlayerInputDialog) {
-        SingleInputDialog(
-            text = "Identify Yourself, Chief!",
-            positiveButtonClick = onSavePlayerTag,
-            hint = "#YourTagHere",
-            positiveButtonText = "Submit"
-        )
-    }
     NavHost(
         modifier = Modifier.fillMaxSize(),
         navController = childNavController,
@@ -105,7 +94,6 @@ private fun HomeScreenContent(
 private fun HomeScreenContentPreview() {
     HomeScreenContent(
         uiState = HomeUiState(),
-        onSavePlayerTag = {},
         onNavigate = {}
     )
 }

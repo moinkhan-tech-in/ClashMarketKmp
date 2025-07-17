@@ -28,8 +28,8 @@ import org.jetbrains.compose.resources.DrawableResource
 @Composable
 fun ClashScaffold(
     title: String,
-    navigationIcon: DrawableResource = Res.drawable.ic_back,
-    onBackClick: () -> Unit,
+    navigationIcon: DrawableResource? = Res.drawable.ic_back,
+    onBackClick: (() -> Unit)? = null,
     content: @Composable (PaddingValues) -> Unit
 ) {
 

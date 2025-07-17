@@ -19,7 +19,7 @@ import com.clash.market.ui.contents.playerdetail.PlayerDetailContent
 fun SearchPlayerContent() {
     Column(modifier = Modifier.fillMaxSize()) {
         Spacer(Modifier.size(16.dp))
-        var value by remember { mutableStateOf("#2GYCPJJY") }
+        var value by remember { mutableStateOf("") }
         ClashSearchTextField(
             modifier = Modifier.padding(horizontal = 16.dp),
             value = value,

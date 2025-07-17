@@ -41,7 +41,5 @@ sealed interface ScreenRouts {
     object More : ScreenRouts
 
     @Serializable
-    data class VerifyAccount(
-        val tag: String
-    ) : ScreenRouts
+    data object EnterProfile: ScreenRouts
 }

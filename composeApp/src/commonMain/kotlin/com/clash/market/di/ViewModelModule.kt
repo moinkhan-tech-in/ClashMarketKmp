@@ -3,6 +3,7 @@ package com.clash.market.di
 import com.clash.market.ui.contents.clandetail.ClanDetailContentViewModel
 import com.clash.market.ui.contents.playerdetail.PlayerDetailContentViewModel
 import com.clash.market.ui.screens.dashboard.DashboardViewModel
+import com.clash.market.ui.screens.enterprofile.EnterProfileViewModel
 import com.clash.market.ui.screens.home.HomeViewModel
 import com.clash.market.ui.screens.rankings.RankingsViewModel
 import com.clash.market.ui.screens.search.SearchViewModel
@@ -20,4 +21,5 @@ val viewModelModule = module {
     viewModelOf(::PlayerDetailContentViewModel)
     viewModelOf(::WarLogsViewModel)
     viewModelOf(::RankingsViewModel)
+    viewModelOf(::EnterProfileViewModel)
 }

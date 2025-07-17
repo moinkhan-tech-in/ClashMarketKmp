@@ -22,6 +22,7 @@ object CacheKeys {
     const val LOCATIONS = "locations"
     const val PLAYER_LABELS = "playerLabels"
     const val CLAN_LABELS = "clanLabels"
+    const val PLAYER_PROFILE = "playerProfile"
 }
 
 object CacheExpiry {
@@ -34,7 +35,8 @@ object CacheExpiry {
         CacheKeys.LEAGUES to SEVEN_DAYS,
         CacheKeys.LOCATIONS to THIRTY_DAYS,
         CacheKeys.PLAYER_LABELS to FIFTEEN_DAYS,
-        CacheKeys.CLAN_LABELS to FIFTEEN_DAYS
+        CacheKeys.CLAN_LABELS to FIFTEEN_DAYS,
+        CacheKeys.PLAYER_PROFILE to 60_000L * 5
     )
 }
 

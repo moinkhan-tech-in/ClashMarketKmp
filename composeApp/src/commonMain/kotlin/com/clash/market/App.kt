@@ -19,8 +19,10 @@ import com.clash.market.theme.ClashLightColors
 import com.clash.market.theme.ClashTypography
 import com.clash.market.theme.LocalClashColors
 import com.clash.market.ui.screens.clandetail.ClanDetailScreen
+import com.clash.market.ui.screens.enterprofile.EnterProfileScreen
 import com.clash.market.ui.screens.home.HomeScreen
 import com.clash.market.ui.screens.playerdetail.PlayerDetailScreen
+import com.clash.market.ui.screens.splash.InitialLaunch
 import com.clash.market.ui.screens.splash.SplashScreen
 import com.clash.market.ui.screens.warlogs.WarLogsScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -62,9 +64,24 @@ fun ClashNavHost() {
 
         composable<ScreenRouts.Splash> {
             SplashScreen(
-                onReady = {
-                    navController.navigate(ScreenRouts.Home) {
-                        popUpTo(ScreenRouts.Splash) { inclusive = true }
+                onReady = { launchRoute ->
+                    when (launchRoute) {
+                        InitialLaunch.None -> {}
+                        is InitialLaunch.NavigateTo -> {
+                            navController.navigate(launchRoute.route) {
+                                popUpTo(ScreenRouts.Splash) { inclusive = true }
+                            }
+                        }
+                    }
+                }
+            )
+        }
+
+        composable<ScreenRouts.EnterProfile> {
+            EnterProfileScreen(
+                onNavigate = {
+                    navController.navigate(it) {
+                        popUpTo(ScreenRouts.EnterProfile) { inclusive = true }
                     }
                 }
             )

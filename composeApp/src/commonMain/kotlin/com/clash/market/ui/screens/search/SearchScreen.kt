@@ -65,7 +65,7 @@ private fun SearchScreenContent(
     onClanSearchQuery: (String) -> Unit = {},
     onFilterApply: (ClanFilterOptions) -> Unit
 ) {
-    var selectedTabIndex by rememberSaveable { mutableStateOf(1) }
+    var selectedTabIndex by rememberSaveable { mutableStateOf(0) }
     HomeScreenScaffold(
         currentRoute = ScreenRouts.Search,
         onBottomBarNavigate = onBottomBarNavigate,
