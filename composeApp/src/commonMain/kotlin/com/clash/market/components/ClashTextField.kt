@@ -48,7 +48,7 @@ fun ClashTextField(
             .fillMaxWidth()
             .height(50.dp)
             .clip(RoundedCornerShape(12.dp))
-            .border(2.dp, MaterialTheme.colorScheme.primary.copy(alpha = .5f), RoundedCornerShape(12.dp)), // Dark brown border
+            .border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = .5f), RoundedCornerShape(12.dp)), // Dark brown border
         textStyle = TextStyle(
             color = Color.Black,
             fontSize = 16.sp,

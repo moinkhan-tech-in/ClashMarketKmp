@@ -22,15 +22,10 @@ actual fun provideEngine(): HttpClientEngineFactory<*> = Darwin
 
 actual val ioDispatcher: CoroutineDispatcher = Dispatchers.Default
 
-
-actual fun openClashPlayer(tag: String) {
-    val url = NSURL.URLWithString(OpenPlayerLink + tag.removePrefix("#"))!!
-    UIApplication.sharedApplication.openURL(url)
-}
-
-actual fun openClashClan(tag: String) {
-    val url = NSURL.URLWithString(OpenClanLink + tag.removePrefix("#"))!!
-    UIApplication.sharedApplication.openURL(url)
+actual fun openClashLink(url: String) {
+    NSURL.URLWithString(url)?.let {
+        UIApplication.sharedApplication.openURL(it)
+    }
 }
 
 actual fun copyToClipboard(label: String, text: String) {

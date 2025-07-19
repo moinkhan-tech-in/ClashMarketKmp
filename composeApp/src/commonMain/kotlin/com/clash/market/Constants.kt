@@ -1,5 +1,17 @@
 package com.clash.market
 
-const val OpenPlayerLink = "https://link.clashofclans.com/?action=OpenPlayerProfile&tag=%23"
+fun getOpenPlayerLink(tag: String): String {
+    val encodedTag = tag.replace("#", "")
+    return "https://link.clashofclans.com/en?action=OpenPlayerProfile&tag=$encodedTag"
+}
 
-const val OpenClanLink = "https://link.clashofclans.com/?action=OpenClan&tag=%23"
+fun getOpenClanLink(tag: String): String {
+    val encodedTag = tag.replace("#", "")
+    return "https://link.clashofclans.com/?action=OpenClanProfile&tag=$encodedTag"
+}
+
+
+fun getOpenClanWarLink(tag: String): String {
+    val encodedTag = tag.replace("#", "")
+    return "https://link.clashofclans.com/en?action=OpenClanWarLog&tag=$encodedTag"
+}

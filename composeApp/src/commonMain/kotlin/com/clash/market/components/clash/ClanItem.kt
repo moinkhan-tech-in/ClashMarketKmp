@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import clashmarket.composeapp.generated.resources.Res
@@ -84,12 +85,13 @@ fun ClanListItem(
             Column(
                 Modifier
                     .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
                     .background(
                         color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
                         shape = RoundedCornerShape(8.dp)
                     )
-                    .padding(12.dp)
                     .clickable { onWarLogsClick() }
+                    .padding(12.dp)
                 ,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -109,9 +111,7 @@ fun ClanListItem(
                     Text(text = "Losses: ${clanDetail.warLosses}")
                     Text(text = "Ties: ${clanDetail.warTies}")
                 }
-
             }
-
 
             val data = listOf(
                 "Location" to clanDetail.location?.name.orEmpty(),

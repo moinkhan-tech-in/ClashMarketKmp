@@ -61,6 +61,7 @@ fun SearchClanContent(
                 items(result) { it ->
                     ClanListItem(
                         clanDetail = it,
+                        onWarLogsClick = { onNavigate(ScreenRouts.WarLogs(it.tag.orEmpty(), it.name.orEmpty())) },
                         onClick = { onNavigate(ScreenRouts.ClanDetail(it.tag.orEmpty())) })
                 }
             }

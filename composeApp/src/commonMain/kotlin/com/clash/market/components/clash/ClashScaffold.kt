@@ -3,6 +3,7 @@ package com.clash.market.components.clash
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.only
@@ -29,6 +30,7 @@ import org.jetbrains.compose.resources.DrawableResource
 fun ClashScaffold(
     title: String,
     navigationIcon: DrawableResource? = Res.drawable.ic_back,
+    topBarAction: @Composable RowScope.() -> Unit = {},
     onBackClick: (() -> Unit)? = null,
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -52,6 +54,7 @@ fun ClashScaffold(
                     .statusBarsPadding(),
                 title = title,
                 navigationIcon = navigationIcon,
+                actions = topBarAction,
                 onBackClick = onBackClick,
                 scrollBehaviour = topBarScrollBehavior
             )

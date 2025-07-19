@@ -17,11 +17,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.clash.market.base.ResultState
+import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ResultStateCrossFade
 import com.clash.market.components.clash.ClanCurrentWarInfo
 import com.clash.market.components.clash.ClashScaffold
+import com.clash.market.getOpenClanWarLink
 import com.clash.market.models.dtos.CurrentWarResponse
 import com.clash.market.navigation.ScreenRouts
+import com.clash.market.openClashLink
 import org.koin.compose.viewmodel.koinViewModel
 
 internal val WinGradiant = Brush.horizontalGradient(
@@ -50,7 +53,7 @@ fun WarLogsScreen(
     LaunchedEffect(Unit) { viewModel.fetchWarLogs(warLogsRoute.tag) }
     val uiState = viewModel.warLogsState.collectAsStateWithLifecycle()
     WarLogsScreenContent(
-        clanName = warLogsRoute.name,
+        warLogsRoute = warLogsRoute,
         uiState = uiState.value,
         onBackClick = onBackClick
     )
@@ -59,13 +62,18 @@ fun WarLogsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun WarLogsScreenContent(
-    clanName: String,
+    warLogsRoute: ScreenRouts.WarLogs,
     uiState: ResultState<List<CurrentWarResponse>>,
     onBackClick: () -> Unit
 ) {
     ClashScaffold(
-        title = clanName,
-        onBackClick = onBackClick
+        title = warLogsRoute.name,
+        onBackClick = onBackClick,
+        topBarAction = {
+            ClashChipLight("Open in Game") {
+                openClashLink(getOpenClanWarLink(warLogsRoute.tag))
+            }
+        }
     ) { padding ->
         Column(modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)) {
             ResultStateCrossFade(

@@ -25,9 +25,9 @@ import com.clash.market.ui.screens.search.tabs.SearchPlayerContent
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
-private val tabs = listOf<ClashTab>(
-    ClashTab(0, "Player"),
-    ClashTab(1, "Clans")
+private val tabs = listOf(
+    ClashTab(0, "Clans"),
+    ClashTab(1, "Player")
 )
 
 @Composable
@@ -73,8 +73,7 @@ private fun SearchScreenContent(
         topBarAction = {
             Crossfade(selectedTabIndex) {
                 when (it) {
-                    0 -> {}
-                    1 -> {
+                    0 -> {
                         var showSearchOptions by remember { mutableStateOf(false) }
                         ClashChipLight(
                             text = "Filter",
@@ -91,25 +90,26 @@ private fun SearchScreenContent(
                             )
                         }
                     }
+                    1 -> {}
                 }
             }
         }
     ) { innerPadding ->
 
         ClashTabs(
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
             tabs = tabs,
             selectedTabIndex = selectedTabIndex,
             onTabSelected = { selectedTabIndex = it.index }
         ) {
             when (it) {
-                0 -> SearchPlayerContent()
-
-                1 -> SearchClanContent(
+                0 -> SearchClanContent(
                     clanSearchState = clanSearchState,
                     onQuerySubmit = onClanSearchQuery,
                     onNavigate = onNavigate
                 )
+
+                1 -> SearchPlayerContent()
             }
         }
     }
