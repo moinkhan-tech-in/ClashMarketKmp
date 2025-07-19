@@ -26,7 +26,6 @@ import androidx.compose.ui.window.Dialog
 import com.clash.market.components.ClashGlossyButton
 import com.clash.market.components.ClashStyleButtonType
 import com.clash.market.components.ClashTextField
-import com.clash.market.theme.ClashFont
 
 @Composable
 fun SingleInputDialog(
@@ -91,15 +90,14 @@ fun ClashDialog(
                     Text(
                         text = it,
                         fontSize = 20.sp,
-                        fontFamily = ClashFont,
                         color = Color(0xFF3E2723) // Dark brown
                     )
                 }
                 description?.let {
                     Text(
                         text = it,
-                        fontSize = 16.sp,
-                        fontFamily = ClashFont,
+                        fontSize = 14.sp,
+                        lineHeight = 18.sp,
                         color = Color.Black
                     )
                 }
@@ -110,6 +108,7 @@ fun ClashDialog(
                 ) {
                     dismissText?.let {
                         ClashGlossyButton(
+                            modifier = Modifier.weight(1f),
                             type = ClashStyleButtonType.Negative,
                             text = it,
                             onClick = onDismiss
@@ -118,6 +117,7 @@ fun ClashDialog(
                     Spacer(modifier = Modifier.width(8.dp))
                     confirmText?.let {
                         ClashGlossyButton(
+                            modifier = Modifier.weight(1f),
                             type = ClashStyleButtonType.Positive,
                             text = it,
                             onClick = onConfirm

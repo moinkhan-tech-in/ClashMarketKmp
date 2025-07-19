@@ -38,7 +38,7 @@ sealed interface ScreenRouts {
     ) : ScreenRouts
 
     @Serializable
-    object More : ScreenRouts
+    object MyProfile : ScreenRouts
 
     @Serializable
     data object EnterProfile: ScreenRouts

@@ -1,12 +1,11 @@
 package com.clash.market.ui.screens.home
 
 data class HomeUiState(
-    val showPlayerInputDialog: Boolean = false,
-    val playerClan: PlayerClanStatus = PlayerClanStatus.Unknown
+    val playerClan: PlayerClanStatus = PlayerClanStatus.NotLinkedProfile
 )
 
 sealed class PlayerClanStatus {
     data class EnrolledInClan(val tag: String): PlayerClanStatus()
     object NotEnrolledInClan: PlayerClanStatus()
-    object Unknown: PlayerClanStatus()
+    object NotLinkedProfile: PlayerClanStatus()
 }

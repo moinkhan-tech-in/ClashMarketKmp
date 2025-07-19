@@ -8,7 +8,6 @@ import androidx.compose.material.icons.filled.Leaderboard
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -20,6 +19,7 @@ import com.clash.market.components.BottomNavItem
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.screens.dashboard.DashboardScreen
 import com.clash.market.ui.screens.myclan.MyClanScreen
+import com.clash.market.ui.screens.profile.ProfileScreen
 import com.clash.market.ui.screens.rankings.RankingsScreen
 import com.clash.market.ui.screens.search.SearchScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -30,7 +30,7 @@ val bottomNavItems = listOf(
     BottomNavItem(ScreenRouts.MyClan, Icons.Default.Group, null, null, "My Clan"),
     BottomNavItem(ScreenRouts.Search, Icons.Default.Search, null, null, "Search"),
     BottomNavItem(ScreenRouts.Rankings, Icons.Default.Leaderboard, null, null, "Rankings"),
-    BottomNavItem(ScreenRouts.More, Icons.Default.Settings, null, null, "Profile"),
+    BottomNavItem(ScreenRouts.MyProfile, Icons.Default.Settings, null, null, "Profile"),
 )
 
 @Composable
@@ -58,7 +58,10 @@ private fun HomeScreenContent(
         startDestination = ScreenRouts.Dashboard
     ) {
         composable<ScreenRouts.Dashboard> {
-            DashboardScreen(onBottomBarNavigate = { childNavController.navigate(it) })
+            DashboardScreen(
+                onNavigate = onNavigate,
+                onBottomBarNavigate = { childNavController.navigate(it) }
+            )
         }
 
         composable<ScreenRouts.Search> {
@@ -83,8 +86,11 @@ private fun HomeScreenContent(
             )
         }
 
-        composable<ScreenRouts.More> {
-            Text("More")
+        composable<ScreenRouts.MyProfile> {
+            ProfileScreen(
+                onNavigate = onNavigate,
+                onBottomBarNavigate = { childNavController.navigate(it) }
+            )
         }
     }
 }

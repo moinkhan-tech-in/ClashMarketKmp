@@ -45,10 +45,14 @@ class EnterProfileViewModel(
         if (uiState.value.playerResultState is ResultState.Success) {
             val player = (uiState.value.playerResultState as ResultState.Success<Player>).data
             viewModelScope.launch {
-                preferenceManager.save(
-                    prefKey = ClashPreferenceKeys.ProfilePlayer,
-                    value = player.tag
-                )
+                preferenceManager.save(ClashPreferenceKeys.ProfilePlayer, player.tag)
+
+                player.clan?.tag?.let {
+                    preferenceManager.save(ClashPreferenceKeys.IsInClan, true)
+                    preferenceManager.save(ClashPreferenceKeys.ProfileClan, player.clan.tag)
+                } ?: run {
+                    preferenceManager.save(ClashPreferenceKeys.IsInClan, false)
+                }
             }
         }
     }

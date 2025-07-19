@@ -70,11 +70,16 @@ internal fun ClanCurrentWarInfo(
             }
 
             war.state == WarState.NOT_IN_WAR -> {
-                Image(
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    painter = painterResource(Res.drawable.ic_wall_breaker_barrel),
-                    contentDescription = null
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(Res.drawable.ic_wall_breaker_barrel),
+                        contentDescription = null
+                    )
+                    Text(
+                        text = "Your clan has not participated in any war yet.",
+                        lineHeight = 18.sp
+                    )
+                }
             }
 
             war.result != null -> {

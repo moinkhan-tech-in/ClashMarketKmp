@@ -7,9 +7,14 @@ import com.clash.market.models.Player
 import com.clash.market.models.dtos.CurrentWarResponse
 
 data class DashboardUiState(
-    val player: ResultState<Player> = ResultState.Ideal,
+    val playerProfileState: ProfileState = ProfileState.NotLinked,
     val clanDetail: ResultState<ClanDetail> = ResultState.Ideal,
     val currentWar: ResultState<CurrentWarResponse> = ResultState.Ideal,
-    val playerLeagues: List<League> = emptyList<League>(),
+    val playerLeagues: List<League> = emptyList(),
     val playerLeagueId: Int = -1
 )
+
+sealed class ProfileState {
+    data object NotLinked: ProfileState()
+    data class Linked(val player: ResultState<Player>): ProfileState()
+}

@@ -6,7 +6,6 @@ import com.clash.market.local.datastore.PreferenceManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.update
 
 class HomeViewModel(
@@ -17,25 +16,31 @@ class HomeViewModel(
     val uiState = _uiState.asStateFlow()
 
     init {
-        observePlayerClanStatus()
+        observeProfile()
+    }
+
+    private fun observeProfile() {
+        launchIO {
+            preferenceManager.getValueAsFlow(ClashPreferenceKeys.ProfilePlayer)
+                .collectLatest {
+                    if (it.isNullOrEmpty()) {
+                        _uiState.update { it.copy(playerClan = PlayerClanStatus.NotLinkedProfile) }
+                    } else {
+                        observePlayerClanStatus()
+                    }
+                }
+        }
     }
 
     private fun observePlayerClanStatus() {
         launchIO {
-            preferenceManager.getValueAsFlow(ClashPreferenceKeys.IsInClan)
-                .filterNotNull()
-                .collectLatest {
-                    if (it) {
-                        val clanTag = preferenceManager.getValue(ClashPreferenceKeys.ProfileClan)
-                        clanTag?.let { tag ->
-                            _uiState.update { it.copy(playerClan = PlayerClanStatus.EnrolledInClan(tag)) }
-                        } ?: {
-                            _uiState.update { it.copy(playerClan = PlayerClanStatus.Unknown) }
-                        }
-                    } else {
-                        _uiState.update { it.copy(playerClan = PlayerClanStatus.NotEnrolledInClan) }
-                    }
-                }
+            val isInClan = preferenceManager.getValue(ClashPreferenceKeys.IsInClan)
+            val clanTag = preferenceManager.getValue(ClashPreferenceKeys.ProfileClan)
+            if (isInClan == true) {
+                _uiState.update { it.copy(playerClan = PlayerClanStatus.EnrolledInClan(clanTag.orEmpty())) }
+            } else {
+                _uiState.update { it.copy(playerClan = PlayerClanStatus.NotEnrolledInClan) }
+            }
         }
     }
 }

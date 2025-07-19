@@ -10,7 +10,6 @@ import com.clash.market.network.data.repositories.PlayerRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.update
 
 class DashboardViewModel(
@@ -30,12 +29,11 @@ class DashboardViewModel(
     private fun fetchSavedPlayerTag() {
         launchIO {
             preferenceManager.getValueAsFlow(ClashPreferenceKeys.ProfilePlayer)
-                .filterNotNull()
-                .collectLatest {
-                    if (it.isEmpty()) {
-
+                .collectLatest { playerTag ->
+                    if (playerTag.isNullOrEmpty()) {
+                        _uiState.update { it.copy(playerProfileState = ProfileState.NotLinked) }
                     } else {
-                        fetchDashboardData(it)
+                        fetchDashboardData(playerTag)
                     }
                 }
         }
@@ -43,11 +41,11 @@ class DashboardViewModel(
 
     private fun fetchDashboardData(playerTag: String) {
         launchIO {
-            _uiState.update { it.copy(player = ResultState.Loading) }
+            _uiState.update { it.copy(playerProfileState = ProfileState.Linked(ResultState.Loading)) }
 
             try {
                 val player = playerRepository.getPlayerDetails(playerTag)
-                _uiState.update { it.copy(player = ResultState.Success(player)) }
+                _uiState.update { it.copy(playerProfileState = ProfileState.Linked(ResultState.Success(player))) }
 
                 fetchPlayerLeagues()
 
@@ -59,7 +57,7 @@ class DashboardViewModel(
                     preferenceManager.save(ClashPreferenceKeys.IsInClan, false)
                 }
             } catch (e: Exception) {
-                _uiState.update { it.copy(player = ResultState.Error(e.message)) }
+                _uiState.update { it.copy(playerProfileState = ProfileState.Linked(ResultState.Error(e.message))) }
             }
         }
     }

@@ -14,6 +14,7 @@ import com.clash.market.base.ResultState
 import com.clash.market.components.ResultStateCrossFade
 import com.clash.market.components.clash.ClanCurrentWarInfo
 import com.clash.market.components.clash.ClanInfo
+import com.clash.market.components.clash.ClashLinkVillageMessage
 import com.clash.market.components.clash.PlayerAchievementInfo
 import com.clash.market.components.clash.PlayerInfo
 import com.clash.market.models.Player
@@ -25,12 +26,14 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel = koinViewModel(),
-    onBottomBarNavigate: (ScreenRouts) -> Unit
+    onBottomBarNavigate: (ScreenRouts) -> Unit,
+    onNavigate: (ScreenRouts) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     DashboardScreenContent(
         uiState = uiState,
         onBottomBarNavigate = onBottomBarNavigate,
+        onNavigate = onNavigate
     )
 }
 
@@ -38,39 +41,53 @@ fun DashboardScreen(
 @Composable
 private fun DashboardScreenContent(
     uiState: DashboardUiState,
-    onBottomBarNavigate: (ScreenRouts) -> Unit
+    onBottomBarNavigate: (ScreenRouts) -> Unit,
+    onNavigate: (ScreenRouts) -> Unit
 ) {
     HomeScreenScaffold(
         currentRoute = ScreenRouts.Dashboard,
         onBottomBarNavigate = onBottomBarNavigate
     ) { innerPadding ->
 
-        LazyVerticalStaggeredGrid(
-            columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalItemSpacing = 4.dp,
-            contentPadding = PaddingValues(
-                top = innerPadding.calculateTopPadding() + 12.dp,
-                bottom = 56.dp,
-                start = 12.dp, end = 12.dp
-            )
-        ) {
-            item {
-                PlayerInfoStateUi(uiState.player)
-            }
+        when (uiState.playerProfileState) {
+            is ProfileState.Linked -> {
+                LazyVerticalStaggeredGrid(
+                    columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalItemSpacing = 4.dp,
+                    contentPadding = PaddingValues(
+                        top = innerPadding.calculateTopPadding() + 12.dp,
+                        bottom = 56.dp,
+                        start = 12.dp, end = 12.dp
+                    )
+                ) {
+                    item {
+                        PlayerInfoStateUi(uiState.playerProfileState.player)
+                    }
 
-            item {
-                ClanInfoStateUi(uiState.player)
-            }
+                    item {
+                        ClanInfoStateUi(uiState.playerProfileState.player)
+                    }
 
-            item {
-                CurrentWarStateUi(uiState.currentWar)
-            }
+                    item {
+                        CurrentWarStateUi(uiState.currentWar)
+                    }
 
-            item(span = StaggeredGridItemSpan.FullLine) {
-                if (uiState.player is ResultState.Success) {
-                    PlayerAchievementInfo(uiState.player.data.achievements)
+                    item(span = StaggeredGridItemSpan.FullLine) {
+                        if (uiState.playerProfileState.player is ResultState.Success) {
+                            PlayerAchievementInfo(uiState.playerProfileState.player.data.achievements)
+                        }
+                    }
                 }
+            }
+
+            ProfileState.NotLinked -> {
+                ClashLinkVillageMessage(
+                    onLinkClick = {
+                        onNavigate(ScreenRouts.EnterProfile)
+
+                    }
+                )
             }
         }
     }
