@@ -16,12 +16,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import clashmarket.composeapp.generated.resources.Res
+import clashmarket.composeapp.generated.resources.ic_builder_confused
 import com.clash.market.base.ResultState
+import com.clash.market.components.clash.ClashMessageInfo
 
 @Composable
 fun <T> ResultStateCrossFade(
     resultState: ResultState<T>,
-    topPadding: Dp = 120.dp,
+    topPadding: Dp = 100.dp,
     idealContent: @Composable BoxScope.() -> Unit,
     successContent: @Composable BoxScope.(T) -> Unit,
 ) {
@@ -35,9 +38,10 @@ fun <T> ResultStateCrossFade(
         ) {
             when (it) {
                 is ResultState.Error -> {
-                    Text(
-                        modifier = Modifier.padding(top = topPadding),
-                        text = "Oops, Something went wrong. [${it.message}]"
+                    ClashMessageInfo(
+                        iconPadding = PaddingValues(),
+                        icon = Res.drawable.ic_builder_confused,
+                        message = "Oops, Something went wrong. [${it.message}]"
                     )
                 }
                 ResultState.Ideal -> idealContent()

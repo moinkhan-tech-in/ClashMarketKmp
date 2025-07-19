@@ -3,6 +3,7 @@ package com.clash.market.components.clash
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,14 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import clashmarket.composeapp.generated.resources.Res
-import clashmarket.composeapp.generated.resources.ic_link_village
 import com.clash.market.components.ClashGlossyButton
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun ClashLinkVillageMessage(
-    onLinkClick: () -> Unit
+fun ClashMessageInfo(
+    icon: DrawableResource? = null,
+    iconPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
+    message: String? = null,
+    btnText: String? = null,
+    onClick: (() -> Unit)? = null
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -30,21 +34,27 @@ fun ClashLinkVillageMessage(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.CenterVertically)
     ) {
-        Image(
-            modifier = Modifier.fillMaxWidth(),
-            painter = painterResource(Res.drawable.ic_link_village),
-            contentDescription = null
-        )
-        Text(
-            modifier = Modifier.padding(horizontal = 32.dp),
-            textAlign = TextAlign.Center,
-            lineHeight = 18.sp,
-            text = "Link your village to view your profile, clan wars and more."
-        )
+        icon?.let {
+            Image(
+                modifier = Modifier.fillMaxWidth().padding(iconPadding),
+                painter = painterResource(it),
+                contentDescription = null
+            )
+        }
+        message?.let {
+            Text(
+                modifier = Modifier.padding(horizontal = 32.dp),
+                textAlign = TextAlign.Center,
+                lineHeight = 18.sp,
+                text = it
+            )
+        }
         Spacer(Modifier.size(8.dp))
-        ClashGlossyButton(
-            text = "Link My Village!",
-            onClick = onLinkClick
-        )
+        btnText?.let {
+            ClashGlossyButton(
+                text = it,
+                onClick = { onClick?.invoke() }
+            )
+        }
     }
 }

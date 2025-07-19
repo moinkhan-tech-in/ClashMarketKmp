@@ -16,5 +16,5 @@ data class DashboardUiState(
 
 sealed class ProfileState {
     data object NotLinked: ProfileState()
-    data class Linked(val player: ResultState<Player>): ProfileState()
+    data class Linked(val tag: String, val player: ResultState<Player>): ProfileState()
 }

@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.clash.market.TagRegEx
 import com.clash.market.components.ClashSearchTextField
 import com.clash.market.ui.contents.playerdetail.PlayerDetailContent
 
@@ -23,7 +24,11 @@ fun SearchPlayerContent() {
         ClashSearchTextField(
             modifier = Modifier.padding(horizontal = 16.dp),
             value = value,
-            onValueChange = { value = it.uppercase() },
+            onValueChange = {
+                if (TagRegEx.matches(it)) {
+                    value = it.uppercase()
+                }
+            },
             hint = "#PlayerTag",
         )
         PlayerDetailContent(value)

@@ -41,11 +41,11 @@ class DashboardViewModel(
 
     private fun fetchDashboardData(playerTag: String) {
         launchIO {
-            _uiState.update { it.copy(playerProfileState = ProfileState.Linked(ResultState.Loading)) }
+            _uiState.update { it.copy(playerProfileState = ProfileState.Linked(playerTag,ResultState.Loading)) }
 
             try {
                 val player = playerRepository.getPlayerDetails(playerTag)
-                _uiState.update { it.copy(playerProfileState = ProfileState.Linked(ResultState.Success(player))) }
+                _uiState.update { it.copy(playerProfileState = ProfileState.Linked(playerTag,ResultState.Success(player))) }
 
                 fetchPlayerLeagues()
 
@@ -57,7 +57,7 @@ class DashboardViewModel(
                     preferenceManager.save(ClashPreferenceKeys.IsInClan, false)
                 }
             } catch (e: Exception) {
-                _uiState.update { it.copy(playerProfileState = ProfileState.Linked(ResultState.Error(e.message))) }
+                _uiState.update { it.copy(playerProfileState = ProfileState.Linked(playerTag,ResultState.Error(e.message))) }
             }
         }
     }

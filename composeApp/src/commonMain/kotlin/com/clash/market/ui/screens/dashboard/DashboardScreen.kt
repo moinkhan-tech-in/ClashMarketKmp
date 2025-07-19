@@ -1,5 +1,6 @@
 package com.clash.market.ui.screens.dashboard
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
@@ -10,16 +11,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import clashmarket.composeapp.generated.resources.Res
+import clashmarket.composeapp.generated.resources.ic_builder_sleeping
 import com.clash.market.base.ResultState
+import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ResultStateCrossFade
 import com.clash.market.components.clash.ClanCurrentWarInfo
 import com.clash.market.components.clash.ClanInfo
-import com.clash.market.components.clash.ClashLinkVillageMessage
+import com.clash.market.components.clash.ClashMessageInfo
 import com.clash.market.components.clash.PlayerAchievementInfo
 import com.clash.market.components.clash.PlayerInfo
+import com.clash.market.getOpenPlayerLink
 import com.clash.market.models.Player
 import com.clash.market.models.dtos.CurrentWarResponse
 import com.clash.market.navigation.ScreenRouts
+import com.clash.market.openClashLink
 import com.clash.market.ui.screens.home.HomeScreenScaffold
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -46,7 +52,16 @@ private fun DashboardScreenContent(
 ) {
     HomeScreenScaffold(
         currentRoute = ScreenRouts.Dashboard,
-        onBottomBarNavigate = onBottomBarNavigate
+        onBottomBarNavigate = onBottomBarNavigate,
+        topBarAction = {
+            Crossfade(uiState.playerProfileState) {
+                if (it is ProfileState.Linked) {
+                    ClashChipLight(text = "Open in Game") {
+                        openClashLink(getOpenPlayerLink(it.tag))
+                    }
+                }
+            }
+        }
     ) { innerPadding ->
 
         when (uiState.playerProfileState) {
@@ -82,8 +97,11 @@ private fun DashboardScreenContent(
             }
 
             ProfileState.NotLinked -> {
-                ClashLinkVillageMessage(
-                    onLinkClick = {
+                ClashMessageInfo(
+                    icon = Res.drawable.ic_builder_sleeping,
+                    message = "Link your village to view your profile, clan wars and more.",
+                    btnText = "Link My Village!",
+                    onClick = {
                         onNavigate(ScreenRouts.EnterProfile)
 
                     }

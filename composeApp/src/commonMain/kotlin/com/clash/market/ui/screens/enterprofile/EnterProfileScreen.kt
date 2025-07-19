@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_nav_logo
+import com.clash.market.TagRegEx
 import com.clash.market.base.ResultState
 import com.clash.market.components.ClashGlossyButton
 import com.clash.market.components.ClashStyleButtonType
@@ -102,7 +103,11 @@ private fun EnterProfileContent(
             var playerTag by rememberSaveable { mutableStateOf("") }
             ClashTextField(
                 value = playerTag,
-                onValueChange = { playerTag = it.uppercase() },
+                onValueChange = {
+                    if (TagRegEx.matches(it)) {
+                        playerTag = it.uppercase()
+                    }
+                },
                 hint = "#YourTagHere"
             )
 

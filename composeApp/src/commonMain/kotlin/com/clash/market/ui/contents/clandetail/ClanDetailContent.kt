@@ -28,7 +28,7 @@ fun ClanDetailContent(
     LaunchedEffect(clanTag) { viewModel.fetchClanDetail(clanTag) }
     ResultStateCrossFade(
         resultState = clanDetailState.value,
-        topPadding = topPadding + 120.dp,
+        topPadding = topPadding + 100.dp,
         idealContent = {}
     ) { clanDetail ->
 

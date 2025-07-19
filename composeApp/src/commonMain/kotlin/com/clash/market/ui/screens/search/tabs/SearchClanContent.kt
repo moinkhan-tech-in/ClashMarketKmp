@@ -17,12 +17,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import clashmarket.composeapp.generated.resources.Res
-import clashmarket.composeapp.generated.resources.ic_search_character
+import clashmarket.composeapp.generated.resources.ic_builder_direction
 import com.clash.market.base.ResultState
-import com.clash.market.components.ClashGuideMessage
 import com.clash.market.components.ClashSearchTextField
 import com.clash.market.components.ResultStateCrossFade
 import com.clash.market.components.clash.ClanListItem
+import com.clash.market.components.clash.ClashMessageInfo
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.FakeClanDetailItem
 import com.clash.market.navigation.ScreenRouts
@@ -48,9 +48,9 @@ fun SearchClanContent(
         ResultStateCrossFade(
             resultState = clanSearchState,
             idealContent = {
-                ClashGuideMessage(
-                    drawable = Res.drawable.ic_search_character,
-                    message =  "Chief, Start searching for a clan."
+                ClashMessageInfo(
+                    icon = Res.drawable.ic_builder_direction,
+                    message = "Chief, Start searching for clans.",
                 )
             }
         ) { result ->

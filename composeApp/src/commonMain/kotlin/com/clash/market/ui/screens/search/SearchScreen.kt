@@ -11,6 +11,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import clashmarket.composeapp.generated.resources.Res
+import clashmarket.composeapp.generated.resources.ic_chevron_down
 import com.clash.market.base.ResultState
 import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ClashTab
@@ -76,6 +78,7 @@ private fun SearchScreenContent(
                     0 -> {
                         var showSearchOptions by remember { mutableStateOf(false) }
                         ClashChipLight(
+                            trailingIcon = Res.drawable.ic_chevron_down,
                             text = "Filter",
                             onClick = { showSearchOptions = showSearchOptions.not() }
                         )

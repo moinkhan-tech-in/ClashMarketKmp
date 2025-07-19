@@ -11,10 +11,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import clashmarket.composeapp.generated.resources.Res
-import clashmarket.composeapp.generated.resources.ic_search_character
-import com.clash.market.components.ClashGuideMessage
+import clashmarket.composeapp.generated.resources.ic_builder_direction
 import com.clash.market.components.ResultStateCrossFade
 import com.clash.market.components.clash.ClanInfo
+import com.clash.market.components.clash.ClashMessageInfo
 import com.clash.market.components.clash.PlayerAchievementInfo
 import com.clash.market.components.clash.PlayerInfo
 import com.clash.market.components.clash.PlayerItemsInfoFlowRow
@@ -30,11 +30,11 @@ fun PlayerDetailContent(
     LaunchedEffect(playerTag) { viewModel.fetchPlayer(playerTag) }
     ResultStateCrossFade(
         resultState = playerSearchState.value,
-        topPadding = topPadding + 120.dp,
+        topPadding = topPadding + 100.dp,
         idealContent = {
-            ClashGuideMessage(
-                drawable = Res.drawable.ic_search_character,
-                message = "Chief, Start searching for a player."
+            ClashMessageInfo(
+                icon = Res.drawable.ic_builder_direction,
+                message = "Chief, Start searching for a player.",
             )
         }
     ) { result ->

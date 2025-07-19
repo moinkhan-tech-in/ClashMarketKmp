@@ -78,7 +78,7 @@ private fun WarLogsScreenContent(
         Column(modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)) {
             ResultStateCrossFade(
                 resultState = uiState,
-                topPadding = padding.calculateTopPadding() + 120.dp,
+                topPadding = padding.calculateTopPadding() + 100.dp,
                 idealContent = { }
             ) { result ->
                 LazyVerticalGrid(
