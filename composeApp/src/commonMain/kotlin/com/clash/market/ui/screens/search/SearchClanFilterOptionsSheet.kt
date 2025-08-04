@@ -84,6 +84,7 @@ fun SearchClanFilterOptionsSheet(
 
             HorizontalPager(
                 state = pagerState,
+                userScrollEnabled = false,
                 pageContent = {
                     when (it) {
                         0 -> {

@@ -2,18 +2,23 @@ package com.clash.market.ui.screens.myclan
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_builder_seating
 import clashmarket.composeapp.generated.resources.ic_clan_castle
 import com.clash.market.components.ClashChipLight
 import com.clash.market.components.clash.ClashMessageInfo
-import com.clash.market.getOpenClanLink
 import com.clash.market.navigation.ScreenRouts
+import com.clash.market.openClanLink
 import com.clash.market.openClashLink
 import com.clash.market.ui.contents.clandetail.ClanDetailContent
+import com.clash.market.ui.contents.clandetail.ClanDetailContentViewModel
 import com.clash.market.ui.screens.home.HomeScreenScaffold
 import com.clash.market.ui.screens.home.PlayerClanStatus
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MyClanScreen(
@@ -28,7 +33,7 @@ fun MyClanScreen(
             Crossfade(playerClan) {
                 if (it is PlayerClanStatus.EnrolledInClan) {
                     ClashChipLight(text = "Open in Game") {
-                        openClashLink(getOpenClanLink(it.tag))
+                        openClashLink(openClanLink(it.tag))
                     }
                 }
             }
@@ -45,10 +50,12 @@ fun MyClanScreen(
             }
 
             is PlayerClanStatus.EnrolledInClan -> {
+                val viewModel: ClanDetailContentViewModel = koinViewModel { parametersOf(playerClan.tag) }
+                val clanResultState by viewModel.clanDetailState.collectAsStateWithLifecycle()
                 ClanDetailContent(
                     topPadding = innerPadding.calculateTopPadding() + 12.dp,
-                    clanTag = playerClan.tag,
-                    onNavigate = onNavigate
+                    clanDetailState = clanResultState,
+                    onNavigate = onNavigate,
                 )
             }
 

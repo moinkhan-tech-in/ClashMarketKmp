@@ -8,23 +8,28 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
 class PlayerDetailContentViewModel(
-    val playerRepository: PlayerRepository
+    val playerRepository: PlayerRepository,
+    val playerTag: String
 ): BaseViewModel() {
 
-    private val _playerSearchState = MutableStateFlow<ResultState<Player>>(ResultState.Ideal)
-    val playerSearchState = _playerSearchState
+    private val _playerResultState = MutableStateFlow<ResultState<Player>>(ResultState.Ideal)
+    val playerSearchState = _playerResultState
+
+    init {
+        fetchPlayer(playerTag)
+    }
 
     fun fetchPlayer(playerTag: String) {
-        if (playerTag.length < 10) return
+        if (playerTag.length <= 8) return
 
         launchIO {
-            _playerSearchState.update { ResultState.Loading }
+            _playerResultState.update { ResultState.Loading }
 
             try {
                 val player = playerRepository.getPlayerDetails(playerTag = playerTag)
-                _playerSearchState.update { ResultState.Success(player) }
+                _playerResultState.update { ResultState.Success(player) }
             } catch (e: Exception) {
-                _playerSearchState.update { ResultState.Error(e.message) }
+                _playerResultState.update { ResultState.Error(e.message) }
             }
         }
     }

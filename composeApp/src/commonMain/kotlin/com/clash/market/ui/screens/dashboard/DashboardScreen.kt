@@ -21,11 +21,11 @@ import com.clash.market.components.clash.ClanInfo
 import com.clash.market.components.clash.ClashMessageInfo
 import com.clash.market.components.clash.PlayerAchievementInfo
 import com.clash.market.components.clash.PlayerInfo
-import com.clash.market.getOpenPlayerLink
 import com.clash.market.models.Player
 import com.clash.market.models.dtos.CurrentWarResponse
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.openClashLink
+import com.clash.market.openPlayerLink
 import com.clash.market.ui.screens.home.HomeScreenScaffold
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -57,7 +57,7 @@ private fun DashboardScreenContent(
             Crossfade(uiState.playerProfileState) {
                 if (it is ProfileState.Linked) {
                     ClashChipLight(text = "Open in Game") {
-                        openClashLink(getOpenPlayerLink(it.tag))
+                        openClashLink(openPlayerLink(it.tag))
                     }
                 }
             }
@@ -101,10 +101,7 @@ private fun DashboardScreenContent(
                     icon = Res.drawable.ic_builder_sleeping,
                     message = "Link your village to view your profile, clan wars and more.",
                     btnText = "Link My Village!",
-                    onClick = {
-                        onNavigate(ScreenRouts.EnterProfile)
-
-                    }
+                    onClick = { onNavigate(ScreenRouts.EnterProfile) }
                 )
             }
         }

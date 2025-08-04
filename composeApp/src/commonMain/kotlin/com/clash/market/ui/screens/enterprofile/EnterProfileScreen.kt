@@ -24,28 +24,30 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import clashmarket.composeapp.generated.resources.Res
-import clashmarket.composeapp.generated.resources.ic_nav_logo
 import com.clash.market.TagRegEx
 import com.clash.market.base.ResultState
+import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ClashGlossyButton
 import com.clash.market.components.ClashStyleButtonType
-import com.clash.market.components.ClashTextField
+import com.clash.market.components.ClashTextFieldValue
 import com.clash.market.components.clash.ClashScaffold
 import com.clash.market.components.clash.PlayerInfo
 import com.clash.market.models.Player
 import com.clash.market.navigation.ScreenRouts
+import com.clash.market.openClashLink
+import com.clash.market.openGameLink
 import com.clash.market.theme.ClashFont
 import com.clash.market.theme.LocalClashColors
+import com.clash.market.withHashPrefixField
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -80,7 +82,12 @@ private fun EnterProfileContent(
 
     ClashScaffold(
         title = "Claim Your Village!",
-        navigationIcon = Res.drawable.ic_nav_logo
+        navigationIcon = null,
+        topBarAction = {
+            ClashChipLight("Open Game") {
+                openClashLink(openGameLink())
+            }
+        }
     ) {
         Column(
             Modifier
@@ -100,12 +107,12 @@ private fun EnterProfileContent(
                 color = Color(0xFF3E2723) // Dark brown
             )
 
-            var playerTag by rememberSaveable { mutableStateOf("") }
-            ClashTextField(
+            var playerTag by remember { mutableStateOf(TextFieldValue()) }
+            ClashTextFieldValue(
                 value = playerTag,
                 onValueChange = {
-                    if (TagRegEx.matches(it)) {
-                        playerTag = it.uppercase()
+                    if (TagRegEx.matches(it.text)) {
+                        playerTag = withHashPrefixField(it)
                     }
                 },
                 hint = "#YourTagHere"
@@ -206,10 +213,10 @@ private fun EnterProfileContent(
                 )
             }
 
-            val isEnabled by remember { derivedStateOf { playerTag.length == 10 } }
+            val isEnabled by remember { derivedStateOf { playerTag.text.length in 8..10 } }
 
             if (isEnabled) {
-                onPlayerTagChanged(playerTag)
+                onPlayerTagChanged(playerTag.text)
             }
 
             Crossfade(targetState = uiState.playerResultState) {
@@ -232,7 +239,7 @@ private fun EnterProfileContent(
                         enabled = isEnabled,
                         onClick = {
                             keyboardController?.hide()
-                            onPlayerTagSubmitted(playerTag)
+                            onPlayerTagSubmitted(playerTag.text)
                         }
                     )
                 }

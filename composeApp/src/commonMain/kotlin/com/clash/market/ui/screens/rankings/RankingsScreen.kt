@@ -99,7 +99,7 @@ private fun RankingsScreenContent(
             when (it) {
                 0 -> {
                     ResultStateLazyGrid(resultState = uiState.topPlayers) { players ->
-                        items(players) { player ->
+                        items(players, key = { it.tag }) { player ->
                             TopPlayerItem(
                                 player = player,
                                 onClick = { onNavigate(ScreenRouts.PlayerDetail(player.tag)) }
@@ -110,7 +110,7 @@ private fun RankingsScreenContent(
 
                 1 -> {
                     ResultStateLazyGrid(resultState = uiState.topClans) { clans ->
-                        items(clans) { clan ->
+                        items(clans, key = { it.tag ?: it.name ?: "" }) { clan ->
                             TopClanItem(
                                 clan = clan,
                                 onClick = { onNavigate(ScreenRouts.ClanDetail(clan.tag.orEmpty())) }
@@ -121,7 +121,7 @@ private fun RankingsScreenContent(
 
                 2 -> {
                     ResultStateLazyGrid(resultState = uiState.topBuilderPlayers) { players ->
-                        items(players) { player ->
+                        items(players, key = { it.tag }) { player ->
                             TopBuilderBasePlayerItem(
                                 player = player,
                                 onClick = { onNavigate(ScreenRouts.PlayerDetail(player.tag)) }
@@ -132,7 +132,7 @@ private fun RankingsScreenContent(
 
                 3 -> {
                     ResultStateLazyGrid(resultState = uiState.topBuilderClans) { clans ->
-                        items(clans) { clan ->
+                        items(clans, key = { it.tag ?: it.name ?: "" }) { clan ->
                             TopBuilderBaseClanItem(
                                 clan = clan,
                                 onClick = { onNavigate(ScreenRouts.ClanDetail(clan.tag.orEmpty())) }

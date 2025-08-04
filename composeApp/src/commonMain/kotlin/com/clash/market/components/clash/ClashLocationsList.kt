@@ -57,7 +57,7 @@ fun ClashLocationsList(
             Modifier.padding(innerPadding),
             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 16.dp)
         ) {
-            items(filteredLocations) {
+            items(filteredLocations, key = { it.id ?: it.name }) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()

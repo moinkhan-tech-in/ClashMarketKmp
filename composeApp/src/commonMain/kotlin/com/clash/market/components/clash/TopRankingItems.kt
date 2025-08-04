@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,6 +34,7 @@ import com.clash.market.models.FakePlayer
 import com.clash.market.models.Player
 import com.clash.market.theme.ClashFont
 import com.clash.market.theme.ClashTypography
+import com.clash.market.theme.LocalClashColors
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -46,17 +48,39 @@ fun TopPlayerItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(
-                modifier = Modifier.width(34.dp),
-                text = "#${player.rank.toString()}",
-                textAlign = TextAlign.Center,
-                fontFamily = ClashFont,
-                maxLines = 1,
-                autoSize = TextAutoSize.StepBased(
-                    minFontSize = 10.sp,
-                    maxFontSize = 18.sp
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Text(
+                    modifier = Modifier.width(34.dp),
+                    text = "#${player.rank.toString()}",
+                    textAlign = TextAlign.Center,
+                    fontFamily = ClashFont,
+                    maxLines = 1,
+                    autoSize = TextAutoSize.StepBased(
+                        minFontSize = 10.sp,
+                        maxFontSize = 16.sp
+                    )
                 )
-            )
+
+                val textColor = when {
+                    (player.rank ?: 0) < (player.previousRank ?: player.rank ?: 0) -> LocalClashColors.current.clashPositive
+                    (player.rank ?: 0) > (player.previousRank ?: player.rank ?: 0) -> LocalClashColors.current.clashNegative
+                    else -> Color.Black
+                }
+
+                val rankText = when {
+                    (player.rank ?: 0) < (player.previousRank ?: player.rank ?: 0) -> "${player.previousRank.toString()}"
+                    (player.rank ?: 0) > (player.previousRank ?: player.rank ?: 0) -> "${player.previousRank.toString()}"
+                    else -> "${player.previousRank.toString()}"
+                }
+                Text(
+                    text = rankText,
+                    textAlign = TextAlign.Center,
+                    fontFamily = ClashFont,
+                    maxLines = 1,
+                    color = textColor
+                )
+            }
+
 
             AsyncImage(model = player.league?.iconUrls?.medium, contentDescription = null, modifier = Modifier.size(44.dp))
 

@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import clashmarket.composeapp.generated.resources.Res
@@ -76,7 +77,8 @@ internal fun ClanCurrentWarInfo(
                         contentDescription = null
                     )
                     Text(
-                        text = "Your clan has not participated in any war yet.",
+                        textAlign = TextAlign.Center,
+                        text = "Your clan hasn’t entered the war zone… for now.",
                         lineHeight = 18.sp
                     )
                 }

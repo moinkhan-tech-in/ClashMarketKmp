@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ClashCard(
     modifier: Modifier = Modifier,
+    topStartContent: (@Composable () -> Unit)? = null,
     title: String? = null,
     onClick: () -> Unit = {},
     topEndContent: (@Composable () -> Unit)? = null,
@@ -39,8 +40,9 @@ fun ClashCard(
             modifier = modifier.padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            if (title != null || topEndContent != null) {
+            if (title != null || topEndContent != null || topStartContent != null) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
+                    topStartContent?.let { it() }
                     title?.let {
                         Text(
                             modifier = Modifier.weight(1f),

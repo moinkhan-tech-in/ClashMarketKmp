@@ -6,28 +6,24 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.clash.market.base.ResultState
 import com.clash.market.components.ResultStateCrossFade
 import com.clash.market.components.clash.ClanCapitalInfo
 import com.clash.market.components.clash.ClanListItem
 import com.clash.market.components.clash.ClanMembersInfo
+import com.clash.market.models.ClanDetail
 import com.clash.market.navigation.ScreenRouts
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ClanDetailContent(
-    clanTag: String,
+    clanDetailState: ResultState<ClanDetail>,
     onNavigate: (ScreenRouts) -> Unit,
-    viewModel: ClanDetailContentViewModel = koinViewModel(),
     topPadding: Dp = 12.dp
 ) {
-    val clanDetailState = viewModel.clanDetailState.collectAsStateWithLifecycle()
-    LaunchedEffect(clanTag) { viewModel.fetchClanDetail(clanTag) }
     ResultStateCrossFade(
-        resultState = clanDetailState.value,
+        resultState = clanDetailState,
         topPadding = topPadding + 100.dp,
         idealContent = {}
     ) { clanDetail ->
@@ -48,7 +44,8 @@ fun ClanDetailContent(
                         onNavigate.invoke(
                             ScreenRouts.WarLogs(clanDetail.tag.orEmpty(), clanDetail.name.orEmpty())
                         )
-                    })
+                    }
+                )
             }
 
             item {

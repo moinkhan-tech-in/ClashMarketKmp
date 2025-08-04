@@ -21,9 +21,9 @@ import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ResultStateCrossFade
 import com.clash.market.components.clash.ClanCurrentWarInfo
 import com.clash.market.components.clash.ClashScaffold
-import com.clash.market.getOpenClanWarLink
 import com.clash.market.models.dtos.CurrentWarResponse
 import com.clash.market.navigation.ScreenRouts
+import com.clash.market.openClanWarLink
 import com.clash.market.openClashLink
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -71,7 +71,7 @@ private fun WarLogsScreenContent(
         onBackClick = onBackClick,
         topBarAction = {
             ClashChipLight("Open in Game") {
-                openClashLink(getOpenClanWarLink(warLogsRoute.tag))
+                openClashLink(openClanWarLink(warLogsRoute.tag))
             }
         }
     ) { padding ->

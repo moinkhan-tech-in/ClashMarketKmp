@@ -18,10 +18,13 @@ import androidx.navigation.compose.rememberNavController
 import com.clash.market.components.BottomNavItem
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.screens.dashboard.DashboardScreen
+import com.clash.market.ui.screens.dashboard.DashboardViewModel
 import com.clash.market.ui.screens.myclan.MyClanScreen
 import com.clash.market.ui.screens.profile.ProfileScreen
 import com.clash.market.ui.screens.rankings.RankingsScreen
+import com.clash.market.ui.screens.rankings.RankingsViewModel
 import com.clash.market.ui.screens.search.SearchScreen
+import com.clash.market.ui.screens.search.SearchViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -52,6 +55,11 @@ private fun HomeScreenContent(
     onNavigate: (ScreenRouts) -> Unit
 ) {
     val childNavController = rememberNavController()
+
+    val dashboardViewModel = koinViewModel<DashboardViewModel>()
+    val searchViewModel = koinViewModel<SearchViewModel>()
+    val rankingsViewModel = koinViewModel<RankingsViewModel>()
+
     NavHost(
         modifier = Modifier.fillMaxSize(),
         navController = childNavController,
@@ -59,6 +67,7 @@ private fun HomeScreenContent(
     ) {
         composable<ScreenRouts.Dashboard> {
             DashboardScreen(
+                viewModel = dashboardViewModel,
                 onNavigate = onNavigate,
                 onBottomBarNavigate = { childNavController.navigate(it) }
             )
@@ -66,6 +75,7 @@ private fun HomeScreenContent(
 
         composable<ScreenRouts.Search> {
             SearchScreen(
+                viewModel = searchViewModel,
                 onNavigate = onNavigate,
                 onBottomBarNavigate = { childNavController.navigate(it) }
             )
@@ -81,6 +91,7 @@ private fun HomeScreenContent(
 
         composable<ScreenRouts.Rankings> {
             RankingsScreen(
+                viewModel = rankingsViewModel,
                 onNavigate = onNavigate,
                 onBottomBarNavigate = { childNavController.navigate(it) }
             )

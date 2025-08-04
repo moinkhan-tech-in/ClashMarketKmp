@@ -10,6 +10,7 @@ import com.clash.market.ui.screens.rankings.RankingsViewModel
 import com.clash.market.ui.screens.search.SearchViewModel
 import com.clash.market.ui.screens.splash.SplashViewModel
 import com.clash.market.ui.screens.warlogs.WarLogsViewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -18,8 +19,8 @@ val viewModelModule = module {
     viewModelOf(::HomeViewModel)
     viewModelOf(::DashboardViewModel)
     viewModelOf(::SearchViewModel)
-    viewModelOf(::ClanDetailContentViewModel)
-    viewModelOf(::PlayerDetailContentViewModel)
+    viewModel { (clanTag: String) -> ClanDetailContentViewModel(get(), clanTag) }
+    viewModel { (playerTag: String) -> PlayerDetailContentViewModel(get(), playerTag) }
     viewModelOf(::WarLogsViewModel)
     viewModelOf(::RankingsViewModel)
     viewModelOf(::EnterProfileViewModel)

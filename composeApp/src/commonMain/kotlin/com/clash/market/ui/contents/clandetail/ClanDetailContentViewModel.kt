@@ -10,13 +10,18 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class ClanDetailContentViewModel(
-    private val clanRepository: ClanRepository
+    private val clanRepository: ClanRepository,
+    clanTag: String
 ) : BaseViewModel() {
 
     private val _clanDetailState = MutableStateFlow<ResultState<ClanDetail>>(ResultState.Ideal)
     val clanDetailState: StateFlow<ResultState<ClanDetail>> = _clanDetailState.asStateFlow()
 
-    fun fetchClanDetail(tag: String) {
+    init {
+        fetchClanDetail(clanTag)
+    }
+
+    private fun fetchClanDetail(tag: String) {
         launchIO {
             _clanDetailState.update { ResultState.Loading }
             try {

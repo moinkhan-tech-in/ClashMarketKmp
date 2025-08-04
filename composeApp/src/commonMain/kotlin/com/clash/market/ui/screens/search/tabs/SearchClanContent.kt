@@ -1,5 +1,6 @@
 package com.clash.market.ui.screens.search.tabs
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -50,15 +51,17 @@ fun SearchClanContent(
             idealContent = {
                 ClashMessageInfo(
                     icon = Res.drawable.ic_builder_direction,
-                    message = "Chief, Start searching for clans.",
+                    message = "Let’s hunt for some epic clans, Chief!",
                 )
             }
         ) { result ->
             LazyVerticalGrid(
                 columns = Adaptive(minSize = 300.dp),
-                contentPadding = PaddingValues(top = 8.dp, bottom = 56.dp)
+                contentPadding = PaddingValues(top = 8.dp, bottom = 56.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                items(result) { it ->
+                items(result, key = { it.tag ?: it.name ?: "" }) { it ->
                     ClanListItem(
                         clanDetail = it,
                         onWarLogsClick = { onNavigate(ScreenRouts.WarLogs(it.tag.orEmpty(), it.name.orEmpty())) },

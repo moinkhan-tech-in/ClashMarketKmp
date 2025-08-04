@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.clash.market.theme.ClashFont
@@ -48,7 +49,58 @@ fun ClashTextField(
             .fillMaxWidth()
             .height(50.dp)
             .clip(RoundedCornerShape(12.dp))
-            .border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = .5f), RoundedCornerShape(12.dp)), // Dark brown border
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.primary.copy(alpha = .5f),
+                shape = RoundedCornerShape(12.dp)
+            ),
+        textStyle = TextStyle(
+            color = Color.Black,
+            fontSize = 16.sp,
+            fontFamily = ClashFont
+        ),
+        singleLine = true,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+        )
+    )
+}
+
+@Composable
+fun ClashTextFieldValue(
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    hint: String = "",
+    leadingIcon: ImageVector? = null,
+    modifier: Modifier = Modifier
+) {
+    val leadingIconComposable = leadingIcon?.let {
+        @Composable {
+            Icon(imageVector = leadingIcon, contentDescription = null)
+        }
+    }
+
+    TextField(
+        value = value,
+        onValueChange = onValueChange,
+        placeholder = {
+            Text(
+                text = hint,
+                color = Color.Gray,
+                fontFamily = ClashFont
+            )
+        },
+        leadingIcon = leadingIconComposable,
+        modifier = modifier
+            .fillMaxWidth()
+            .height(50.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.primary.copy(alpha = .5f),
+                shape = RoundedCornerShape(12.dp)
+            ),
         textStyle = TextStyle(
             color = Color.Black,
             fontSize = 16.sp,
