@@ -22,6 +22,7 @@ import com.clash.market.ui.screens.clandetail.ClanDetailScreen
 import com.clash.market.ui.screens.enterprofile.EnterProfileScreen
 import com.clash.market.ui.screens.home.HomeScreen
 import com.clash.market.ui.screens.playerdetail.PlayerDetailScreen
+import com.clash.market.ui.screens.profile.ProfileScreen
 import com.clash.market.ui.screens.splash.InitialLaunch
 import com.clash.market.ui.screens.splash.SplashScreen
 import com.clash.market.ui.screens.warlogs.WarLogsScreen
@@ -103,6 +104,13 @@ fun ClashNavHost() {
             val clan = backStackEntry.toRoute<ScreenRouts.ClanDetail>()
             ClanDetailScreen(
                 clanDetailRoute = clan,
+                onNavigate = { navController.navigate(it) },
+                onBackClick = { navController.popBackStack() }
+            )
+        }
+
+        composable<ScreenRouts.MyProfile> {
+            ProfileScreen(
                 onNavigate = { navController.navigate(it) },
                 onBackClick = { navController.popBackStack() }
             )

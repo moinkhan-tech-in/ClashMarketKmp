@@ -30,6 +30,7 @@ import com.clash.market.navigation.ScreenRouts
 fun HomeScreenScaffold(
     currentRoute: ScreenRouts,
     onBottomBarNavigate: (ScreenRouts) -> Unit,
+    onNavigate: (ScreenRouts) -> Unit,
     topBarAction: @Composable RowScope.() -> Unit = {},
     ignoreStatusBarAlphaChange: Boolean = false,
     content: @Composable (PaddingValues) -> Unit,
@@ -57,7 +58,8 @@ fun HomeScreenScaffold(
                     .statusBarsPadding(),
                 title = bottomNavItems.find { it.route == currentRoute }?.label.orEmpty(),
                 scrollBehaviour = topBarScrollBehavior,
-                actions = topBarAction
+                actions = topBarAction,
+                onBackClick = { onNavigate(ScreenRouts.MyProfile) }
             )
         },
         bottomBar = {

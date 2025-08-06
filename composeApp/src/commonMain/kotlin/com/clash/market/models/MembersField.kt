@@ -17,6 +17,11 @@ import kotlinx.serialization.json.intOrNull
 sealed class MembersField {
     data class Count(val total: Int) : MembersField()
     data class List(val members: kotlin.collections.List<Player>) : MembersField()
+
+    fun safeMembers() = when (this) {
+        is Count -> emptyList()
+        is List -> members
+    }
 }
 
 object MembersFieldSerializer : KSerializer<MembersField> {

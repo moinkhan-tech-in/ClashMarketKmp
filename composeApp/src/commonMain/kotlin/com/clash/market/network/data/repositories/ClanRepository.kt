@@ -6,6 +6,7 @@ import com.clash.market.models.WarFrequency
 import com.clash.market.models.dtos.ClanSearchResponse
 import com.clash.market.models.dtos.ClashResponse
 import com.clash.market.models.dtos.CurrentWarResponse
+import com.clash.market.models.dtos.WarLeagueGroupResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -18,9 +19,13 @@ interface ClanRepository {
 
     suspend fun getClanDetails(tag: String): ClanDetail
 
-    suspend fun getCurrentWar(clanTag: String): CurrentWarResponse
+    suspend fun getCurrentWar(tag: String): CurrentWarResponse
 
-    suspend fun getClanWarLogs(clanTag: String, limit: Int = 20): ClashResponse<CurrentWarResponse>
+    suspend fun getWarLeagueGroup(tag: String): WarLeagueGroupResponse
+
+    suspend fun getWarLeagueWar(warTag: String): CurrentWarResponse
+
+    suspend fun getClanWarLogs(tag: String, limit: Int = 20): ClashResponse<CurrentWarResponse>
 
     suspend fun searchClan(
         name: String,
@@ -47,6 +52,14 @@ class ClanRepositoryImpl(
 
     override suspend fun getCurrentWar(tag: String): CurrentWarResponse {
         return client.get("proxy/clans/${tag.encodeURLPath()}/currentwar").body()
+    }
+
+    override suspend fun getWarLeagueGroup(tag: String): WarLeagueGroupResponse {
+        return client.get("proxy/clans/${tag.encodeURLPath()}/currentwar/leaguegroup").body()
+    }
+
+    override suspend fun getWarLeagueWar(warTag: String): CurrentWarResponse {
+        return client.get("proxy/clanwarleagues/wars/${warTag.encodeURLPath()}").body()
     }
 
     override suspend fun getClanWarLogs(tag: String, limit: Int): ClashResponse<CurrentWarResponse> {

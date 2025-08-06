@@ -19,21 +19,21 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.clash.market.components.ClashGlossyButton
 import com.clash.market.components.ClashStyleButtonType
+import com.clash.market.components.clash.ClashScaffold
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.dialogs.ClashDialog
-import com.clash.market.ui.screens.home.HomeScreenScaffold
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel = koinViewModel(),
-    onBottomBarNavigate: (ScreenRouts) -> Unit,
+    onBackClick: () -> Unit,
     onNavigate: (ScreenRouts) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     ProfileContent(
         uiState = uiState,
-        onBottomBarNavigate = onBottomBarNavigate,
+        onBackClick = onBackClick,
         onNavigate = onNavigate,
         onUnlinkProfile = viewModel::unLinkProfile
     )
@@ -42,8 +42,8 @@ fun ProfileScreen(
 @Composable
 private fun ProfileContent(
     uiState: ProfileUiState,
+    onBackClick: () -> Unit,
     onUnlinkProfile: () -> Unit,
-    onBottomBarNavigate: (ScreenRouts) -> Unit,
     onNavigate: (ScreenRouts) -> Unit
 ) {
 
@@ -64,20 +64,23 @@ private fun ProfileContent(
         )
     }
 
-    HomeScreenScaffold(
-        currentRoute = ScreenRouts.MyProfile,
-        onBottomBarNavigate = onBottomBarNavigate,
-        ignoreStatusBarAlphaChange = true
+    ClashScaffold(
+        title = "My Profile",
+        onBackClick = onBackClick
     ) {
         Column(modifier = Modifier.padding(it).padding(16.dp)) {
 
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Column(
                     modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(4.dp, alignment = Alignment.CenterVertically)
+                    verticalArrangement = Arrangement.spacedBy(
+                        4.dp,
+                        alignment = Alignment.CenterVertically
+                    )
                 ) {
                     Text("Linked Village", fontSize = 12.sp)
-                    Text(uiState.linkedProfile.takeIf { it.isNullOrEmpty().not() } ?: "Not linked yet")
+                    Text(uiState.linkedProfile.takeIf { it.isNullOrEmpty().not() }
+                        ?: "Not linked yet")
                 }
 
                 Crossfade(uiState.linkedProfile) {

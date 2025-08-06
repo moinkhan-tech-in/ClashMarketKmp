@@ -16,13 +16,11 @@ import clashmarket.composeapp.generated.resources.ic_builder_sleeping
 import com.clash.market.base.ResultState
 import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ResultStateCrossFade
-import com.clash.market.components.clash.ClanCurrentWarInfo
 import com.clash.market.components.clash.ClanInfo
 import com.clash.market.components.clash.ClashMessageInfo
 import com.clash.market.components.clash.PlayerAchievementInfo
 import com.clash.market.components.clash.PlayerInfo
 import com.clash.market.models.Player
-import com.clash.market.models.dtos.CurrentWarResponse
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.openClashLink
 import com.clash.market.openPlayerLink
@@ -53,6 +51,7 @@ private fun DashboardScreenContent(
     HomeScreenScaffold(
         currentRoute = ScreenRouts.Dashboard,
         onBottomBarNavigate = onBottomBarNavigate,
+        onNavigate = onNavigate,
         topBarAction = {
             Crossfade(uiState.playerProfileState) {
                 if (it is ProfileState.Linked) {
@@ -82,10 +81,6 @@ private fun DashboardScreenContent(
 
                     item {
                         ClanInfoStateUi(uiState.playerProfileState.player)
-                    }
-
-                    item {
-                        CurrentWarStateUi(uiState.currentWar)
                     }
 
                     item(span = StaggeredGridItemSpan.FullLine) {
@@ -128,15 +123,5 @@ private fun ClanInfoStateUi(player: ResultState<Player>) {
         idealContent = {}
     ) {
         it.clan?.let { clan -> ClanInfo(clan = clan) }
-    }
-}
-
-@Composable
-private fun CurrentWarStateUi(currentWar: ResultState<CurrentWarResponse>) {
-    ResultStateCrossFade(
-        resultState = currentWar,
-        idealContent = {}
-    ) {
-        ClanCurrentWarInfo(it)
     }
 }

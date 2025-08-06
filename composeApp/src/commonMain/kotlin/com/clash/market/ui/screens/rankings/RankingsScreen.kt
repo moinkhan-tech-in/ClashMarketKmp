@@ -72,6 +72,7 @@ private fun RankingsScreenContent(
     HomeScreenScaffold(
         currentRoute = ScreenRouts.Rankings,
         onBottomBarNavigate = onBottomBarNavigate,
+        onNavigate = onNavigate,
         ignoreStatusBarAlphaChange = true,
         topBarAction = {
             if (uiState.locations is ResultState.Success) {

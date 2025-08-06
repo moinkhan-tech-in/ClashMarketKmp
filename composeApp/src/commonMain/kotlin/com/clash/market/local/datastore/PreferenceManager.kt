@@ -40,4 +40,30 @@ class PreferenceManager(
             preference.data.map { it[prefKey.key] ?: default }
         }
     }
+
+    suspend fun getProfileStateAsFlow(): Flow<ProfileState> {
+        return getValueAsFlow(ClashPreferenceKeys.ProfilePlayer)
+            .map {
+                if (it.isNullOrEmpty()) {
+                    ProfileState.NotLinked
+                } else {
+                    val clanTag = getValue(ClashPreferenceKeys.ProfileClan)
+                    if (clanTag.isNullOrEmpty().not()) {
+                        return@map ProfileState.Linked(it, ClanState.InClan(clanTag))
+                    } else {
+                        return@map ProfileState.Linked(it, ClanState.NotInClan)
+                    }
+                }
+            }
+    }
+}
+
+sealed class ProfileState {
+    data object NotLinked: ProfileState()
+    data class Linked(val tag: String, val clanState: ClanState): ProfileState()
+}
+
+sealed class ClanState {
+    data class InClan(val tag: String): ClanState()
+    data object NotInClan: ClanState()
 }

@@ -6,7 +6,7 @@ import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Leaderboard
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,7 +20,8 @@ import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.screens.dashboard.DashboardScreen
 import com.clash.market.ui.screens.dashboard.DashboardViewModel
 import com.clash.market.ui.screens.myclan.MyClanScreen
-import com.clash.market.ui.screens.profile.ProfileScreen
+import com.clash.market.ui.screens.mywar.MyWarScreen
+import com.clash.market.ui.screens.mywar.MyWarViewModel
 import com.clash.market.ui.screens.rankings.RankingsScreen
 import com.clash.market.ui.screens.rankings.RankingsViewModel
 import com.clash.market.ui.screens.search.SearchScreen
@@ -33,7 +34,7 @@ val bottomNavItems = listOf(
     BottomNavItem(ScreenRouts.MyClan, Icons.Default.Group, null, null, "My Clan"),
     BottomNavItem(ScreenRouts.Search, Icons.Default.Search, null, null, "Search"),
     BottomNavItem(ScreenRouts.Rankings, Icons.Default.Leaderboard, null, null, "Rankings"),
-    BottomNavItem(ScreenRouts.MyProfile, Icons.Default.Settings, null, null, "Profile"),
+    BottomNavItem(ScreenRouts.MyWar, Icons.Default.Security, null, null, "My War"),
 )
 
 @Composable
@@ -59,6 +60,7 @@ private fun HomeScreenContent(
     val dashboardViewModel = koinViewModel<DashboardViewModel>()
     val searchViewModel = koinViewModel<SearchViewModel>()
     val rankingsViewModel = koinViewModel<RankingsViewModel>()
+    val myWarViewModel = koinViewModel<MyWarViewModel>()
 
     NavHost(
         modifier = Modifier.fillMaxSize(),
@@ -97,8 +99,9 @@ private fun HomeScreenContent(
             )
         }
 
-        composable<ScreenRouts.MyProfile> {
-            ProfileScreen(
+        composable<ScreenRouts.MyWar> {
+            MyWarScreen(
+                viewModel = myWarViewModel,
                 onNavigate = onNavigate,
                 onBottomBarNavigate = { childNavController.navigate(it) }
             )

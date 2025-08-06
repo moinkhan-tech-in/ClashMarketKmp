@@ -71,6 +71,7 @@ private fun SearchScreenContent(
     HomeScreenScaffold(
         currentRoute = ScreenRouts.Search,
         onBottomBarNavigate = onBottomBarNavigate,
+        onNavigate = onNavigate,
         ignoreStatusBarAlphaChange = true,
         topBarAction = {
             Crossfade(selectedTabIndex) {

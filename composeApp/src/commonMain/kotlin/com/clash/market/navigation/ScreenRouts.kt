@@ -38,6 +38,9 @@ sealed interface ScreenRouts {
     ) : ScreenRouts
 
     @Serializable
+    object MyWar : ScreenRouts
+
+    @Serializable
     object MyProfile : ScreenRouts
 
     @Serializable

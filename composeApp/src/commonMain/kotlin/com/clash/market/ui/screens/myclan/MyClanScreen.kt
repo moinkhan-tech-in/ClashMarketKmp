@@ -29,6 +29,7 @@ fun MyClanScreen(
     HomeScreenScaffold(
         currentRoute = ScreenRouts.MyClan,
         onBottomBarNavigate = onBottomBarNavigate,
+        onNavigate = onNavigate,
         topBarAction = {
             Crossfade(playerClan) {
                 if (it is PlayerClanStatus.EnrolledInClan) {
