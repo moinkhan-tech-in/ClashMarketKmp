@@ -54,7 +54,6 @@ private fun MyWarContent(
         overrideTitle = title,
         onBottomBarNavigate = onBottomBarNavigate,
         onNavigate = onNavigate,
-        ignoreStatusBarAlphaChange = uiState is MyWarUiState.LeagueWar,
         topBarAction = {
             if (uiState is MyWarUiState.LeagueWar) {
                 val season = uiState.warLeagueGroupResponse.season
