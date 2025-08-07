@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_builder_sleeping
 import clashmarket.composeapp.generated.resources.ic_wall_breaker_barrel
+import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ClashLoadingIndicator
 import com.clash.market.components.clash.ClanCurrentWarInfo
 import com.clash.market.components.clash.ClashMessageInfo
@@ -40,11 +42,27 @@ private fun MyWarContent(
     onBottomBarNavigate: (ScreenRouts) -> Unit,
     onNavigate: (ScreenRouts) -> Unit = {}
 ) {
+    val title = remember(uiState) {
+        when (uiState) {
+            is MyWarUiState.LeagueWar -> "League War"
+            is MyWarUiState.Loading -> ""
+            else -> null
+        }
+    }
     HomeScreenScaffold(
         currentRoute = ScreenRouts.MyWar,
+        overrideTitle = title,
         onBottomBarNavigate = onBottomBarNavigate,
         onNavigate = onNavigate,
         ignoreStatusBarAlphaChange = uiState is MyWarUiState.LeagueWar,
+        topBarAction = {
+            if (uiState is MyWarUiState.LeagueWar) {
+                val season = uiState.warLeagueGroupResponse.season
+                if (season.isNullOrEmpty().not()) {
+                    ClashChipLight("Season: $season", trailingIcon = null, onClick = {})
+                }
+            }
+        }
     ) { innerPadding ->
 
         Crossfade(
@@ -63,7 +81,8 @@ private fun MyWarContent(
                         MyWarLeagueWarContent(
                             warLeagueGroupResponse = uiState.warLeagueGroupResponse,
                             onPlayerClick = { onNavigate(ScreenRouts.PlayerDetail(it)) },
-                            onClanClick = { onNavigate(ScreenRouts.ClanDetail(it)) }
+                            onClanClick = { onNavigate(ScreenRouts.ClanDetail(it)) },
+                            onRoundClick = { onNavigate(it) }
                         )
                     }
 

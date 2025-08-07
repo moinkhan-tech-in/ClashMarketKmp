@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,21 +30,21 @@ fun ClashChipLight(
         Modifier
             .clickable(onClick = onClick)
             .padding(16.dp)
+            .heightIn(min = 36.dp)
             .border(1.dp, color = Color.White, shape = RoundedCornerShape(12.dp)),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Spacer(Modifier.size(8.dp))
         Text(
+            modifier = Modifier.padding(start = 12.dp),
             text = text,
             color = Color.White
         )
-        Spacer(Modifier.size(2.dp))
         trailingIcon?.let {
             Image(
                 painter = painterResource(it),
                 modifier = Modifier.size(36.dp),
                 contentDescription = null
             )
-        }
+        } ?: run { Spacer(Modifier.size(12.dp)) }
     }
 }

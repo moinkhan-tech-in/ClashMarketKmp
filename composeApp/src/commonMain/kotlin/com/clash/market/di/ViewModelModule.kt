@@ -1,10 +1,12 @@
 package com.clash.market.di
 
+import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.contents.clandetail.ClanDetailContentViewModel
 import com.clash.market.ui.contents.playerdetail.PlayerDetailContentViewModel
 import com.clash.market.ui.screens.dashboard.DashboardViewModel
 import com.clash.market.ui.screens.enterprofile.EnterProfileViewModel
 import com.clash.market.ui.screens.home.HomeViewModel
+import com.clash.market.ui.screens.leaguewardetail.LeagueWarDetailViewModel
 import com.clash.market.ui.screens.mywar.MyWarViewModel
 import com.clash.market.ui.screens.profile.ProfileViewModel
 import com.clash.market.ui.screens.rankings.RankingsViewModel
@@ -27,4 +29,5 @@ val viewModelModule = module {
     viewModelOf(::RankingsViewModel)
     viewModelOf(::EnterProfileViewModel)
     viewModelOf(::ProfileViewModel)
+    viewModel { (leagueWarDetailRoute: ScreenRouts.LeagueWarDetail) -> LeagueWarDetailViewModel(get(), leagueWarDetailRoute) }
 }

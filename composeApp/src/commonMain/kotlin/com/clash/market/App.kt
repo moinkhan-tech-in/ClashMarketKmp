@@ -21,12 +21,16 @@ import com.clash.market.theme.LocalClashColors
 import com.clash.market.ui.screens.clandetail.ClanDetailScreen
 import com.clash.market.ui.screens.enterprofile.EnterProfileScreen
 import com.clash.market.ui.screens.home.HomeScreen
+import com.clash.market.ui.screens.leaguewardetail.LeagueWarDetailScreen
+import com.clash.market.ui.screens.leaguewardetail.LeagueWarDetailViewModel
 import com.clash.market.ui.screens.playerdetail.PlayerDetailScreen
 import com.clash.market.ui.screens.profile.ProfileScreen
 import com.clash.market.ui.screens.splash.InitialLaunch
 import com.clash.market.ui.screens.splash.SplashScreen
 import com.clash.market.ui.screens.warlogs.WarLogsScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 @Preview
@@ -120,6 +124,15 @@ fun ClashNavHost() {
             val warLogs = backStackEntry.toRoute<ScreenRouts.WarLogs>()
             WarLogsScreen(
                 warLogsRoute = warLogs,
+                onBackClick = { navController.popBackStack() }
+            )
+        }
+
+        composable<ScreenRouts.LeagueWarDetail> { backStackEntry ->
+            val leagueWarDetails = backStackEntry.toRoute<ScreenRouts.LeagueWarDetail>()
+            val viewModel = koinViewModel<LeagueWarDetailViewModel> { parametersOf(leagueWarDetails) }
+            LeagueWarDetailScreen(
+                viewModel = viewModel,
                 onBackClick = { navController.popBackStack() }
             )
         }

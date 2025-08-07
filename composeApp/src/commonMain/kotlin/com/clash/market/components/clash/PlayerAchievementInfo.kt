@@ -40,8 +40,8 @@ fun PlayerAchievementInfo(achievements: List<Achievement>) {
         title = "Achievements",
         topEndContent = { ClashQueueChip(items = village) { currentVillage = it } }
     ) {
-        AutoColumnGrid(items = filteredAchievements) {
-            PlayerAchievementItem(it)
+        AutoColumnGrid(items = filteredAchievements) { item, index ->
+            PlayerAchievementItem(item)
         }
     }
 }

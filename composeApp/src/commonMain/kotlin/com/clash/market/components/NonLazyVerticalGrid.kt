@@ -20,7 +20,7 @@ fun <T> NonLazyVerticalGrid(
     modifier: Modifier = Modifier,
     verticalSpacing: Dp = Dp.Unspecified,
     horizontalSpacing: Dp = Dp.Unspecified,
-    itemContent: @Composable (T) -> Unit
+    itemContent: @Composable (T, Int) -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -32,7 +32,7 @@ fun <T> NonLazyVerticalGrid(
                 horizontalArrangement = Arrangement.spacedBy(horizontalSpacing)
             ) {
                 rowItems.forEachIndexed { columnIndex, item ->
-                    Box(modifier = Modifier.weight(1f)) { itemContent(item) }
+                    Box(modifier = Modifier.weight(1f)) { itemContent(item, items.indexOf(item)) }
                 }
                 repeat(columns - rowItems.size) { Spacer(modifier = Modifier.weight(1f)) }
             }
@@ -48,7 +48,7 @@ fun <T> AutoColumnGrid(
     verticalSpacing: Dp = 32.dp,
     horizontalSpacing: Dp = 32.dp,
     modifier: Modifier = Modifier,
-    itemContent: @Composable (T) -> Unit
+    itemContent: @Composable (T, Int) -> Unit
 ) {
     BoxWithConstraints(modifier = modifier) {
         val totalWidth = maxWidth

@@ -21,7 +21,8 @@ import kotlinx.coroutines.launch
 
 data class ClashTab(
     val index: Int,
-    val title: String
+    val title: String,
+    val id: String? = null
 )
 
 @Composable

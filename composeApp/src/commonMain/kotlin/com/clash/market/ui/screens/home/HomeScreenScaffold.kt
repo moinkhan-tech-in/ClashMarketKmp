@@ -29,6 +29,7 @@ import com.clash.market.navigation.ScreenRouts
 @Composable
 fun HomeScreenScaffold(
     currentRoute: ScreenRouts,
+    overrideTitle: String? = null,
     onBottomBarNavigate: (ScreenRouts) -> Unit,
     onNavigate: (ScreenRouts) -> Unit,
     topBarAction: @Composable RowScope.() -> Unit = {},
@@ -56,7 +57,7 @@ fun HomeScreenScaffold(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.primary.copy(alpha = alpha))
                     .statusBarsPadding(),
-                title = bottomNavItems.find { it.route == currentRoute }?.label.orEmpty(),
+                title = overrideTitle ?: bottomNavItems.find { it.route == currentRoute }?.label.orEmpty(),
                 scrollBehaviour = topBarScrollBehavior,
                 actions = topBarAction,
                 onBackClick = { onNavigate(ScreenRouts.MyProfile) }

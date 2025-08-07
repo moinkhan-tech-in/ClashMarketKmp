@@ -50,10 +50,10 @@ fun ClanMembersInfo(
         title = "Members (${sortedMembers.size}/50)",
         topEndContent = { ClashQueueChip(items = SortOption.entries) { currentSortCriteria = it } }
     ) {
-        AutoColumnGrid(items = sortedMembers) {
+        AutoColumnGrid(items = sortedMembers) { item, index ->
             ClanMemberItem(
-                member = it,
-                onClick = { onMemberClick(it) }
+                member = item,
+                onClick = { onMemberClick(item) }
             )
         }
     }

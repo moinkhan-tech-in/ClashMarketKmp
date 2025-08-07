@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
@@ -29,79 +29,77 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_chevron_right
 import coil3.compose.AsyncImage
+import com.clash.market.components.AutoColumnGrid
 import com.clash.market.components.ClashCard
-import com.clash.market.components.ClashScrollableTabs
-import com.clash.market.components.ClashTab
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.Player
 import com.clash.market.models.dtos.WarLeagueGroupResponse
+import com.clash.market.navigation.ScreenRouts
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun MyWarLeagueWarContent(
     warLeagueGroupResponse: WarLeagueGroupResponse,
+    onRoundClick: (ScreenRouts.LeagueWarDetail) -> Unit,
     onClanClick: (String) -> Unit = {},
     onPlayerClick: (String) -> Unit = {},
 ) {
-    var selectedIndex by rememberSaveable { mutableStateOf(0) }
-    ClashScrollableTabs(
-        modifier = Modifier,
-        tabs = listOf(
-            ClashTab(0, "Clans"),
-            ClashTab(1, "Rounds")
-        ),
-        selectedTabIndex = selectedIndex,
-        onTabSelected = { selectedIndex = it.index }
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalItemSpacing = 4.dp,
+        contentPadding = PaddingValues(
+            top = 12.dp,
+            bottom = 56.dp,
+            start = 12.dp, end = 12.dp
+        )
     ) {
-        when (it) {
-            0 -> {
-                LazyVerticalStaggeredGrid(
-                    columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalItemSpacing = 4.dp,
-                    contentPadding = PaddingValues(
-                        top = 12.dp,
-                        bottom = 56.dp,
-                        start = 12.dp, end = 12.dp
-                    )
+
+        item(span = StaggeredGridItemSpan.FullLine) {
+            AutoColumnGrid(
+                items = warLeagueGroupResponse.rounds.orEmpty(),
+                minCellWidth = 150.dp,
+                verticalSpacing = 6.dp,
+                horizontalSpacing = 6.dp
+            ) { item, index ->
+                ClashCard(
+                    onClick = { onRoundClick(
+                        ScreenRouts.LeagueWarDetail(
+                            title = "Round: ${index + 1}",
+                            season = warLeagueGroupResponse.season.orEmpty(),
+                            warTags = item.warTags
+                        )
+                    ) }
                 ) {
-                    items(warLeagueGroupResponse.clans.orEmpty()) { clan ->
-                        WarLeagueClanItem(
-                            clan = clan,
-                            onClanClick = onClanClick,
-                            onPlayerClick = onPlayerClick
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(text = "Round: ${index + 1}", modifier = Modifier.weight(1f))
+                        Image(
+                            painter = painterResource(Res.drawable.ic_chevron_right),
+                            contentDescription = null
                         )
                     }
                 }
             }
+        }
 
-            1 -> {
-                LazyVerticalStaggeredGrid(
-                    columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalItemSpacing = 4.dp,
-                    contentPadding = PaddingValues(
-                        top = 12.dp,
-                        bottom = 56.dp,
-                        start = 12.dp, end = 12.dp
-                    )
-                ) {
-                    itemsIndexed(warLeagueGroupResponse.rounds.orEmpty()) { index, round ->
-                        ClashCard {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(text = "Round: ${index + 1}", modifier = Modifier.weight(1f))
-                                Image(
-                                    painter = painterResource(Res.drawable.ic_chevron_right),
-                                    contentDescription = null
-                                )
-                            }
-                        }
-                    }
-                }
-            }
+        item(span = StaggeredGridItemSpan.FullLine) {
+            Text(
+                modifier = Modifier.padding(top = 32.dp, bottom = 8.dp, start = 8.dp),
+                fontSize = 16.sp,
+                text = "Participating Clans"
+            )
+        }
+
+        items(warLeagueGroupResponse.clans.orEmpty()) { clan ->
+            WarLeagueClanItem(
+                clan = clan,
+                onClanClick = onClanClick,
+                onPlayerClick = onPlayerClick
+            )
         }
     }
 }
@@ -157,10 +155,16 @@ private fun WarLeagueClanItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { showMembers = showMembers.not() }
-                    .padding(vertical = 8.dp),
+                    .padding(top = 4.dp)
+                    .padding(end = 8.dp)
+                ,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(modifier = Modifier.weight(1f), text = "Members: ${members?.size ?: 0}")
+                Text(
+                    fontSize = 14.sp,
+                    modifier = Modifier.weight(1f),
+                    text = "Members: ${members?.size ?: 0}"
+                )
                 Icon(
                     imageVector = if (showMembers) Icons.Default.ExpandMore else Icons.Default.ExpandLess,
                     contentDescription = null
@@ -170,7 +174,7 @@ private fun WarLeagueClanItem(
 
             AnimatedVisibility(showMembers) {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     members?.forEach { player ->

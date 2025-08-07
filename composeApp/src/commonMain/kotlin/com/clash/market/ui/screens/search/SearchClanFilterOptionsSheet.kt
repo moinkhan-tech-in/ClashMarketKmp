@@ -209,17 +209,17 @@ fun SearchClanFilterOptionsSheet(
                                                 minCellWidth = 150.dp,
                                                 verticalSpacing = 12.dp,
                                                 horizontalSpacing = 12.dp,
-                                                itemContent = {
+                                                itemContent = { item, index ->
                                                     ClashLabelItem(
-                                                        item = it,
+                                                        item = item,
                                                         showText = true,
-                                                        isSelected = clanLabels.contains(it),
+                                                        isSelected = clanLabels.contains(item),
                                                         onClick = {
-                                                            if (clanLabels.contains(it)) {
-                                                                clanLabels.remove(it)
+                                                            if (clanLabels.contains(item)) {
+                                                                clanLabels.remove(item)
                                                             } else {
                                                                 if (clanLabels.size == 3) return@ClashLabelItem
-                                                                clanLabels.add(it)
+                                                                clanLabels.add(item)
                                                             }
                                                         }
                                                     )

@@ -1,0 +1,74 @@
+package com.clash.market.ui.screens.leaguewardetail
+
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.clash.market.base.ResultState
+import com.clash.market.components.ClashChipLight
+import com.clash.market.components.ClashScrollableTabs
+import com.clash.market.components.ClashTab
+import com.clash.market.components.ResultStateLazyGrid
+import com.clash.market.components.clash.ClanCurrentWarInfo
+import com.clash.market.components.clash.ClashScaffold
+import com.clash.market.navigation.ScreenRouts
+
+@Composable
+fun LeagueWarDetailScreen(
+    viewModel: LeagueWarDetailViewModel,
+    onBackClick: () -> Unit
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    LeagueWarDetailContent(
+        uiState = uiState,
+        leagueWarDetail = viewModel.leagueWarDetailRoute,
+        onTabChange = { viewModel.fetchWarDetailByTag(viewModel.leagueWarDetailRoute.warTags.getOrNull(it).orEmpty()) },
+        onBackClick = onBackClick
+    )
+}
+
+@Composable
+private fun LeagueWarDetailContent(
+    uiState: LeagueWarDetailUiState,
+    leagueWarDetail: ScreenRouts.LeagueWarDetail,
+    onTabChange: (Int) -> Unit,
+    onBackClick: () -> Unit
+) {
+    ClashScaffold(
+        title = leagueWarDetail.title,
+        onBackClick = onBackClick,
+        topBarAction = {
+            ClashChipLight("Season: ${leagueWarDetail.season}", trailingIcon = null, onClick = {})
+        }
+    ) { innerPadding ->
+
+        var selectedTabIndex by remember { mutableStateOf(0) }
+        LaunchedEffect(selectedTabIndex) { onTabChange(selectedTabIndex)  }
+
+        ClashScrollableTabs(
+            modifier = Modifier.fillMaxWidth().padding(innerPadding),
+            tabs = leagueWarDetail.warTags.mapIndexed { index, string -> ClashTab(index, "Match ${index+1}", string) },
+            selectedTabIndex = selectedTabIndex,
+            onTabSelected = { selectedTabIndex = it.index }
+        ) {
+            ResultStateLazyGrid(
+                resultState = uiState.leagueWarDetailByTag.getOrPut(
+                    key = leagueWarDetail.warTags.getOrNull(selectedTabIndex).orEmpty(),
+                    defaultValue = { ResultState.Loading }
+                ),
+                idealContent = {}
+            ) {
+                item {
+                    ClanCurrentWarInfo(it)
+                }
+            }
+        }
+    }
+}
+

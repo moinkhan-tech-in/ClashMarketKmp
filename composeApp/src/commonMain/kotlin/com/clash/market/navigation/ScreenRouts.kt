@@ -45,4 +45,11 @@ sealed interface ScreenRouts {
 
     @Serializable
     data object EnterProfile: ScreenRouts
+
+    @Serializable
+    data class LeagueWarDetail(
+        val title: String,
+        val season: String,
+        val warTags: List<String>
+    ): ScreenRouts
 }
