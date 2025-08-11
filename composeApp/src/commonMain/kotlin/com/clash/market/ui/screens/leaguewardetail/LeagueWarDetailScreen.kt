@@ -14,10 +14,9 @@ import com.clash.market.base.ResultState
 import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ClashScrollableTabs
 import com.clash.market.components.ClashTab
-import com.clash.market.components.ResultStateLazyGrid
-import com.clash.market.components.clash.ClanCurrentWarInfo
 import com.clash.market.components.clash.ClashScaffold
 import com.clash.market.navigation.ScreenRouts
+import com.clash.market.ui.contents.wardetail.ClanWarDetailContent
 
 @Composable
 fun LeagueWarDetailScreen(
@@ -28,7 +27,13 @@ fun LeagueWarDetailScreen(
     LeagueWarDetailContent(
         uiState = uiState,
         leagueWarDetail = viewModel.leagueWarDetailRoute,
-        onTabChange = { viewModel.fetchWarDetailByTag(viewModel.leagueWarDetailRoute.warTags.getOrNull(it).orEmpty()) },
+        onTabChange = {
+            viewModel.fetchWarDetailByTag(
+                viewModel.leagueWarDetailRoute.warTags.getOrNull(
+                    it
+                ).orEmpty()
+            )
+        },
         onBackClick = onBackClick
     )
 }
@@ -43,31 +48,33 @@ private fun LeagueWarDetailContent(
     ClashScaffold(
         title = leagueWarDetail.title,
         onBackClick = onBackClick,
+        ignoreStatusBarAlphaChange = true,
         topBarAction = {
             ClashChipLight("Season: ${leagueWarDetail.season}", trailingIcon = null, onClick = {})
         }
     ) { innerPadding ->
 
         var selectedTabIndex by remember { mutableStateOf(0) }
-        LaunchedEffect(selectedTabIndex) { onTabChange(selectedTabIndex)  }
+        LaunchedEffect(selectedTabIndex) { onTabChange(selectedTabIndex) }
 
         ClashScrollableTabs(
-            modifier = Modifier.fillMaxWidth().padding(innerPadding),
-            tabs = leagueWarDetail.warTags.mapIndexed { index, string -> ClashTab(index, "Match ${index+1}", string) },
+            modifier = Modifier.fillMaxWidth().padding(top = innerPadding.calculateTopPadding()),
+            tabs = leagueWarDetail.warTags.mapIndexed { index, string ->
+                ClashTab(
+                    index,
+                    "Match ${index + 1}",
+                    string
+                )
+            },
             selectedTabIndex = selectedTabIndex,
             onTabSelected = { selectedTabIndex = it.index }
         ) {
-            ResultStateLazyGrid(
-                resultState = uiState.leagueWarDetailByTag.getOrPut(
+            ClanWarDetailContent(
+                warState = uiState.leagueWarDetailByTag.getOrPut(
                     key = leagueWarDetail.warTags.getOrNull(selectedTabIndex).orEmpty(),
                     defaultValue = { ResultState.Loading }
-                ),
-                idealContent = {}
-            ) {
-                item {
-                    ClanCurrentWarInfo(it)
-                }
-            }
+                )
+            )
         }
     }
 }

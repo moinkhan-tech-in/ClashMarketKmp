@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun StatRow(label: String, value: String, icon: Painter?) {
@@ -24,13 +23,13 @@ fun StatRow(label: String, value: String, icon: Painter?) {
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f), shape = RoundedCornerShape(8.dp))
             .clip(RoundedCornerShape(8.dp))
-            .padding(4.dp),
+            .padding(vertical = 4.dp, horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             color = MaterialTheme.colorScheme.onSurface,
             text = label,
-            fontSize = 14.sp
+            style = MaterialTheme.typography.bodySmall
         )
         icon?.let {
             Spacer(Modifier.width(4.dp))
@@ -44,7 +43,7 @@ fun StatRow(label: String, value: String, icon: Painter?) {
         Text(
             color = MaterialTheme.colorScheme.onSurface,
             text = ": $value",
-            fontSize = 14.sp
+            style = MaterialTheme.typography.bodySmall,
         )
     }
 }

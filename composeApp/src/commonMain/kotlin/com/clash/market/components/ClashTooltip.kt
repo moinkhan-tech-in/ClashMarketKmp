@@ -17,8 +17,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.clash.market.theme.ClashFont
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,8 +40,7 @@ fun ClashTooltipBox(
                 Text(
                     text = tooltipText,
                     color = Color.White,
-                    fontSize = 14.sp,
-                    fontFamily = ClashFont
+                    style = MaterialTheme.typography.labelSmall
                 )
             }
         },

@@ -16,7 +16,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.clash.market.theme.ClashFont
 import kotlinx.coroutines.launch
 
 data class ClashTab(
@@ -61,7 +60,6 @@ fun ClashTabRows(
                 text = {
                     Text(
                         tab.title,
-                        fontFamily = ClashFont,
                         color = if (isSelected) Color(0xFFFFD700) else Color.White
                     )
                 }

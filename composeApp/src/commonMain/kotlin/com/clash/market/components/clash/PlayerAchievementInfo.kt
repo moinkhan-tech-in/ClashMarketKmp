@@ -5,7 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,7 +15,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_star
 import com.clash.market.components.AutoColumnGrid
@@ -22,7 +22,6 @@ import com.clash.market.components.ClashCard
 import com.clash.market.components.ClashProgressBar
 import com.clash.market.models.Achievement
 import com.clash.market.models.FakeAchievement
-import com.clash.market.theme.ClashFont
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -53,22 +52,15 @@ private fun PlayerAchievementItem(achievement: Achievement) {
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(achievement.name, fontFamily = ClashFont)
+            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Bottom) {
+                Text(achievement.name, style = MaterialTheme.typography.bodyMedium)
                 achievement.completionInfo?.let {
-                    Text(
-                        it,
-                        fontFamily = ClashFont,
-                        fontSize = 12.sp
-                    )
+                    Text(text = it, style = MaterialTheme.typography.bodySmall)
                 }
             }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Image(
                     modifier = Modifier.size(20.dp),
@@ -77,7 +69,7 @@ private fun PlayerAchievementItem(achievement: Achievement) {
                 )
                 Text(
                     text = "${achievement.stars}/3",
-                    fontFamily = ClashFont
+                    style = MaterialTheme.typography.bodySmall
                 )
             }
         }

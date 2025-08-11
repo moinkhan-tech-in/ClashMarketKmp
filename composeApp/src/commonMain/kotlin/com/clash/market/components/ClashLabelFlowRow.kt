@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.clash.market.models.Label
-import com.clash.market.theme.ClashFont
 import com.clash.market.theme.LocalClashColors
 
 @Composable
@@ -31,7 +30,7 @@ fun ClashLabelFlowRow(
     modifier: Modifier = Modifier,
     list: List<Label>,
     showText: Boolean = false,
-    clashLabelSize: Dp = 40.dp
+    clashLabelSize: Dp = 36.dp
 ) {
     FlowRow(
         modifier = modifier,
@@ -72,7 +71,7 @@ fun ClashLabelItem(
                 contentDescription = item.name
             )
             if (showText) {
-                Text(item.name, fontFamily = ClashFont)
+                Text(item.name, style = MaterialTheme.typography.labelMedium)
             }
         }
         AnimatedVisibility(

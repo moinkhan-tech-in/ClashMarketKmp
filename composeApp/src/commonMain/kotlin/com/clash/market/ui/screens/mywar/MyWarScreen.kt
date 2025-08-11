@@ -10,13 +10,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_builder_sleeping
 import clashmarket.composeapp.generated.resources.ic_wall_breaker_barrel
 import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ClashLoadingIndicator
-import com.clash.market.components.clash.ClanCurrentWarInfo
+import com.clash.market.components.clash.ClanWarSummaryInfo
 import com.clash.market.components.clash.ClashMessageInfo
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.screens.home.HomeScreenScaffold
@@ -44,7 +45,8 @@ private fun MyWarContent(
 ) {
     val title = remember(uiState) {
         when (uiState) {
-            is MyWarUiState.LeagueWar -> "League War"
+            is MyWarUiState.LeagueWar -> "League War Details"
+            is MyWarUiState.StandardWar -> "War Details"
             is MyWarUiState.Loading -> ""
             else -> null
         }
@@ -65,9 +67,7 @@ private fun MyWarContent(
     ) { innerPadding ->
 
         Crossfade(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = innerPadding.calculateTopPadding()),
+            modifier = Modifier.fillMaxSize(),
             targetState = uiState
         ) {
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
@@ -78,6 +78,7 @@ private fun MyWarContent(
 
                     is MyWarUiState.LeagueWar -> {
                         MyWarLeagueWarContent(
+                            innerPaddingValues = innerPadding,
                             warLeagueGroupResponse = uiState.warLeagueGroupResponse,
                             onPlayerClick = { onNavigate(ScreenRouts.PlayerDetail(it)) },
                             onClanClick = { onNavigate(ScreenRouts.ClanDetail(it)) },
@@ -86,7 +87,7 @@ private fun MyWarContent(
                     }
 
                     MyWarUiState.Loading -> {
-                        ClashLoadingIndicator()
+                        ClashLoadingIndicator(modifier = Modifier.padding(top = innerPadding.calculateTopPadding() + 100.dp))
                     }
 
                     MyWarUiState.NoProfileLinked -> {
@@ -115,7 +116,7 @@ private fun MyWarContent(
                     }
 
                     is MyWarUiState.StandardWar -> {
-                        ClanCurrentWarInfo(uiState.warResult)
+                        ClanWarSummaryInfo(uiState.warResult)
                     }
                 }
             }

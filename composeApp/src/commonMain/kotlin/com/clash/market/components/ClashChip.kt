@@ -40,7 +40,7 @@ fun ClashChip(
         Text(
             text = text,
             color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodySmall
         )
         trailingImage?.let {
             Image(
@@ -74,7 +74,7 @@ fun ClashChipColumn(
         Text(
             text = text,
             color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.labelMedium
         )
         bottomImage?.let {
             Image(

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Group
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,7 +33,6 @@ import com.clash.market.models.ClanDetail
 import com.clash.market.models.FakeClanDetailItem
 import com.clash.market.models.FakePlayer
 import com.clash.market.models.Player
-import com.clash.market.theme.ClashFont
 import com.clash.market.theme.ClashTypography
 import com.clash.market.theme.LocalClashColors
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -48,13 +48,13 @@ fun TopPlayerItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Column {
                 Text(
                     modifier = Modifier.width(34.dp),
                     text = "#${player.rank.toString()}",
                     textAlign = TextAlign.Center,
-                    fontFamily = ClashFont,
                     maxLines = 1,
+                    style = MaterialTheme.typography.labelMedium,
                     autoSize = TextAutoSize.StepBased(
                         minFontSize = 10.sp,
                         maxFontSize = 16.sp
@@ -72,23 +72,24 @@ fun TopPlayerItem(
                     (player.rank ?: 0) > (player.previousRank ?: player.rank ?: 0) -> "${player.previousRank.toString()}"
                     else -> "${player.previousRank.toString()}"
                 }
+
                 Text(
                     text = rankText,
                     textAlign = TextAlign.Center,
-                    fontFamily = ClashFont,
                     maxLines = 1,
+                    style = MaterialTheme.typography.labelSmall,
                     color = textColor
                 )
             }
 
 
-            AsyncImage(model = player.league?.iconUrls?.medium, contentDescription = null, modifier = Modifier.size(44.dp))
+            AsyncImage(model = player.league?.iconUrls?.medium, contentDescription = null, modifier = Modifier.size(40.dp))
 
-            PlayerExp(player.expLevel.toString(), size = 44.dp, textSize = 16.sp)
+            PlayerExp(player.expLevel.toString(), size = 44.dp, textSize = 14.sp)
 
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(player.name, style = ClashTypography.bodyMedium)
-                Text(player.clan?.name.orEmpty(), style = ClashTypography.bodyMedium)
+                Text(player.name, style = MaterialTheme.typography.bodyMedium)
+                Text(player.clan?.name.orEmpty(), style = ClashTypography.bodySmall)
             }
 
             ClashChipColumn(topImage = Res.drawable.ic_trophy, text = "${player.trophies}")
@@ -111,7 +112,7 @@ fun TopBuilderBasePlayerItem(
                 modifier = Modifier.width(34.dp),
                 text = "#${player.rank.toString()}",
                 textAlign = TextAlign.Center,
-                fontFamily = ClashFont,
+                style = MaterialTheme.typography.labelMedium,
                 maxLines = 1,
                 autoSize = TextAutoSize.StepBased(
                     minFontSize = 10.sp,
@@ -148,7 +149,7 @@ fun TopClanItem(
                 modifier = Modifier.width(34.dp),
                 text = "#${clan.rank.toString()}",
                 textAlign = TextAlign.Center,
-                fontFamily = ClashFont,
+                style = MaterialTheme.typography.labelMedium,
                 maxLines = 1,
                 autoSize = TextAutoSize.StepBased(
                     minFontSize = 10.sp,
@@ -168,7 +169,7 @@ fun TopClanItem(
             ) {
                 Text(
                     text = clan.tag.orEmpty(),
-                    fontFamily = ClashFont,
+                    style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier.clickable {
                         copyToClipboard("Clan Tag", clan.tag.orEmpty())
                     }
@@ -205,7 +206,7 @@ fun TopBuilderBaseClanItem(
                 modifier = Modifier.width(34.dp),
                 text = "#${clan.rank.toString()}",
                 textAlign = TextAlign.Center,
-                fontFamily = ClashFont,
+                style = MaterialTheme.typography.labelMedium,
                 maxLines = 1,
                 autoSize = TextAutoSize.StepBased(
                     minFontSize = 10.sp,
@@ -225,7 +226,7 @@ fun TopBuilderBaseClanItem(
             ) {
                 Text(
                     text = clan.tag.orEmpty(),
-                    fontFamily = ClashFont,
+                    style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier.clickable {
                         copyToClipboard("Clan Tag", clan.tag.orEmpty())
                     }

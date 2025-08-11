@@ -21,6 +21,7 @@ import coil3.compose.AsyncImage
 import com.clash.market.components.AutoColumnGrid
 import com.clash.market.components.ClashCard
 import com.clash.market.components.ClashChip
+import com.clash.market.components.ClashTownHallImage
 import com.clash.market.models.Player
 
 enum class SortOption {
@@ -70,16 +71,14 @@ private fun ClanMemberItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
-            modifier = Modifier.size(56.dp),
+            modifier = Modifier.size(44.dp),
             model = member.league?.iconUrls?.small.orEmpty(),
             contentDescription = member.name
         )
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(member.name, style = MaterialTheme.typography.bodyLarge)
-            Text(member.role?.readableName.orEmpty(), style = MaterialTheme.typography.bodySmall)
+        ClashTownHallImage(modifier = Modifier.size(40.dp), member.townHallLevel)
+        Column(modifier = Modifier.weight(1f)) {
+            Text(member.name, style = MaterialTheme.typography.labelMedium)
+            Text(member.role?.readableName.orEmpty(), style = MaterialTheme.typography.labelSmall)
         }
         ClashChip(
             trailingImage = Res.drawable.ic_trophy,

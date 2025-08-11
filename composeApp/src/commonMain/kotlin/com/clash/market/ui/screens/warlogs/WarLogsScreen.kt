@@ -19,7 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.clash.market.base.ResultState
 import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ResultStateCrossFade
-import com.clash.market.components.clash.ClanCurrentWarInfo
+import com.clash.market.components.clash.ClanWarSummaryInfo
 import com.clash.market.components.clash.ClashScaffold
 import com.clash.market.models.dtos.CurrentWarResponse
 import com.clash.market.navigation.ScreenRouts
@@ -90,7 +90,7 @@ private fun WarLogsScreenContent(
                     )
                 ) {
                     items(result) { it ->
-                        ClanCurrentWarInfo(war = it)
+                        ClanWarSummaryInfo(war = it)
                     }
                 }
             }

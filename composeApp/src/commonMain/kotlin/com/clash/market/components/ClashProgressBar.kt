@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,11 +22,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.clash.market.theme.ClashFont
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -72,9 +71,8 @@ fun ClashProgressBar(
                 Text(
                     it,
                     color = Color.White,
-                    fontFamily = ClashFont,
                     fontSize = 12.sp,
-                    style = TextStyle.Default.copy(
+                    style = MaterialTheme.typography.bodyMedium.copy(
                         shadow = Shadow(color = Color.Black, blurRadius = 10f)
                     )
                 )

@@ -32,6 +32,7 @@ fun ClashScaffold(
     navigationIcon: DrawableResource? = Res.drawable.ic_back,
     topBarAction: @Composable RowScope.() -> Unit = {},
     onBackClick: (() -> Unit)? = null,
+    ignoreStatusBarAlphaChange: Boolean = false,
     content: @Composable (PaddingValues) -> Unit
 ) {
 
@@ -41,8 +42,10 @@ fun ClashScaffold(
         derivedStateOf { topBarScrollBehavior.state.collapsedFraction < 1f }
     }
 
-    val alpha by animateFloatAsState(if (isTopBarVisible) 1f else .5f)
-
+    val alpha by animateFloatAsState(
+        if (isTopBarVisible || ignoreStatusBarAlphaChange) 1f else .5f
+    )
+    
     Scaffold(
         modifier = Modifier
             .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Horizontal))

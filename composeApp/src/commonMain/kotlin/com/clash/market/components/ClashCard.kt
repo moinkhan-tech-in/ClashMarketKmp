@@ -48,12 +48,33 @@ fun ClashCard(
                             modifier = Modifier.weight(1f),
                             text = it,
                             color = Color(0xFF8B6508),
-                            style = MaterialTheme.typography.titleMedium
+                            style = MaterialTheme.typography.titleSmall
                         )
                     }
                     topEndContent?.let { it() }
                 }
             }
+            content()
+        }
+    }
+}
+
+
+@Composable
+fun ClashCardItem(
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Surface(
+        modifier = Modifier
+            .padding(4.dp)
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.primary.copy(alpha = .3f),
+                shape = RoundedCornerShape(10.dp)
+            ),
+        shape = RoundedCornerShape(10.dp)
+    ) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             content()
         }
     }

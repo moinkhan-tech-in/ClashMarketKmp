@@ -21,6 +21,7 @@ import com.clash.market.components.ClashChip
 import com.clash.market.components.ClashInfoRowCard
 import com.clash.market.components.ClashLabelFlowRow
 import com.clash.market.components.StatRow
+import com.clash.market.components.getTownHallImage
 import com.clash.market.models.Player
 import org.jetbrains.compose.resources.painterResource
 
@@ -39,19 +40,24 @@ fun PlayerInfo(
             )
         }
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 PlayerExp(player.expLevel.toString())
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Text(text = player.tag, color = MaterialTheme.colorScheme.onSurface)
+                Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
+                    Text(
+                        text = player.tag,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        style = MaterialTheme.typography.labelMedium
+                    )
                     player.role?.readableName?.let {
-                        Text(text = it, color = MaterialTheme.colorScheme.onSurface)
+                        Text(
+                            text = it,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.labelSmall
+                        )
                     }
                 }
                 ClashLabelFlowRow(list = player.labels)
@@ -65,7 +71,7 @@ fun PlayerInfo(
                 StatRow(
                     label = "TH",
                     value = player.townHallLevel.toString(),
-                    icon = null
+                    icon = painterResource(player.townHallLevel.getTownHallImage())
                 )
                 StatRow(
                     label = "War",
@@ -78,6 +84,7 @@ fun PlayerInfo(
                     icon = painterResource(Res.drawable.ic_trophy)
                 )
             }
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround,

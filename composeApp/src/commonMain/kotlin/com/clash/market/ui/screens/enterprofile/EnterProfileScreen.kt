@@ -45,7 +45,6 @@ import com.clash.market.models.Player
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.openClashLink
 import com.clash.market.openGameLink
-import com.clash.market.theme.ClashFont
 import com.clash.market.theme.LocalClashColors
 import com.clash.market.withHashPrefixField
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -102,8 +101,7 @@ private fun EnterProfileContent(
 
             Text(
                 text = "Drop Your Tag, Chief!",
-                fontSize = 18.sp,
-                fontFamily = ClashFont,
+                style = MaterialTheme.typography.titleMedium,
                 color = Color(0xFF3E2723) // Dark brown
             )
 
@@ -123,8 +121,7 @@ private fun EnterProfileContent(
                     is ResultState.Error -> {
                         Text(
                             text = "Uh-oh, Chief! That tag doesn't belong to any known village",
-                            fontSize = 16.sp,
-                            fontFamily = ClashFont,
+                            style = MaterialTheme.typography.titleSmall,
                             lineHeight = 18.sp,
                             color = LocalClashColors.current.clashNegative
                         )
@@ -144,7 +141,7 @@ private fun EnterProfileContent(
                         Text(
                             text = "You're in, Chief ${state.data.name}!",
                             fontSize = 16.sp,
-                            fontFamily = ClashFont,
+                            style = MaterialTheme.typography.titleMedium,
                             color = LocalClashColors.current.clashPositive
                         )
                     }

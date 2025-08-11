@@ -1,8 +1,10 @@
 package com.clash.market.models.dtos
 
+import com.clash.market.models.Attack
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.FakeClanDetailItem
 import com.clash.market.models.WarState
+import com.clash.market.utils.formatPercent
 import com.clash.market.utils.getTimeAgoLabel
 import com.clash.market.utils.getTimeRemainingLabel
 import com.clash.market.utils.parseWarTime
@@ -18,9 +20,43 @@ data class CurrentWarResponse(
     val preparationStartTime: String? = null,
     val attacksPerMember: Int? = null,
     val clan: ClanDetail,
-    val opponent: ClanDetail
+    val opponent: ClanDetail,
+
+    val nameByTags: HashMap<String, String> = hashMapOf(),
+    val clanMembersTag: HashSet<String> = hashSetOf(),
+    val opponentMembersTag: HashSet<String> = hashSetOf(),
+    val membersMapPosition: HashMap<String, Int?> = hashMapOf()
 ) {
 
+    init { populateNamesByTag() }
+
+    private fun populateNamesByTag() {
+        clan.members?.safeMembers().orEmpty()
+            .forEach {
+                nameByTags.put(it.tag, it.name)
+                clanMembersTag.add(it.tag)
+                membersMapPosition.put(it.tag, it.mapPosition)
+            }
+
+        opponent.members?.safeMembers().orEmpty()
+            .forEach {
+                nameByTags.put(it.tag, it.name)
+                opponentMembersTag.add(it.tag)
+                membersMapPosition.put(it.tag, it.mapPosition)
+            }
+    }
+
+    fun getAttackEvents(): List<Attack> {
+        val clanAttacks = clan.members?.safeMembers()
+            ?.map { it.attacks }
+            ?.flatten()
+
+        val opponentAttacks = opponent.members?.safeMembers()
+            ?.map { it.attacks }
+            ?.flatten()
+
+        return (clanAttacks.orEmpty() + opponentAttacks.orEmpty()).sortedByDescending { it.order }
+    }
 
     fun getPreparationTime(): String {
         val startTime = parseWarTime(startTime.orEmpty())
@@ -46,7 +82,7 @@ data class CurrentWarResponse(
                     Triple(
                         clan.destructionPercentage.toString(),
                         "Destruction",
-                        opponent.destructionPercentage.toString()
+                        opponent.destructionPercentage?.toDouble().formatPercent()
                     )
                 )
 

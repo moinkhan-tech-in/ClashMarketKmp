@@ -31,10 +31,10 @@ import org.koin.compose.viewmodel.koinViewModel
 
 val bottomNavItems = listOf(
     BottomNavItem(ScreenRouts.Dashboard, Icons.Default.Dashboard, null, null, "Home"),
-    BottomNavItem(ScreenRouts.MyClan, Icons.Default.Group, null, null, "My Clan"),
+    BottomNavItem(ScreenRouts.MyClan, Icons.Default.Group, null, null, "Clan"),
     BottomNavItem(ScreenRouts.Search, Icons.Default.Search, null, null, "Search"),
     BottomNavItem(ScreenRouts.Rankings, Icons.Default.Leaderboard, null, null, "Rankings"),
-    BottomNavItem(ScreenRouts.MyWar, Icons.Default.Security, null, null, "My War"),
+    BottomNavItem(ScreenRouts.MyWar, Icons.Default.Security, null, null, "War"),
 )
 
 @Composable

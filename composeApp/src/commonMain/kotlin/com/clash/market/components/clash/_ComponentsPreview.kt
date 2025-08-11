@@ -25,7 +25,7 @@ private fun ClanInfoPreview() {
 @Composable
 @Preview
 private fun ClanCurrentWarInfoPreview() {
-    ClanCurrentWarInfo(
+    ClanWarSummaryInfo(
         war = CurrentWarResponse(
             state = WarState.PREPARATION,
             teamSize = 15,

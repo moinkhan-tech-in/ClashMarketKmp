@@ -15,7 +15,10 @@ enum class WarState(val readableName: String) {
     IN_WAR("In War"),
 
     @SerialName("warEnded")
-    WAR_ENDED("War Ended");
+    WAR_ENDED("War Ended"),
+
+    @SerialName("ended")
+    ENDED("War Ended");
 
     override fun toString(): String = readableName
 }

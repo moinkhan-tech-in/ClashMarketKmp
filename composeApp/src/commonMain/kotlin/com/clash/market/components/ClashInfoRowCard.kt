@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -96,16 +95,12 @@ private fun InfoRow(
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.bodySmall.copy(
-                shadow = Shadow(color = Color.Black, blurRadius = 1f)
-            ),
+            style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurface
         )
         Text(
             text = value,
-            style = MaterialTheme.typography.bodySmall.copy(
-                shadow = Shadow(color = Color.Black, blurRadius = 1f)
-            ),
+            style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurface
         )
     }
@@ -121,23 +116,17 @@ fun TripleInfoRow(
     ) {
         Text(
             text = triple.first,
-            style = MaterialTheme.typography.bodySmall.copy(
-                shadow = Shadow(color = Color.Black, blurRadius = 1f)
-            ),
+            style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurface
         )
         Text(
             text = triple.second,
-            style = MaterialTheme.typography.bodySmall.copy(
-                shadow = Shadow(color = Color.Black, blurRadius = 1f)
-            ),
+            style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurface
         )
         Text(
             text = triple.third,
-            style = MaterialTheme.typography.bodySmall.copy(
-                shadow = Shadow(color = Color.Black, blurRadius = 1f)
-            ),
+            style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurface
         )
     }

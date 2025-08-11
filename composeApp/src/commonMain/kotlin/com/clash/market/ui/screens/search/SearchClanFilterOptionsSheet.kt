@@ -16,6 +16,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -262,7 +263,7 @@ private fun SearchClanFilterOptionsSheetTopBar(
                 onClick = onReset,
                 type = ClashStyleButtonType.Negative
             )
-            Text(text = "Search Options")
+            Text(text = "Search Options", modifier = Modifier.padding(horizontal = 8.dp), style = MaterialTheme.typography.labelMedium)
             ClashGlossyButton(
                 text = "Apply",
                 onClick = onFilter,

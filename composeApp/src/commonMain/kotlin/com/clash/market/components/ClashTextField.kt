@@ -14,11 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.clash.market.theme.ClashFont
 
 @Composable
 fun ClashTextField(
@@ -41,7 +38,9 @@ fun ClashTextField(
             Text(
                 text = hint,
                 color = Color.Gray,
-                fontFamily = ClashFont
+                style = MaterialTheme.typography.labelLarge.copy(
+                    color = Color.Gray
+                )
             )
         },
         leadingIcon = leadingIconComposable,
@@ -54,10 +53,8 @@ fun ClashTextField(
                 color = MaterialTheme.colorScheme.primary.copy(alpha = .5f),
                 shape = RoundedCornerShape(12.dp)
             ),
-        textStyle = TextStyle(
-            color = Color.Black,
-            fontSize = 16.sp,
-            fontFamily = ClashFont
+        textStyle = MaterialTheme.typography.labelLarge.copy(
+            color = Color.Black
         ),
         singleLine = true,
         colors = TextFieldDefaults.colors(
@@ -88,7 +85,9 @@ fun ClashTextFieldValue(
             Text(
                 text = hint,
                 color = Color.Gray,
-                fontFamily = ClashFont
+                style = MaterialTheme.typography.labelLarge.copy(
+                    color = Color.Gray
+                )
             )
         },
         leadingIcon = leadingIconComposable,
@@ -101,10 +100,8 @@ fun ClashTextFieldValue(
                 color = MaterialTheme.colorScheme.primary.copy(alpha = .5f),
                 shape = RoundedCornerShape(12.dp)
             ),
-        textStyle = TextStyle(
-            color = Color.Black,
-            fontSize = 16.sp,
-            fontFamily = ClashFont
+        textStyle = MaterialTheme.typography.labelLarge.copy(
+            color = Color.Black
         ),
         singleLine = true,
         colors = TextFieldDefaults.colors(

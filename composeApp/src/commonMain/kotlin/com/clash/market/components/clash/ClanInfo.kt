@@ -32,15 +32,20 @@ internal fun ClanInfo(clan: ClanDetail) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
                 model = clan.badgeUrls?.medium,
-                modifier = Modifier.size(56.dp),
+                modifier = Modifier.size(48.dp),
                 contentDescription = clan.name
             )
-            Column(
-                modifier = Modifier.weight(1f).padding(12.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(text = clan.name.orEmpty(), color = MaterialTheme.colorScheme.onSurface)
-                Text(text = clan.tag.orEmpty(), color = MaterialTheme.colorScheme.onSurface)
+            Column(modifier = Modifier.weight(1f).padding(horizontal = 12.dp)) {
+                Text(
+                    text = clan.name.orEmpty(),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = clan.tag.orEmpty(),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.bodySmall
+                )
             }
 
             if (clan.labels.orEmpty().isNotEmpty()) {

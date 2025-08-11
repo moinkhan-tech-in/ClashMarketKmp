@@ -21,8 +21,8 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun PlayerExp(
     exp: String,
-    size: Dp = 56.dp,
-    textSize: TextUnit = 20.sp
+    size: Dp = 44.dp,
+    textSize: TextUnit = 16.sp
 ) {
     Box(contentAlignment = Alignment.Center) {
         Image(

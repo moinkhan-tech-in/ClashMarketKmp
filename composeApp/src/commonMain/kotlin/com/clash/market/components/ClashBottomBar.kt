@@ -17,9 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.clash.market.navigation.ScreenRouts
-import com.clash.market.theme.ClashFont
 import com.clash.market.theme.LocalClashColors
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -79,9 +77,7 @@ fun ClashBottomBar(
                         Text(
                             modifier = Modifier.padding(vertical = 2.dp),
                             text = item.label,
-                            fontSize = 13.sp,
                             color = if (selected) Color(0xFFFFD700) else Color.White.copy(alpha = .8f),
-                            fontFamily = ClashFont,
                             fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
                         )
                     }
