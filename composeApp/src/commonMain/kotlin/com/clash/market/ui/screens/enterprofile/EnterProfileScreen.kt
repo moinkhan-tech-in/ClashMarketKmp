@@ -191,7 +191,7 @@ private fun EnterProfileContent(
                     Spacer(Modifier.size(8.dp))
                     Text(
                         text = "Drop your tag once, Chief! We’ll keep your stats ready every time you return.",
-                        lineHeight = 18.sp
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 }
             }
