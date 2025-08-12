@@ -45,6 +45,7 @@ import clashmarket.composeapp.generated.resources.ic_star
 import clashmarket.composeapp.generated.resources.ic_sward
 import clashmarket.composeapp.generated.resources.ic_wall_breaker_barrel
 import coil3.compose.AsyncImage
+import com.clash.market.ClashTheme
 import com.clash.market.components.AnimatedTimeText
 import com.clash.market.components.ClashAttackStars
 import com.clash.market.components.ClashCard
@@ -53,6 +54,7 @@ import com.clash.market.components.ClashChip
 import com.clash.market.components.ClashTripleInfoRowCard
 import com.clash.market.models.Attack
 import com.clash.market.models.ClanDetail
+import com.clash.market.models.FakeClanDetailItem
 import com.clash.market.models.WarState
 import com.clash.market.models.dtos.CurrentWarResponse
 import com.clash.market.theme.LocalClashColors
@@ -62,6 +64,7 @@ import com.clash.market.utils.ArrowSide
 import com.clash.market.utils.calloutRectWithArrow
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun ClanWarSummaryInfo(
@@ -197,23 +200,34 @@ private fun AttackEventBodyItem(
                     Row(
                         modifier = Modifier
                             .graphicsLayer { clip = false }
-                            .fillMaxWidth(.65f)
+                            .fillMaxWidth(.60f)
                             .background(
                                 MaterialTheme.colorScheme.primary.copy(alpha = .1f),
                                 shape = calloutRectWithArrow(
                                     arrowSide = arrowSide,
-                                    arrowHeight = 64.dp
+                                    arrowHeight = 64.dp,
+                                    arrowWidth = 14.dp
                                 )
                             )
-                            .padding(end = 8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                            .padding(horizontal = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        Image(
+                            modifier = Modifier.size(30.dp).graphicsLayer {
+                                if (isOpponentAttack) {
+                                    rotationY = 180f
+                                }
+                            },
+                            painter = painterResource(Res.drawable.ic_sward),
+                            contentDescription = null
+                        )
                         Text(
-                            modifier = Modifier.weight(1f).padding(12.dp),
+                            modifier = Modifier.weight(1f),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             text = "${membersMapPosition[attack.attackerTag]}. ${nameByTags[attack.attackerTag].orEmpty()}",
+                            textAlign = if (isOpponentAttack) TextAlign.End else TextAlign.Start,
                             style = MaterialTheme.typography.labelMedium.copy(
                                 textDirection = TextDirection.Ltr
                             )
@@ -231,8 +245,8 @@ private fun AttackEventBodyItem(
                     }
 
                     Text(
-                        modifier = Modifier.padding(end = 12.dp).fillMaxWidth(),
-                        textAlign = TextAlign.End,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = if (isOpponentAttack) TextAlign.Start else TextAlign.End,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.labelMedium.copy(
@@ -241,9 +255,7 @@ private fun AttackEventBodyItem(
                         text = "${membersMapPosition[attack.defenderTag]}. ${nameByTags[attack.defenderTag].orEmpty()}"
                     )
                 }
-
             }
-
         }
     }
 }
@@ -262,14 +274,15 @@ private fun AttackEventSequenceItem(number: Int?, content: @Composable () -> Uni
                     modifier = Modifier
                         .align(Alignment.Center) // ⬅️ important
                         .fillMaxHeight()
-                        .width(1.dp)
+                        .width(2.dp),
+                    color = MaterialTheme.colorScheme.primary
                 )
                 // Number bubble (true centered text)
                 Box(
                     modifier = Modifier
                         .size(32.dp)
                         .background(
-                            color = MaterialTheme.colorScheme.primary.copy(alpha = .8f),
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = .9f),
                             shape = RoundedCornerShape(12.dp)
                         ),
                     contentAlignment = Alignment.Center
@@ -393,5 +406,19 @@ private fun ClanCard(
                 ClashChip(text = clan.stars.toString(), trailingImage = Res.drawable.ic_star)
             }
         }
+    }
+}
+
+@Composable
+@Preview
+private fun ClanWarSummaryInfoPreview() {
+    ClashTheme {
+        ClanWarSummaryInfo(
+            war = CurrentWarResponse(
+                state = WarState.IN_WAR,
+                clan = FakeClanDetailItem,
+                opponent = FakeClanDetailItem
+            )
+        )
     }
 }

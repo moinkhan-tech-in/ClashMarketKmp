@@ -4,10 +4,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +35,7 @@ import com.clash.market.models.FakePlayer
 import com.clash.market.models.Player
 import com.clash.market.theme.ClashTypography
 import com.clash.market.theme.LocalClashColors
+import com.clash.market.utils.glowingBorder
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -42,54 +43,25 @@ fun TopPlayerItem(
     player: Player,
     onClick: () -> Unit
 ) {
-    ClashCard(onClick = onClick) {
+
+    ClashCard(
+        modifier = getGlowingBorderModifier(player.rank),
+        onClick = onClick
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Column {
-                Text(
-                    modifier = Modifier.width(34.dp),
-                    text = "#${player.rank.toString()}",
-                    textAlign = TextAlign.Center,
-                    maxLines = 1,
-                    style = MaterialTheme.typography.labelMedium,
-                    autoSize = TextAutoSize.StepBased(
-                        minFontSize = 10.sp,
-                        maxFontSize = 16.sp
-                    )
-                )
-
-                val textColor = when {
-                    (player.rank ?: 0) < (player.previousRank ?: player.rank ?: 0) -> LocalClashColors.current.clashPositive
-                    (player.rank ?: 0) > (player.previousRank ?: player.rank ?: 0) -> LocalClashColors.current.clashNegative
-                    else -> Color.Black
-                }
-
-                val rankText = when {
-                    (player.rank ?: 0) < (player.previousRank ?: player.rank ?: 0) -> "${player.previousRank.toString()}"
-                    (player.rank ?: 0) > (player.previousRank ?: player.rank ?: 0) -> "${player.previousRank.toString()}"
-                    else -> "${player.previousRank.toString()}"
-                }
-
-                Text(
-                    text = rankText,
-                    textAlign = TextAlign.Center,
-                    maxLines = 1,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = textColor
-                )
-            }
-
+            RankLabel(player.rank, player.previousRank)
 
             AsyncImage(model = player.league?.iconUrls?.medium, contentDescription = null, modifier = Modifier.size(40.dp))
 
-            PlayerExp(player.expLevel.toString(), size = 44.dp, textSize = 14.sp)
+            PlayerExp(player.expLevel.toString(), size = 40.dp, textSize = 14.sp)
 
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(player.name, style = MaterialTheme.typography.bodyMedium)
-                Text(player.clan?.name.orEmpty(), style = ClashTypography.bodySmall)
+                Text(player.name, style = MaterialTheme.typography.labelMedium)
+                Text(player.clan?.name.orEmpty(), style = ClashTypography.labelSmall)
             }
 
             ClashChipColumn(topImage = Res.drawable.ic_trophy, text = "${player.trophies}")
@@ -102,28 +74,19 @@ fun TopBuilderBasePlayerItem(
     player: Player,
     onClick: () -> Unit
 ) {
-    ClashCard(onClick = onClick) {
+    ClashCard(modifier = getGlowingBorderModifier(player.rank)) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(
-                modifier = Modifier.width(34.dp),
-                text = "#${player.rank.toString()}",
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.labelMedium,
-                maxLines = 1,
-                autoSize = TextAutoSize.StepBased(
-                    minFontSize = 10.sp,
-                    maxFontSize = 18.sp
-                )
-            )
+            RankLabel(player.rank, player.previousRank)
+
             AsyncImage(model = player.league?.iconUrls?.medium, contentDescription = null, modifier = Modifier.size(44.dp))
 
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(player.name, style = ClashTypography.bodyMedium)
-                Text(player.clan?.name.orEmpty(), style = ClashTypography.bodyMedium)
+                Text(player.name, style = ClashTypography.labelMedium)
+                Text(player.clan?.name.orEmpty(), style = ClashTypography.labelSmall)
             }
 
             ClashChipColumn(topImage = Res.drawable.ic_bb_Trophy, text = "${player.builderBaseTrophies}")
@@ -137,7 +100,7 @@ fun TopClanItem(
     onClick: () -> Unit
 ) {
     ClashCard(
-        title = "${clan.name} (Lv. ${clan.clanLevel})",
+        modifier = getGlowingBorderModifier(clan.rank),
         onClick = onClick
     ) {
         Row(
@@ -145,45 +108,19 @@ fun TopClanItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(
-                modifier = Modifier.width(34.dp),
-                text = "#${clan.rank.toString()}",
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.labelMedium,
-                maxLines = 1,
-                autoSize = TextAutoSize.StepBased(
-                    minFontSize = 10.sp,
-                    maxFontSize = 18.sp
-                )
-            )
-
-            AsyncImage(
-                modifier = Modifier.size(52.dp),
-                model = clan.badgeUrls?.medium.orEmpty(),
-                contentDescription = null
-            )
-
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(2.dp)
-            ) {
-                Text(
-                    text = clan.tag.orEmpty(),
-                    style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.clickable {
-                        copyToClipboard("Clan Tag", clan.tag.orEmpty())
-                    }
-                )
-                ClashTooltipBox(tooltipText = "Total Members") {
-                    ClashLabel(
-                        leadingImage = Icons.Default.Group,
-                        label = "${clan.getMemberCount()}/50"
-                    )
-                }
-            }
-
+            ClanDetailSection(clan)
             ClashChipColumn(topImage = Res.drawable.ic_trophy, text = "${clan.clanPoints}")
         }
+    }
+}
+
+@Composable
+private fun getGlowingBorderModifier(rank: Int?): Modifier {
+    return when (rank) {
+        1 -> Modifier.glowingBorder(color = LocalClashColors.current.ClashGold)
+        2 -> Modifier.glowingBorder(color = LocalClashColors.current.ClashSilver)
+        3 -> Modifier.glowingBorder(color = LocalClashColors.current.ClashBronze)
+        else -> Modifier
     }
 }
 
@@ -194,7 +131,7 @@ fun TopBuilderBaseClanItem(
     onClick: () -> Unit
 ) {
     ClashCard(
-        title = "${clan.name} (Lv. ${clan.clanLevel})",
+        modifier = getGlowingBorderModifier(clan.rank),
         onClick = onClick
     ) {
         Row(
@@ -202,45 +139,79 @@ fun TopBuilderBaseClanItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(
-                modifier = Modifier.width(34.dp),
-                text = "#${clan.rank.toString()}",
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.labelMedium,
-                maxLines = 1,
-                autoSize = TextAutoSize.StepBased(
-                    minFontSize = 10.sp,
-                    maxFontSize = 18.sp
-                )
-            )
-
-            AsyncImage(
-                modifier = Modifier.size(52.dp),
-                model = clan.badgeUrls?.medium.orEmpty(),
-                contentDescription = null
-            )
-
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                Text(
-                    text = clan.tag.orEmpty(),
-                    style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.clickable {
-                        copyToClipboard("Clan Tag", clan.tag.orEmpty())
-                    }
-                )
-                ClashTooltipBox(tooltipText = "Total Members") {
-                    ClashLabel(
-                        leadingImage = Icons.Default.Group,
-                        label = "${clan.getMemberCount()}/50"
-                    )
-                }
-            }
-
+            ClanDetailSection(clan)
             ClashChipColumn(topImage = Res.drawable.ic_bb_Trophy, text = "${clan.clanBuilderBasePoints}")
         }
+    }
+}
+
+@Composable
+private fun RowScope.ClanDetailSection(clan: ClanDetail) {
+
+    RankLabel(clan.rank, clan.previousRank)
+
+    AsyncImage(
+        modifier = Modifier.size(52.dp),
+        model = clan.badgeUrls?.medium.orEmpty(),
+        contentDescription = null
+    )
+
+    Column(
+        modifier = Modifier.weight(1f),
+        verticalArrangement = Arrangement.spacedBy(2.dp)
+    ) {
+        Text(
+            text = "${clan.name} (Lv. ${clan.clanLevel})",
+            style = MaterialTheme.typography.labelMedium
+        )
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
+            ClashTooltipBox(tooltipText = "Total Members") {
+                ClashLabel(
+                    leadingImage = Icons.Default.Group,
+                    label = clan.getMemberCount().toString()
+                )
+            }
+            Text(
+                text = clan.tag.orEmpty(),
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier.clickable {
+                    copyToClipboard("Clan Tag", clan.tag.orEmpty())
+                }
+            )
+        }
+    }
+}
+
+@Composable
+fun RankLabel(rank: Int?, previousRank: Int?) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            modifier = Modifier.width(34.dp),
+            text = "#${rank.toString()}",
+            textAlign = TextAlign.Center,
+            maxLines = 1,
+            style = MaterialTheme.typography.labelLarge
+        )
+
+        val textColor = when {
+            (rank ?: 0) < (previousRank ?: rank ?: 0) -> LocalClashColors.current.clashPositive
+            (rank ?: 0) > (previousRank ?: rank ?: 0) -> LocalClashColors.current.clashNegative
+            else -> Color.Black
+        }
+
+        val rankText = when {
+            (rank ?: 0) < (previousRank ?: rank ?: 0) -> "${previousRank.toString()}"
+            (rank ?: 0) > (previousRank ?: rank ?: 0) -> "${previousRank.toString()}"
+            else -> "${previousRank.toString()}"
+        }
+
+        Text(
+            text = rankText,
+            textAlign = TextAlign.Center,
+            maxLines = 1,
+            style = MaterialTheme.typography.labelSmall,
+            color = textColor
+        )
     }
 }
 
@@ -249,8 +220,8 @@ fun TopBuilderBaseClanItem(
 fun TopPlayerItemPreview() {
     ClashTheme {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            TopPlayerItem(FakePlayer, onClick = {})
-            TopBuilderBasePlayerItem(FakePlayer, onClick = {})
+            TopPlayerItem(FakePlayer.copy(rank = 100), onClick = {})
+            TopBuilderBasePlayerItem(FakePlayer.copy(previousRank = 10), onClick = {})
             TopClanItem(FakeClanDetailItem, onClick = {})
             TopBuilderBaseClanItem(FakeClanDetailItem, onClick = {})
         }

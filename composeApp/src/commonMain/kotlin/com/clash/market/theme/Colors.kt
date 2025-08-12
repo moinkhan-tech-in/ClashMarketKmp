@@ -27,7 +27,10 @@ val ClashDarkColors = darkColorScheme(
 data class ClashColors(
     val clashNegative: Color = Color(0xFFB71C1C),
     val clashPositive: Color = Color(0xFF388E3C),
-    val clashStone: Color = Color(0xFFDFD4C2)
+    val clashStone: Color = Color(0xFFDFD4C2),
+    val ClashGold: Color = Color(0xFFFFD700), // bright yellow-gold
+    val ClashSilver: Color = Color(0xFFC0C0C0), // light silver-gray
+    val ClashBronze: Color = Color(0xFFCD7F32) // warm bronze
 )
 
 val LocalClashColors = staticCompositionLocalOf { ClashColors() }

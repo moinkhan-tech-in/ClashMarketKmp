@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import clashmarket.composeapp.generated.resources.Res
+import clashmarket.composeapp.generated.resources.ic_shield
 import clashmarket.composeapp.generated.resources.ic_star
 import clashmarket.composeapp.generated.resources.ic_sward
 import clashmarket.composeapp.generated.resources.ic_trophy
@@ -98,7 +99,7 @@ fun PlayerInfo(
                 StatRow(
                     label = "Defences",
                     value = player.defenseWins.toString(),
-                    icon = painterResource(Res.drawable.ic_sward)
+                    icon = painterResource(Res.drawable.ic_shield)
                 )
             }
 
