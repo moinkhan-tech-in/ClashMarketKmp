@@ -202,8 +202,7 @@ private fun AttackEventBodyItem(
                                 MaterialTheme.colorScheme.primary.copy(alpha = .1f),
                                 shape = calloutRectWithArrow(
                                     arrowSide = arrowSide,
-                                    arrowHeight = 64.dp,
-                                    arrowWidth = 30.dp
+                                    arrowHeight = 64.dp
                                 )
                             )
                             .padding(end = 8.dp),
