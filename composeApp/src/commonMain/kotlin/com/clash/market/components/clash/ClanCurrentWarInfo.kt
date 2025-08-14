@@ -39,7 +39,6 @@ import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_star
 import clashmarket.composeapp.generated.resources.ic_sward
@@ -100,7 +99,7 @@ internal fun ClanWarSummaryInfo(
                     Text(
                         textAlign = TextAlign.Center,
                         text = "Your clan hasn’t entered the war zone… for now.",
-                        lineHeight = 18.sp
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 }
             }
@@ -116,20 +115,21 @@ internal fun ClanWarSummaryInfo(
 
 @Composable
 internal fun ClanWarAttacksInfo(
+    modifier: Modifier = Modifier,
+    title: String? = null,
     attacks: List<Attack>,
     nameByTags: HashMap<String, String>,
     clanTags: HashSet<String>,
     opponentTags: HashSet<String>,
     membersMapPosition: HashMap<String, Int?>
 ) {
-    Column(
-        modifier = Modifier.padding(start = 8.dp)
-    ) {
-        Text(
-            modifier = Modifier.padding(top = 28.dp),
-            text = "Attack Events",
-            style = MaterialTheme.typography.titleMedium
-        )
+    Column(modifier = modifier) {
+        title?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.titleMedium
+            )
+        }
         AttackEventSequenceItem(null) {
             Text(
                 text = "War End",
@@ -245,7 +245,7 @@ private fun AttackEventBodyItem(
                     }
 
                     Text(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.padding(end = 8.dp).fillMaxWidth(),
                         textAlign = if (isOpponentAttack) TextAlign.Start else TextAlign.End,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -280,7 +280,7 @@ private fun AttackEventSequenceItem(number: Int?, content: @Composable () -> Uni
                 // Number bubble (true centered text)
                 Box(
                     modifier = Modifier
-                        .size(32.dp)
+                        .size(28.dp)
                         .background(
                             color = MaterialTheme.colorScheme.primary.copy(alpha = .9f),
                             shape = RoundedCornerShape(12.dp)
@@ -288,7 +288,7 @@ private fun AttackEventSequenceItem(number: Int?, content: @Composable () -> Uni
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        style = MaterialTheme.typography.labelLarge,
+                        style = MaterialTheme.typography.labelMedium,
                         text = if (number > 0) number.toString() else "",
                         textAlign = TextAlign.Center,
                         color = Color.White
