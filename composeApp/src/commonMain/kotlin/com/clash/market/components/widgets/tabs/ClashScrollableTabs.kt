@@ -1,18 +1,18 @@
-package com.clash.market.components
+package com.clash.market.components.widgets.tabs
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -29,18 +29,18 @@ fun ClashScrollableTabs(
     val pagerState = rememberPagerState(pageCount = { tabs.size })
 
     Column(modifier.fillMaxSize()) {
-        ScrollableTabRow(
+        PrimaryScrollableTabRow(
             selectedTabIndex = selectedTabIndex,
             edgePadding = 8.dp,
             containerColor = Color(0xFF2C2C2C), // Dark brown background
             contentColor = Color(0xFFFFD700),   // Clash gold
-            indicator = { tabPositions ->
+            indicator = {
                 TabRowDefaults.PrimaryIndicator(
-                    color = Color(0xFFFFD700),
+                    Modifier
+                        .tabIndicatorOffset(selectedTabIndex, matchContentSize = false)
+                        .clip(RoundedCornerShape(8.dp)),
                     height = 6.dp,
-                    modifier = Modifier
-                        .tabIndicatorOffset(tabPositions[selectedTabIndex])
-                        .height(6.dp)
+                    color = Color(0xFFFFD700)
                 )
             }
         ) {

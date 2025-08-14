@@ -19,7 +19,7 @@ import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_star
 import com.clash.market.components.AutoColumnGrid
 import com.clash.market.components.ClashCard
-import com.clash.market.components.ClashProgressBar
+import com.clash.market.components.widgets.ClashProgressBar
 import com.clash.market.models.Achievement
 import com.clash.market.models.FakeAchievement
 import org.jetbrains.compose.resources.painterResource

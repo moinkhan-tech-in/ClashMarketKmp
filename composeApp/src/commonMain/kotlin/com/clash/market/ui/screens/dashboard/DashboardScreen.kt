@@ -109,10 +109,7 @@ private fun PlayerInfoStateUi(player: ResultState<Player>) {
         resultState = player,
         idealContent = {}
     ) {
-        PlayerInfo(
-            player = it,
-            onEdit = {}
-        )
+        PlayerInfo(player = it)
     }
 }
 

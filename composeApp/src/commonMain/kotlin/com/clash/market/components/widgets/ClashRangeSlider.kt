@@ -1,4 +1,4 @@
-package com.clash.market.components
+package com.clash.market.components.widgets
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RangeSlider

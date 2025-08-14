@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.clash.market.components.ClashGlossyButton
 import com.clash.market.components.ClashStyleButtonType
-import com.clash.market.components.ClashTextField
+import com.clash.market.components.widgets.ClashTextField
 
 @Composable
 fun SingleInputDialog(

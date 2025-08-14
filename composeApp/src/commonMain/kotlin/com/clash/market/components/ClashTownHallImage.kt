@@ -25,7 +25,7 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun ClashTownHallImage(modifier: Modifier, townHall: Int?) {
+fun ClashTownHallImage(modifier: Modifier = Modifier, townHall: Int?) {
     Image(
         modifier = modifier,
         painter = painterResource(townHall.getTownHallImage()),

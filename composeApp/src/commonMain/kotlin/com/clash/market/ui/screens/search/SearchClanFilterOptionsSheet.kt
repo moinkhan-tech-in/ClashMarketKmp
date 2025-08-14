@@ -41,10 +41,10 @@ import com.clash.market.components.AutoColumnGrid
 import com.clash.market.components.ClashGlossyButton
 import com.clash.market.components.ClashLabelItem
 import com.clash.market.components.ClashPicker
-import com.clash.market.components.ClashRangeSlider
-import com.clash.market.components.ClashSlider
 import com.clash.market.components.ClashStyleButtonType
 import com.clash.market.components.clash.ClashLocationsList
+import com.clash.market.components.widgets.ClashRangeSlider
+import com.clash.market.components.widgets.ClashSlider
 import com.clash.market.models.Label
 import com.clash.market.models.Location
 import com.clash.market.models.WarFrequency

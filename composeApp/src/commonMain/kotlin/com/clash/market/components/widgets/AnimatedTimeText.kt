@@ -1,4 +1,4 @@
-package com.clash.market.components
+package com.clash.market.components.widgets
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.EnterTransition

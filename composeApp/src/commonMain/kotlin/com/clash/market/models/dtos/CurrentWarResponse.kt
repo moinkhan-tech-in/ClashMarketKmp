@@ -80,7 +80,7 @@ data class CurrentWarResponse(
             clan.destructionPercentage?.let {
                 add(
                     Triple(
-                        clan.destructionPercentage.toString(),
+                        clan.destructionPercentage.toDouble().formatPercent(),
                         "Destruction",
                         opponent.destructionPercentage?.toDouble().formatPercent()
                     )

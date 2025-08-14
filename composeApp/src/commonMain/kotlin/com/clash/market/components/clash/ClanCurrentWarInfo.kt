@@ -45,12 +45,12 @@ import clashmarket.composeapp.generated.resources.ic_sward
 import clashmarket.composeapp.generated.resources.ic_wall_breaker_barrel
 import coil3.compose.AsyncImage
 import com.clash.market.ClashTheme
-import com.clash.market.components.AnimatedTimeText
-import com.clash.market.components.ClashAttackStars
 import com.clash.market.components.ClashCard
 import com.clash.market.components.ClashCardItem
 import com.clash.market.components.ClashChip
 import com.clash.market.components.ClashTripleInfoRowCard
+import com.clash.market.components.widgets.AnimatedTimeText
+import com.clash.market.components.widgets.ClashAttackStars
 import com.clash.market.models.Attack
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.FakeClanDetailItem

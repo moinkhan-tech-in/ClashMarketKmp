@@ -1,4 +1,4 @@
-package com.clash.market.components
+package com.clash.market.components.widgets
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth

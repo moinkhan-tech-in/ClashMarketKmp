@@ -29,8 +29,7 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun PlayerInfo(
     player: Player,
-    showClanInfo: Boolean = false,
-    onEdit: () -> Unit = {}
+    showClanInfo: Boolean = false
 ) {
     ClashCard(
         title = "Player - ${player.name}",

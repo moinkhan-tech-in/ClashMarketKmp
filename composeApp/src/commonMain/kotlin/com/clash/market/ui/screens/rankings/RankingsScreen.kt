@@ -16,14 +16,14 @@ import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_chevron_down
 import com.clash.market.base.ResultState
 import com.clash.market.components.ClashChipLight
-import com.clash.market.components.ClashScrollableTabs
-import com.clash.market.components.ClashTab
 import com.clash.market.components.ResultStateLazyGrid
 import com.clash.market.components.clash.ClashLocationsSheet
 import com.clash.market.components.clash.TopBuilderBaseClanItem
 import com.clash.market.components.clash.TopBuilderBasePlayerItem
 import com.clash.market.components.clash.TopClanItem
 import com.clash.market.components.clash.TopPlayerItem
+import com.clash.market.components.widgets.tabs.ClashScrollableTabs
+import com.clash.market.components.widgets.tabs.ClashTab
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.screens.home.HomeScreenScaffold
 import org.koin.compose.viewmodel.koinViewModel

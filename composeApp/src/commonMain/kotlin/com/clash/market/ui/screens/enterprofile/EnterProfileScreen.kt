@@ -38,9 +38,9 @@ import com.clash.market.base.ResultState
 import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ClashGlossyButton
 import com.clash.market.components.ClashStyleButtonType
-import com.clash.market.components.ClashTextFieldValue
 import com.clash.market.components.clash.ClashScaffold
 import com.clash.market.components.clash.PlayerInfo
+import com.clash.market.components.widgets.ClashTextFieldValue
 import com.clash.market.models.Player
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.openClashLink

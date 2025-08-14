@@ -1,15 +1,13 @@
-package com.clash.market.components
+package com.clash.market.components.widgets.tabs
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -32,18 +30,16 @@ fun ClashTabRows(
     onTabSelected: (ClashTab) -> Unit = {}
 ) {
     val coroutineScope = rememberCoroutineScope()
-    TabRow(
+    PrimaryTabRow(
         selectedTabIndex = selectedTabIndex,
         containerColor = Color(0xFF2C2C2C), // Dark brown background
         contentColor = Color(0xFFFFD700),   // Clash gold
-        indicator = { tabPositions ->
+        indicator = {
             TabRowDefaults.PrimaryIndicator(
                 color = Color(0xFFFFD700),
                 height = 6.dp,
                 width = 120.dp,
-                modifier = Modifier
-                    .tabIndicatorOffset(tabPositions[selectedTabIndex])
-                    .height(6.dp)
+                modifier = Modifier.tabIndicatorOffset(selectedTabIndex)
             )
         }
     ) {

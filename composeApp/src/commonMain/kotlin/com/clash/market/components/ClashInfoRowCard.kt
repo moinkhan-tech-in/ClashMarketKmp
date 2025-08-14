@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.TabRowDefaults.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -37,7 +37,7 @@ fun ClashInfoRowCard(
             infoList.forEachIndexed { index, it ->
                 InfoRow(label = it.first, value = it.second)
                 if (infoList.lastIndex != index) {
-                    Divider(
+                    HorizontalDivider(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 4.dp),
@@ -70,7 +70,7 @@ fun ClashTripleInfoRowCard(
             infoList.forEachIndexed { index, it ->
                 TripleInfoRow(it)
                 if (infoList.lastIndex != index) {
-                    Divider(
+                    HorizontalDivider(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 4.dp),

@@ -1,4 +1,4 @@
-package com.clash.market.components
+package com.clash.market.components.widgets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

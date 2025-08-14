@@ -27,7 +27,7 @@ import com.clash.market.ClashTheme
 import com.clash.market.components.ClashCard
 import com.clash.market.components.ClashChipColumn
 import com.clash.market.components.ClashLabel
-import com.clash.market.components.ClashTooltipBox
+import com.clash.market.components.widgets.ClashTooltipBox
 import com.clash.market.copyToClipboard
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.FakeClanDetailItem

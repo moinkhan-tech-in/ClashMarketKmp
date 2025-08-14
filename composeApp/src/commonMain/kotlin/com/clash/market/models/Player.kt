@@ -7,6 +7,7 @@ data class Player(
     val tag: String,
     val name: String,
     val townHallLevel: Int? = null,
+    val townhallLevel: Int? = null,
     val townHallWeaponLevel: Int? = null,
     val expLevel: Int? = null,
     val trophies: Int? = null,

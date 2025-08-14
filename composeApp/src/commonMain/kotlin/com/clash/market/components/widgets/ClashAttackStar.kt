@@ -1,4 +1,4 @@
-package com.clash.market.components
+package com.clash.market.components.widgets
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +16,7 @@ fun ClashAttackStars(stars: Int?) {
     Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
         repeat(stars ?: 0) {
             Image(
-                modifier = Modifier.size(16.dp),
+                modifier = Modifier.size(12.dp),
                 painter = painterResource(Res.drawable.ic_star),
                 contentDescription = null
             )

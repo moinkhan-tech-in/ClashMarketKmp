@@ -15,8 +15,8 @@ import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_chevron_down
 import com.clash.market.base.ResultState
 import com.clash.market.components.ClashChipLight
-import com.clash.market.components.ClashTab
-import com.clash.market.components.ClashTabs
+import com.clash.market.components.widgets.tabs.ClashTab
+import com.clash.market.components.widgets.tabs.ClashTabs
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.Label
 import com.clash.market.models.Location

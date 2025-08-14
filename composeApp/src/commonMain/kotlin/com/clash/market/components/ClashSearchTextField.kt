@@ -11,6 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.clash.market.components.widgets.ClashTextField
+import com.clash.market.components.widgets.ClashTextFieldValue
 
 @androidx.compose.runtime.Composable
 fun ClashSearchTextField(

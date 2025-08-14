@@ -11,9 +11,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 @Preview
 private fun PlayerInfoPreview() {
-    PlayerInfo(
-        player = FakePlayer
-    ) { }
+    PlayerInfo(player = FakePlayer)
 }
 
 @Composable

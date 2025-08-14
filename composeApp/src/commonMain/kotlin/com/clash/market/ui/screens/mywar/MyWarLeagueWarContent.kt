@@ -38,9 +38,8 @@ import clashmarket.composeapp.generated.resources.ic_chevron_up
 import coil3.compose.AsyncImage
 import com.clash.market.components.AutoColumnGrid
 import com.clash.market.components.ClashCard
-import com.clash.market.components.ClashTownHallImage
+import com.clash.market.components.PlayerListItem
 import com.clash.market.models.ClanDetail
-import com.clash.market.models.Player
 import com.clash.market.models.dtos.WarLeagueGroupResponse
 import com.clash.market.navigation.ScreenRouts
 import org.jetbrains.compose.resources.painterResource
@@ -196,7 +195,7 @@ private fun WarLeagueClanItem(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     members?.forEach { player ->
-                        WarLeaguePlayerItem(
+                        PlayerListItem(
                             player = player,
                             onClick = { onPlayerClick(player.tag) }
                         )
@@ -205,35 +204,5 @@ private fun WarLeagueClanItem(
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun WarLeaguePlayerItem(player: Player, onClick: () -> Unit) {
-    Row(
-        modifier = Modifier.clickable { onClick() },
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        ClashTownHallImage(modifier = Modifier.size(56.dp), townHall = player.townHallLevel)
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Text(
-                text = player.name,
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.labelLarge
-            )
-            Text(
-                text = player.tag,
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.labelMedium
-            )
-        }
-        Image(
-            painter = painterResource(Res.drawable.ic_chevron_right),
-            contentDescription = null
-        )
     }
 }

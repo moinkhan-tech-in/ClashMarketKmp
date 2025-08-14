@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.clash.market.base.ResultState
 import com.clash.market.components.ClashChipLight
-import com.clash.market.components.ClashScrollableTabs
-import com.clash.market.components.ClashTab
 import com.clash.market.components.clash.ClashScaffold
+import com.clash.market.components.widgets.tabs.ClashScrollableTabs
+import com.clash.market.components.widgets.tabs.ClashTab
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.contents.wardetail.ClanWarDetailContent
 

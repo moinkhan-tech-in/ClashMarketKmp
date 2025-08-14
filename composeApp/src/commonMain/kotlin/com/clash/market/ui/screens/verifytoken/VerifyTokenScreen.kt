@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_back
 import com.clash.market.components.ClashGlossyButton
-import com.clash.market.components.ClashTextField
 import com.clash.market.components.ClashTopBar
+import com.clash.market.components.widgets.ClashTextField
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

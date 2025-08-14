@@ -1,5 +1,7 @@
 package com.clash.market
 
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -43,6 +45,7 @@ fun App() {
     ClashTheme { ClashNavHost() }
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun ClashTheme(
     useDarkTheme: Boolean = false, //isSystemInDarkTheme(),
@@ -52,7 +55,7 @@ fun ClashTheme(
     CompositionLocalProvider(
         LocalClashColors provides ClashColors()
     ) {
-        MaterialTheme(
+        MaterialExpressiveTheme(
             colorScheme = colors,
             typography = ClashTypography,
             shapes = MaterialTheme.shapes.copy(),
