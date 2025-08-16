@@ -1,19 +1,22 @@
 package com.clash.market.components.clash
 
+import PinnedCenterRowDynamic
+import SideArrangement
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Groups
@@ -39,7 +42,10 @@ import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import centerPinned
 import clashmarket.composeapp.generated.resources.Res
+import clashmarket.composeapp.generated.resources.ic_chevron_down
+import clashmarket.composeapp.generated.resources.ic_chevron_up
 import clashmarket.composeapp.generated.resources.ic_star
 import clashmarket.composeapp.generated.resources.ic_sward
 import clashmarket.composeapp.generated.resources.ic_wall_breaker_barrel
@@ -62,12 +68,14 @@ import com.clash.market.ui.screens.warlogs.WinGradiant
 import com.clash.market.utils.ArrowSide
 import com.clash.market.utils.calloutRectWithArrow
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun ClanWarSummaryInfo(
-    war: CurrentWarResponse
+    war: CurrentWarResponse,
+    onClanClick: (ClanDetail) -> Unit,
 ) {
     val modifier = when (war.result) {
         "win" -> Modifier.background(WinGradiant)
@@ -87,7 +95,11 @@ internal fun ClanWarSummaryInfo(
                 WarState.PREPARATION,
                 WarState.WAR_ENDED
             ).any { war.state == it } -> {
-                ClanWarCard(war = war, showAttackStats = war.state != WarState.PREPARATION)
+                ClanWarCard(
+                    war = war,
+                    showAttackStats = war.state != WarState.PREPARATION,
+                    onClanClick = onClanClick
+                )
             }
 
             war.state == WarState.NOT_IN_WAR -> {
@@ -105,7 +117,11 @@ internal fun ClanWarSummaryInfo(
             }
 
             war.result != null -> {
-                ClanWarCard(war = war, showAttackStats = false)
+                ClanWarCard(
+                    war = war,
+                    showAttackStats = false,
+                    onClanClick = onClanClick
+                )
             }
 
             else -> {}
@@ -114,7 +130,7 @@ internal fun ClanWarSummaryInfo(
 }
 
 @Composable
-internal fun ClanWarAttacksInfo(
+internal fun ClanWarAttacksLog(
     modifier: Modifier = Modifier,
     title: String? = null,
     attacks: List<Attack>,
@@ -130,10 +146,14 @@ internal fun ClanWarAttacksInfo(
                 style = MaterialTheme.typography.titleMedium
             )
         }
-        AttackEventSequenceItem(null) {
+        AttackEventSequenceItem(
+            modifier = Modifier.height(64.dp),
+            showTopDivider = false,
+            icon = Res.drawable.ic_chevron_down
+        ) {
             Text(
-                text = "War End",
-                style = MaterialTheme.typography.labelLarge,
+                text = "War Ended",
+                style = MaterialTheme.typography.labelMedium,
                 color = Color.White,
                 modifier = Modifier
                     .padding(vertical = 12.dp)
@@ -154,10 +174,14 @@ internal fun ClanWarAttacksInfo(
             )
         }
 
-        AttackEventSequenceItem(null) {
+        AttackEventSequenceItem(
+            modifier = Modifier.height(64.dp),
+            showBottomDivider = false,
+            icon = Res.drawable.ic_chevron_up
+        ) {
             Text(
-                text = "War Start",
-                style = MaterialTheme.typography.labelLarge,
+                text = "War Started",
+                style = MaterialTheme.typography.labelMedium,
                 color = Color.White,
                 modifier = Modifier
                     .padding(vertical = 12.dp)
@@ -179,7 +203,10 @@ private fun AttackEventBodyItem(
     membersMapPosition: HashMap<String, Int?>,
     isOpponentAttack: Boolean
 ) {
-    AttackEventSequenceItem(number = attack.order ?: 0) {
+    AttackEventSequenceItem(
+        modifier = Modifier.height(78.dp),
+        number = attack.order ?: 0
+    ) {
         val direction = when (isOpponentAttack) {
             true -> LocalLayoutDirection provides LayoutDirection.Rtl
             false -> LocalLayoutDirection provides LayoutDirection.Ltr
@@ -261,39 +288,60 @@ private fun AttackEventBodyItem(
 }
 
 @Composable
-private fun AttackEventSequenceItem(number: Int?, content: @Composable () -> Unit) {
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        number?.let {
-            Box(
-                modifier = Modifier
-                    .height(78.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                // center the divider behind the bubble
+private fun AttackEventSequenceItem(
+    modifier: Modifier = Modifier,
+    number: Int = 0,
+    icon: DrawableResource? = null,
+    showTopDivider: Boolean = true,
+    showBottomDivider: Boolean = true,
+    content: @Composable () -> Unit
+) {
+    Row(
+        modifier = modifier.heightIn(max = 78.dp, min = 28.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            if (showTopDivider) {
                 VerticalDivider(
-                    modifier = Modifier
-                        .align(Alignment.Center) // ⬅️ important
-                        .fillMaxHeight()
-                        .width(2.dp),
+                    modifier = Modifier.weight(1f),
                     color = MaterialTheme.colorScheme.primary
                 )
-                // Number bubble (true centered text)
-                Box(
-                    modifier = Modifier
-                        .size(28.dp)
-                        .background(
-                            color = MaterialTheme.colorScheme.primary.copy(alpha = .9f),
-                            shape = RoundedCornerShape(12.dp)
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
+            } else {
+                Spacer(Modifier.weight(1f))
+            }
+
+            Box(
+                modifier = Modifier
+                    .size(28.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(12.dp)
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                if (number > 0) {
                     Text(
-                        style = MaterialTheme.typography.labelMedium,
-                        text = if (number > 0) number.toString() else "",
+                        style = MaterialTheme.typography.labelSmall,
+                        text = if (number > 0) "#$number" else "",
                         textAlign = TextAlign.Center,
-                        color = Color.White
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
+                } else if (icon != null) {
+                    Image(painterResource(icon), contentDescription = null)
                 }
+            }
+
+            if (showBottomDivider) {
+                VerticalDivider(
+                    modifier = Modifier.weight(1f),
+                    color = MaterialTheme.colorScheme.primary
+                )
+            } else {
+                Spacer(Modifier.weight(1f))
             }
         }
         content()
@@ -333,16 +381,17 @@ fun ClanWarTopEndContent(war: CurrentWarResponse) {
 @Composable
 private fun ClanWarCard(
     war: CurrentWarResponse,
+    onClanClick: (ClanDetail) -> Unit,
     showAttackStats: Boolean = true
 ) {
     Column {
-        Row(
+        PinnedCenterRowDynamic(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+            sideArrangement = SideArrangement.SpaceEvenly
         ) {
-            ClanCard(clan = war.clan, showAttackStats = showAttackStats)
+            ClanCard(clan = war.clan, showAttackStats = showAttackStats, onClick = { onClanClick(war.clan) })
             Column(
-                modifier = Modifier.padding(top = 16.dp),
+                modifier = Modifier.centerPinned().padding(top = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -358,7 +407,7 @@ private fun ClanWarCard(
                 Text(text = war.teamSize.toString(), style = MaterialTheme.typography.labelLarge)
                 Icon(Icons.Default.Groups, contentDescription = null)
             }
-            ClanCard(clan = war.opponent, showAttackStats = showAttackStats)
+            ClanCard(clan = war.opponent, showAttackStats = showAttackStats, onClick = { onClanClick(war.opponent) })
         }
 
         val infoList = war.getDetailsForWarCard()
@@ -374,6 +423,7 @@ private fun ClanWarCard(
 @Composable
 private fun ClanCard(
     clan: ClanDetail,
+    onClick: () -> Unit,
     showAttackStats: Boolean = true
 ) {
     Column(
@@ -382,11 +432,13 @@ private fun ClanCard(
     ) {
         AsyncImage(
             model = clan.badgeUrls?.medium,
-            modifier = Modifier.size(56.dp),
+            modifier = Modifier.size(56.dp).clickable(onClick = onClick),
             contentDescription = clan.name
         )
         Text(
+            modifier = Modifier.basicMarquee(),
             text = clan.name.orEmpty(),
+            maxLines = 1,
             color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.bodyMedium
         )
@@ -418,7 +470,8 @@ private fun ClanWarSummaryInfoPreview() {
                 state = WarState.IN_WAR,
                 clan = FakeClanDetailItem,
                 opponent = FakeClanDetailItem
-            )
+            ),
+            onClanClick = {}
         )
     }
 }

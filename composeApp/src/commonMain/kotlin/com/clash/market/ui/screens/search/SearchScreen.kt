@@ -28,8 +28,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 private val tabs = listOf(
-    ClashTab(0, "Clans"),
-    ClashTab(1, "Player")
+    ClashTab(index = 0, title = "Clans"),
+    ClashTab(index = 1, title = "Player")
 )
 
 @Composable

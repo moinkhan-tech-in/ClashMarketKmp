@@ -2,6 +2,7 @@ package com.clash.market.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
@@ -35,9 +36,11 @@ fun ClashTopBar(
     TopAppBar(
         title = {
             Text(
+                modifier = Modifier.basicMarquee(),
                 text = title,
                 color = MaterialTheme.colorScheme.onPrimary,
                 maxLines = 1,
+                style = MaterialTheme.typography.titleLarge,
                 overflow = TextOverflow.Ellipsis
             )
         },
@@ -46,7 +49,7 @@ fun ClashTopBar(
                 Image(
                     modifier = Modifier
                         .padding(horizontal = 12.dp)
-                        .size(44.dp)
+                        .size(40.dp)
                         .clickable { onBackClick?.invoke() },
                     painter = painterResource(navigationIcon),
                     contentDescription = null

@@ -38,7 +38,7 @@ fun ClashChipLight(
         Text(
             modifier = Modifier.padding(start = 12.dp),
             text = text,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.labelMedium,
             color = Color.White
         )
         trailingIcon?.let {

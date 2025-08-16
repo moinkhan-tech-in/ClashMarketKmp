@@ -8,7 +8,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -54,12 +53,7 @@ fun ClashScrollableTabs(
                             pagerState.animateScrollToPage(tab.index)
                         }
                     },
-                    text = {
-                        Text(
-                            tab.title,
-                            color = if (isSelected) Color(0xFFFFD700) else Color.White
-                        )
-                    }
+                    text = { ClashTabItem(tab, isSelected) }
                 )
             }
         }

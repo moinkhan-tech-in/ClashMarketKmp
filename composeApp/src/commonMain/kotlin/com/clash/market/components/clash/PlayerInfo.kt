@@ -69,7 +69,7 @@ fun PlayerInfo(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 StatRow(
-                    label = "TH",
+                    label = "",
                     value = player.townHallLevel.toString(),
                     icon = painterResource(player.townHallLevel.getTownHallImage())
                 )

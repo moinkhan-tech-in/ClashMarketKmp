@@ -8,17 +8,19 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.clash.market.components.widgets.ClashImageSpec
 import kotlinx.coroutines.launch
 
 data class ClashTab(
     val index: Int,
-    val title: String,
+    val leadingImage: ClashImageSpec? = null,
+    val title: String? = null,
+    val trailingImage: ClashImageSpec? = null,
     val id: String? = null
 )
 
@@ -53,12 +55,7 @@ fun ClashTabRows(
                         pagerState.animateScrollToPage(tab.index)
                     }
                 },
-                text = {
-                    Text(
-                        tab.title,
-                        color = if (isSelected) Color(0xFFFFD700) else Color.White
-                    )
-                }
+                text = { ClashTabItem(tab, isSelected) }
             )
         }
     }

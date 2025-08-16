@@ -127,7 +127,8 @@ fun ClashNavHost() {
             val warLogs = backStackEntry.toRoute<ScreenRouts.WarLogs>()
             WarLogsScreen(
                 warLogsRoute = warLogs,
-                onBackClick = { navController.popBackStack() }
+                onBackClick = { navController.popBackStack() },
+                onNavigate = { navController.navigate(it) }
             )
         }
 
@@ -136,7 +137,8 @@ fun ClashNavHost() {
             val viewModel = koinViewModel<LeagueWarDetailViewModel> { parametersOf(leagueWarDetails) }
             LeagueWarDetailScreen(
                 viewModel = viewModel,
-                onBackClick = { navController.popBackStack() }
+                onBackClick = { navController.popBackStack() },
+                onNavigate = { navController.navigate(it) },
             )
         }
     }

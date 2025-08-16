@@ -29,10 +29,10 @@ import com.clash.market.ui.screens.home.HomeScreenScaffold
 import org.koin.compose.viewmodel.koinViewModel
 
 internal val tabs = listOf(
-    ClashTab(0, "Top Players"),
-    ClashTab(1, "Top Clans"),
-    ClashTab(2, "Builder Players"),
-    ClashTab(3, "Builder Clans")
+    ClashTab(index = 0, title = "Top Players"),
+    ClashTab(index = 1, title = "Top Clans"),
+    ClashTab(index = 2, title = "Builder Players"),
+    ClashTab(index = 3, title = "Builder Clans")
 )
 
 @Composable

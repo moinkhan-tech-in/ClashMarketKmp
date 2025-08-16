@@ -29,6 +29,7 @@ private fun ClanCurrentWarInfoPreview() {
             teamSize = 15,
             clan = FakeClanDetailItem,
             opponent = FakeClanDetailItem
-        )
+        ),
+        onClanClick = {}
     )
 }

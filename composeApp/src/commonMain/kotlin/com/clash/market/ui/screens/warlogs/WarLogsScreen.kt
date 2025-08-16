@@ -21,6 +21,7 @@ import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ResultStateCrossFade
 import com.clash.market.components.clash.ClanWarSummaryInfo
 import com.clash.market.components.clash.ClashScaffold
+import com.clash.market.models.ClanDetail
 import com.clash.market.models.dtos.CurrentWarResponse
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.openClanWarLink
@@ -48,6 +49,7 @@ internal val LossGradiant = Brush.horizontalGradient(
 fun WarLogsScreen(
     warLogsRoute: ScreenRouts.WarLogs,
     viewModel: WarLogsViewModel = koinViewModel(),
+    onNavigate: (ScreenRouts) -> Unit,
     onBackClick: () -> Unit
 ) {
     LaunchedEffect(Unit) { viewModel.fetchWarLogs(warLogsRoute.tag) }
@@ -55,7 +57,8 @@ fun WarLogsScreen(
     WarLogsScreenContent(
         warLogsRoute = warLogsRoute,
         uiState = uiState.value,
-        onBackClick = onBackClick
+        onBackClick = onBackClick,
+        onClanClick = { onNavigate(ScreenRouts.ClanDetail(it.tag.orEmpty())) }
     )
 }
 
@@ -64,6 +67,7 @@ fun WarLogsScreen(
 private fun WarLogsScreenContent(
     warLogsRoute: ScreenRouts.WarLogs,
     uiState: ResultState<List<CurrentWarResponse>>,
+    onClanClick: (ClanDetail) -> Unit,
     onBackClick: () -> Unit
 ) {
     ClashScaffold(
@@ -90,7 +94,10 @@ private fun WarLogsScreenContent(
                     )
                 ) {
                     items(result) { it ->
-                        ClanWarSummaryInfo(war = it)
+                        ClanWarSummaryInfo(
+                            war = it,
+                            onClanClick = onClanClick
+                        )
                     }
                 }
             }

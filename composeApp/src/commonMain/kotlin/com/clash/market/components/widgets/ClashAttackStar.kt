@@ -3,6 +3,7 @@ package com.clash.market.components.widgets
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,10 +14,13 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun ClashAttackStars(stars: Int?) {
-    Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+    Row(
+        modifier = Modifier.offset(y = (-2).dp),
+        horizontalArrangement = Arrangement.spacedBy(2.dp)
+    ) {
         repeat(stars ?: 0) {
             Image(
-                modifier = Modifier.size(12.dp),
+                modifier = Modifier.size(16.dp),
                 painter = painterResource(Res.drawable.ic_star),
                 contentDescription = null
             )

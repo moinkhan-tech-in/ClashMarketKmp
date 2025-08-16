@@ -15,12 +15,15 @@ import com.clash.market.components.ClashChipLight
 import com.clash.market.components.clash.ClashScaffold
 import com.clash.market.components.widgets.tabs.ClashScrollableTabs
 import com.clash.market.components.widgets.tabs.ClashTab
+import com.clash.market.models.ClanDetail
+import com.clash.market.models.Player
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.contents.wardetail.ClanWarDetailContent
 
 @Composable
 fun LeagueWarDetailScreen(
     viewModel: LeagueWarDetailViewModel,
+    onNavigate: (ScreenRouts) -> Unit,
     onBackClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -34,7 +37,9 @@ fun LeagueWarDetailScreen(
                 ).orEmpty()
             )
         },
-        onBackClick = onBackClick
+        onBackClick = onBackClick,
+        onPlayerClick = { onNavigate(ScreenRouts.PlayerDetail(it.tag)) },
+        onClanClick = { onNavigate(ScreenRouts.ClanDetail(it.tag.orEmpty())) }
     )
 }
 
@@ -43,6 +48,8 @@ private fun LeagueWarDetailContent(
     uiState: LeagueWarDetailUiState,
     leagueWarDetail: ScreenRouts.LeagueWarDetail,
     onTabChange: (Int) -> Unit,
+    onPlayerClick: (Player) -> Unit,
+    onClanClick: (ClanDetail) -> Unit,
     onBackClick: () -> Unit
 ) {
     ClashScaffold(
@@ -61,9 +68,8 @@ private fun LeagueWarDetailContent(
             modifier = Modifier.fillMaxWidth().padding(top = innerPadding.calculateTopPadding()),
             tabs = leagueWarDetail.warTags.mapIndexed { index, string ->
                 ClashTab(
-                    index,
-                    "Match ${index + 1}",
-                    string
+                    index = index,
+                    title = "Match ${index + 1}",
                 )
             },
             selectedTabIndex = selectedTabIndex,
@@ -73,7 +79,9 @@ private fun LeagueWarDetailContent(
                 warState = uiState.leagueWarDetailByTag.getOrPut(
                     key = leagueWarDetail.warTags.getOrNull(selectedTabIndex).orEmpty(),
                     defaultValue = { ResultState.Loading }
-                )
+                ),
+                onPlayerClick = onPlayerClick,
+                onClanClick = onClanClick
             )
         }
     }

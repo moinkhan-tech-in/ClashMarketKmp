@@ -116,7 +116,10 @@ private fun MyWarContent(
                     }
 
                     is MyWarUiState.StandardWar -> {
-                        ClanWarSummaryInfo(uiState.warResult)
+                        ClanWarSummaryInfo(
+                            war = uiState.warResult,
+                            onClanClick = { onNavigate(ScreenRouts.ClanDetail(it.tag.orEmpty())) },
+                        )
                     }
                 }
             }

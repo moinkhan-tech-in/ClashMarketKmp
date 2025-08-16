@@ -31,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_chevron_right
 import clashmarket.composeapp.generated.resources.ic_chevron_up
@@ -68,8 +67,8 @@ fun MyWarLeagueWarContent(
             AutoColumnGrid(
                 items = warLeagueGroupResponse.rounds.orEmpty(),
                 minCellWidth = 150.dp,
-                verticalSpacing = 6.dp,
-                horizontalSpacing = 6.dp
+                verticalSpacing = 4.dp,
+                horizontalSpacing = 4.dp
             ) { item, index ->
                 ClashCard(
                     onClick = {
@@ -86,9 +85,10 @@ fun MyWarLeagueWarContent(
                         Text(
                             text = "Round: ${index + 1}",
                             modifier = Modifier.weight(1f),
-                            style = MaterialTheme.typography.labelLarge
+                            style = MaterialTheme.typography.labelMedium
                         )
                         Image(
+                            modifier = Modifier.size(28.dp),
                             painter = painterResource(Res.drawable.ic_chevron_right),
                             contentDescription = null
                         )
@@ -100,7 +100,7 @@ fun MyWarLeagueWarContent(
         item(span = StaggeredGridItemSpan.FullLine) {
             Text(
                 modifier = Modifier.padding(top = 32.dp, bottom = 8.dp, start = 8.dp),
-                style = MaterialTheme.typography.titleSmall,
+                style = MaterialTheme.typography.titleMedium,
                 text = "Participating Clans"
             )
         }
@@ -140,16 +140,17 @@ private fun WarLeagueClanItem(
                     Text(
                         text = clan.name.orEmpty(),
                         color = MaterialTheme.colorScheme.onSurface,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.labelMedium
                     )
                     Spacer(Modifier.size(4.dp))
                     Text(
                         text = clan.tag.orEmpty(),
                         color = MaterialTheme.colorScheme.onSurface,
-                        style = MaterialTheme.typography.bodySmall
+                        style = MaterialTheme.typography.labelSmall
                     )
                 }
                 Image(
+                    modifier = Modifier.size(28.dp),
                     painter = painterResource(Res.drawable.ic_chevron_right),
                     contentDescription = null
                 )
@@ -169,7 +170,7 @@ private fun WarLeagueClanItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    fontSize = 14.sp,
+                    style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier.weight(1f),
                     text = "Members: ${members?.size ?: 0}"
                 )
@@ -182,7 +183,7 @@ private fun WarLeagueClanItem(
                 )
 
                 Image(
-                    modifier = Modifier.graphicsLayer{ rotationZ = rotateState.toFloat() },
+                    modifier = Modifier.size(28.dp).graphicsLayer{ rotationZ = rotateState.toFloat() },
                     painter = painterResource(  Res.drawable.ic_chevron_up),
                     contentDescription = null
                 )

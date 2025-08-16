@@ -20,6 +20,8 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun PlayerListItem(
     player: Player,
+    showChevronRight: Boolean = true,
+    showTownHall: Boolean = true,
     onClick: () -> Unit
 ) {
     Row(
@@ -27,10 +29,12 @@ fun PlayerListItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        ClashTownHallImage(
-            modifier = Modifier.size(56.dp),
-            townHall = player.townHallLevel ?: player.townhallLevel
-        )
+        if (showTownHall) {
+            ClashTownHallImage(
+                modifier = Modifier.size(56.dp),
+                townHall = player.townHallLevel ?: player.townhallLevel
+            )
+        }
         Column(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(4.dp)
@@ -38,17 +42,21 @@ fun PlayerListItem(
             Text(
                 text = player.name,
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.labelLarge
+                style = MaterialTheme.typography.labelMedium
             )
             Text(
                 text = player.tag,
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.labelMedium
+                style = MaterialTheme.typography.labelSmall
             )
         }
-        Image(
-            painter = painterResource(Res.drawable.ic_chevron_right),
-            contentDescription = null
-        )
+
+        if (showChevronRight) {
+            Image(
+                modifier = Modifier.size(24.dp),
+                painter = painterResource(Res.drawable.ic_chevron_right),
+                contentDescription = null
+            )
+        }
     }
 }
