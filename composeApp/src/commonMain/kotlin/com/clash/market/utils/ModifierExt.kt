@@ -76,7 +76,11 @@ fun Double?.formatPercent(decimals: Int = 2): String {
     if (this == null) return "0%"
     val factor = 10.0.pow(decimals)
     val rounded = round(this * factor) / factor
-    return "${rounded}%"
+    var str = rounded.toString()
+    if (str.contains(".")) {
+        str = str.trimEnd('0').trimEnd('.') // remove useless .0 or trailing zeros
+    }
+    return "$str%"
 }
 
 

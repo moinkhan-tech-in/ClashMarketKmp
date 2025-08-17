@@ -1,7 +1,8 @@
 package com.clash.market.components.clash
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_capital_trophy
@@ -23,11 +24,11 @@ fun ClanCapitalInfo(
             ClashChip(
                 trailingImage = Res.drawable.ic_capital_trophy,
                 text = "Trophy: $points",
-                trailingImageSize = DpSize(30.dp, 36.dp)
+                trailingImageModifier = Modifier.size(30.dp, 36.dp)
             )
         }
     ) {
-        val infoList = detail.districts?.mapNotNull {
+        val infoList = detail.districts?.map {
             Pair(
                 it.name.orEmpty(),
                 it.districtHallLevel.toString()

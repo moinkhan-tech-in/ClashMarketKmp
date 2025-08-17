@@ -20,19 +20,20 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ClashChip(
+    leadImageModifier: Modifier = Modifier.size(24.dp),
     leadingImage: DrawableResource? = null,
-    leadingImageSize: DpSize = DpSize(24.dp, 24.dp),
     text: String,
     trailingImage: DrawableResource? = null,
-    trailingImageSize: DpSize = DpSize(24.dp, 24.dp)
-) {
+    trailingImageModifier: Modifier = Modifier.size(24.dp),
+
+    ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         leadingImage?.let {
             Image(
-                modifier = Modifier.size(leadingImageSize),
+                modifier = leadImageModifier,
                 painter = painterResource(leadingImage),
                 contentDescription = text
             )
@@ -44,7 +45,7 @@ fun ClashChip(
         )
         trailingImage?.let {
             Image(
-                modifier = Modifier.size(trailingImageSize),
+                modifier = trailingImageModifier,
                 painter = painterResource(trailingImage),
                 contentDescription = text
             )

@@ -52,7 +52,7 @@ fun ClashButtonTabs(
                 ToggleButton(
                     modifier = when (tabs.size.floorDiv(2)) {
                         index -> Modifier.centerPinned()
-                        else -> Modifier.fillMaxWidth().padding(2.dp)
+                        else -> Modifier.fillMaxWidth().padding(4.dp)
                     },
                     checked = selectedTabIndex == index,
                     onCheckedChange = {
@@ -72,9 +72,9 @@ fun ClashButtonTabs(
                     ),
                     colors = ToggleButtonDefaults.toggleButtonColors(
                         containerColor = MaterialTheme.colorScheme.surface,
-                        checkedContainerColor = MaterialTheme.colorScheme.surface,
+                        checkedContainerColor = MaterialTheme.colorScheme.primary,
                         contentColor = MaterialTheme.colorScheme.primary,
-                        checkedContentColor = MaterialTheme.colorScheme.primary
+                        checkedContentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 ) {
                     Row(
@@ -107,7 +107,7 @@ fun ClashButtonTabs(
 fun RowScope.ClashButtonTabItem(item: ClashTab) {
     item.leadingImage?.let {
         ClashImage(
-            modifier = Modifier.size(28.dp),
+            modifier = Modifier.size(24.dp),
             image = it
         )
     }
