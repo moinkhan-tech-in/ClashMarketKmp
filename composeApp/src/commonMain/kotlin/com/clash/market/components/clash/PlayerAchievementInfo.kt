@@ -53,9 +53,9 @@ private fun PlayerAchievementItem(achievement: Achievement) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.Bottom) {
-                Text(achievement.name, style = MaterialTheme.typography.bodyMedium)
+                Text(achievement.name, style = MaterialTheme.typography.labelMedium)
                 achievement.completionInfo?.let {
-                    Text(text = it, style = MaterialTheme.typography.bodySmall)
+                    Text(text = it, style = MaterialTheme.typography.labelSmall)
                 }
             }
             Column(
@@ -69,7 +69,7 @@ private fun PlayerAchievementItem(achievement: Achievement) {
                 )
                 Text(
                     text = "${achievement.stars}/3",
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.labelSmall
                 )
             }
         }

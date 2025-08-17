@@ -41,7 +41,7 @@ fun ClashChip(
         Text(
             text = text,
             color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.labelSmall
         )
         trailingImage?.let {
             Image(

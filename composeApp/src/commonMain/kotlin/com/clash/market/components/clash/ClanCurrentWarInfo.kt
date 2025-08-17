@@ -468,7 +468,7 @@ private fun ClanCard(
         Text(
             text = clan.tag.orEmpty(),
             color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.labelSmall
         )
 
         if (showAttackStats) {

@@ -45,7 +45,7 @@ fun <T> ClashQueueChip(
             Spacer(Modifier.size(4.dp))
             Text(
                 text = items.getOrNull(currentVillageIndex)?.toString().orEmpty(),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.labelMedium
             )
             Icon(imageVector = Icons.AutoMirrored.Default.Sort, contentDescription = null)
         }

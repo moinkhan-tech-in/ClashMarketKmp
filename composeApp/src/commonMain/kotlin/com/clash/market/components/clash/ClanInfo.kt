@@ -39,12 +39,12 @@ internal fun ClanInfo(clan: ClanDetail) {
                 Text(
                     text = clan.name.orEmpty(),
                     color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.labelMedium
                 )
                 Text(
                     text = clan.tag.orEmpty(),
                     color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.labelSmall
                 )
             }
 

@@ -29,7 +29,7 @@ fun StatRow(label: String, value: String, icon: Painter?) {
         Text(
             color = MaterialTheme.colorScheme.onSurface,
             text = label,
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.labelSmall
         )
         icon?.let {
             Spacer(Modifier.width(4.dp))
@@ -43,7 +43,7 @@ fun StatRow(label: String, value: String, icon: Painter?) {
         Text(
             color = MaterialTheme.colorScheme.onSurface,
             text = ": $value",
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.labelSmall,
         )
     }
 }
