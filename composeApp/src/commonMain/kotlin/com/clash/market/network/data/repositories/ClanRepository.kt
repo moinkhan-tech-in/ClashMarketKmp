@@ -47,7 +47,7 @@ class ClanRepositoryImpl(
 ) : ClanRepository {
 
     override suspend fun getClanDetails(tag: String): ClanDetail {
-        return client.get("proxy/clans/${tag.encodeURLPath()}").body()
+        return client.get("v1/clans/${tag.encodeURLPath()}").body()
     }
 
     override suspend fun getCurrentWar(tag: String): CurrentWarResponse {

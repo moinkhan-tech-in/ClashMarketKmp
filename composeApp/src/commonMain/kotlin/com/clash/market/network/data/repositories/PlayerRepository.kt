@@ -22,7 +22,7 @@ class PlayerRepositoryImpl(
 ) : PlayerRepository {
 
     override suspend fun getPlayerDetails(playerTag: String): Player {
-        return client.get("proxy/players/${playerTag.encodeURLPath()}").body()
+        return client.get("v1/players/${playerTag.encodeURLPath()}").body()
     }
 
     override suspend fun verifyToken(playerTag: String, token: String): VerifyTokenResponse {
