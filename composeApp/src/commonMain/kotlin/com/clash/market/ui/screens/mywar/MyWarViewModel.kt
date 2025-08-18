@@ -66,17 +66,16 @@ class MyWarViewModel(
         }
     }
 
-    private fun fetchClanWarLeague(tag: String) {
-        launchIO {
-            runCatching {
-                _uiState.update { MyWarUiState.Loading }
-                clanRepository.getWarLeagueGroup(tag)
-            }.onSuccess { warLeague ->
-                _uiState.update { MyWarUiState.LeagueWar(warLeague) }
-            }.onFailure { exception ->
-                _uiState.update { MyWarUiState.Error(exception.message.orEmpty()) }
-            }
+    private suspend fun fetchClanWarLeague(tag: String) {
+        runCatching {
+            _uiState.update { MyWarUiState.Loading }
+            clanRepository.getWarLeagueGroup(tag)
+        }.onSuccess { warLeague ->
+            _uiState.update { MyWarUiState.LeagueWar(warLeague) }
+        }.onFailure { exception ->
+            _uiState.update { MyWarUiState.Error(exception.message.orEmpty()) }
         }
+
     }
 
     private fun fetchWarByTags(warTags: List<String>) {

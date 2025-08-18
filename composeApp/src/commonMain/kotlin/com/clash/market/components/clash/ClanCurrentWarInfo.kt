@@ -36,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.graphicsLayer
@@ -65,13 +66,19 @@ import com.clash.market.models.Attack
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.FakeClanDetailItem
 import com.clash.market.models.WarState
+import com.clash.market.models.WarState.ENDED
+import com.clash.market.models.WarState.IN_WAR
+import com.clash.market.models.WarState.PREPARATION
+import com.clash.market.models.WarState.WAR_ENDED
 import com.clash.market.models.dtos.CurrentWarResponse
 import com.clash.market.theme.LocalClashColors
 import com.clash.market.ui.screens.warlogs.LossGradiant
 import com.clash.market.ui.screens.warlogs.WinGradiant
 import com.clash.market.utils.ArrowSide
+import com.clash.market.utils.blink
 import com.clash.market.utils.calloutRectWithArrow
 import com.clash.market.utils.formatPercent
+import com.clash.market.utils.thenIf
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -141,15 +148,31 @@ internal fun ClanWarAttacksLog(
     nameByTags: HashMap<String, String>,
     clanTags: HashSet<String>,
     opponentTags: HashSet<String>,
-    membersMapPosition: HashMap<String, Int?>
+    membersMapPosition: HashMap<String, Int?>,
+    warState: WarState?
 ) {
     Column(modifier = modifier) {
-        AttackEventStatusBodyItem(
-            text = "War Ended",
-            showTopDivider = false,
-            bodyBackgroundColor = LocalClashColors.current.clashNegative.copy(alpha = .7f),
-            indicatorBackgroundColor = LocalClashColors.current.clashNegative.copy(alpha = .7f)
-        )
+
+        when (warState) {
+            IN_WAR -> {
+                AttackEventStatusBodyItem(
+                    applyBlink = true,
+                    text = "War attacks appear here soon.",
+                    showTopDivider = false,
+                    indicatorBackgroundColor = MaterialTheme.colorScheme.onPrimary.copy()
+                )
+            }
+
+            WAR_ENDED, ENDED -> {
+                AttackEventStatusBodyItem(
+                    text = "War is finished!",
+                    showTopDivider = false,
+                    indicatorBackgroundColor = LocalClashColors.current.clashNegative.copy(alpha = .7f)
+                )
+            }
+
+            else -> {}
+        }
 
         attacks.forEachIndexed { index, item ->
             AttackEventBodyItem(
@@ -160,27 +183,41 @@ internal fun ClanWarAttacksLog(
             )
         }
 
-        AttackEventStatusBodyItem(
-            text = "War Started",
-            showBottomDivider = false,
-            indicatorBackgroundColor = LocalClashColors.current.clashPositive.copy(alpha = .7f),
-            bodyBackgroundColor = LocalClashColors.current.clashPositive.copy(alpha = .7f)
-        )
-    }
 
+        when (warState) {
+
+            IN_WAR -> {
+                AttackEventStatusBodyItem(
+                    text = "War has begun!",
+                    showBottomDivider = false,
+                    indicatorBackgroundColor = LocalClashColors.current.clashPositive.copy(alpha = .7f),
+                )
+            }
+
+            PREPARATION -> {
+                AttackEventStatusBodyItem(
+                    text = "Preparing for war…",
+                    showBottomDivider = false,
+                    indicatorBackgroundColor = LocalClashColors.current.clashPositive.copy(alpha = .7f),
+                )
+            }
+
+            else -> {}
+        }
+    }
 }
 
 @Composable
 private fun AttackEventStatusBodyItem(
+    applyBlink: Boolean = false,
     text: String,
-    bodyBackgroundColor: Color,
     showTopDivider: Boolean = true,
     showBottomDivider: Boolean = true,
     indicatorBackgroundColor: Color = MaterialTheme.colorScheme.primary,
     imageSpec: ClashImageSpec? = null
 ) {
     AttackEventSequenceItem(
-        modifier = Modifier.height(64.dp),
+        modifier = Modifier.height(72.dp),
         showTopDivider = showTopDivider,
         showBottomDivider = showBottomDivider,
         indicatorBackgroundColor = indicatorBackgroundColor,
@@ -189,14 +226,21 @@ private fun AttackEventStatusBodyItem(
         Text(
             text = text,
             style = MaterialTheme.typography.labelMedium,
-            color = Color.White,
+            color = MaterialTheme.colorScheme.primary,
             modifier = Modifier
                 .padding(vertical = 12.dp)
                 .background(
-                    color = bodyBackgroundColor,
-                    shape = RoundedCornerShape(12.dp)
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(12.dp),
                 )
-                .padding(horizontal = 12.dp, vertical = 8.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .border(
+                    1.dp,
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = .3f),
+                    RoundedCornerShape(12.dp)
+                )
+                .padding(horizontal = 12.dp, vertical = 16.dp)
+                .thenIf(applyBlink) { blink() }
         )
     }
 }
@@ -336,7 +380,11 @@ private fun AttackEventSequenceItem(
                     .background(
                         color = indicatorBackgroundColor,
                         shape = RoundedCornerShape(12.dp),
-                    ).border(1.dp, color = MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(12.dp)),
+                    ).border(
+                        1.dp,
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(12.dp)
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 if (number > 0) {
@@ -360,7 +408,7 @@ private fun AttackEventSequenceItem(
                 Spacer(Modifier.weight(1f))
             }
         }
-        HorizontalDivider(Modifier.width(12.dp))
+        HorizontalDivider(Modifier.width(16.dp), color = MaterialTheme.colorScheme.primary)
         content()
     }
 }
@@ -406,10 +454,13 @@ private fun ClanWarCard(
             modifier = Modifier.fillMaxWidth(),
             sideArrangement = SideArrangement.SpaceEvenly
         ) {
-            ClanCard(
-                clan = war.clan,
-                showAttackStats = showAttackStats,
-                onClick = { onClanClick(war.clan) })
+            war.clan?.let {
+                ClanCard(
+                    clan = it,
+                    showAttackStats = showAttackStats,
+                    onClick = { onClanClick(war.clan) }
+                )
+            }
             Column(
                 modifier = Modifier.centerPinned().padding(top = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -427,10 +478,13 @@ private fun ClanWarCard(
                 Text(text = war.teamSize.toString(), style = MaterialTheme.typography.labelLarge)
                 Icon(Icons.Default.Groups, contentDescription = null)
             }
-            ClanCard(
-                clan = war.opponent,
-                showAttackStats = showAttackStats,
-                onClick = { onClanClick(war.opponent) })
+            war.opponent?.let {
+                ClanCard(
+                    clan = it,
+                    showAttackStats = showAttackStats,
+                    onClick = { onClanClick(war.opponent) }
+                )
+            }
         }
 
         val infoList = war.getDetailsForWarCard()

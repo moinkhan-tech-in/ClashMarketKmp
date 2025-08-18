@@ -66,7 +66,7 @@ fun ClashCardItem(
 ) {
     Surface(
         modifier = Modifier
-            .padding(4.dp)
+            .padding(vertical = 4.dp)
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.primary.copy(alpha = .3f),

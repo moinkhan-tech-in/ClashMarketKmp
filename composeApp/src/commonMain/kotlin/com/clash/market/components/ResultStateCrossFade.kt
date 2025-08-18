@@ -54,8 +54,14 @@ fun <T> ResultStateCrossFade(
     }
 }
 
+val LazyStaggeredStandardPadding = PaddingValues(
+    top = 12.dp, bottom = 56.dp,
+    start = 12.dp, end = 12.dp
+)
+
 @Composable
 fun <T> ResultStateLazyGrid(
+    paddingValues: PaddingValues = LazyStaggeredStandardPadding,
     resultState: ResultState<T>,
     idealContent: @Composable BoxScope.() -> Unit = {},
     successContent: LazyStaggeredGridScope.(T) -> Unit
@@ -85,10 +91,7 @@ fun <T> ResultStateLazyGrid(
                         columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                         verticalItemSpacing = 4.dp,
-                        contentPadding = PaddingValues(
-                            top = 12.dp, bottom = 56.dp,
-                            start = 12.dp, end = 12.dp
-                        )
+                        contentPadding = paddingValues
                     ) {
                          successContent(it.data)
                     }

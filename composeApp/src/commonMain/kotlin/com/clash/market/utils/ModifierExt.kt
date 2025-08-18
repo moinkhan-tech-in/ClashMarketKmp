@@ -9,6 +9,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -186,4 +187,34 @@ fun Modifier.animatedCircularGradientBorder(
             )
         }
     }
+}
+
+fun Modifier.blink(
+    minAlpha: Float = 0.3f,
+    maxAlpha: Float = 1f,
+    durationMillis: Int = 800,
+    delayMillis: Int = 0,
+    enabled: Boolean = true
+): Modifier = composed {
+    if (!enabled) return@composed this
+    val transition = rememberInfiniteTransition(label = "blink")
+    val a by transition.animateFloat(
+        initialValue = maxAlpha,
+        targetValue = minAlpha,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = durationMillis, delayMillis = delayMillis),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "alpha"
+    )
+    this.alpha(a)
+}
+
+inline fun Modifier.thenIf(
+    condition: Boolean,
+    block: Modifier.() -> Modifier
+): Modifier = if (condition) {
+    this.then(block(Modifier))
+} else {
+    this
 }

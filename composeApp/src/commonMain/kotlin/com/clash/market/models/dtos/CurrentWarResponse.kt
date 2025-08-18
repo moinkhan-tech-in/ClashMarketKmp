@@ -19,8 +19,8 @@ data class CurrentWarResponse(
     val endTime: String? = null,
     val preparationStartTime: String? = null,
     val attacksPerMember: Int? = null,
-    val clan: ClanDetail,
-    val opponent: ClanDetail,
+    val clan: ClanDetail? = null,
+    val opponent: ClanDetail ?= null,
 
     val nameByTags: HashMap<String, String> = hashMapOf(),
     val clanMembersTag: HashSet<String> = hashSetOf(),
@@ -31,14 +31,14 @@ data class CurrentWarResponse(
     init { populateNamesByTag() }
 
     private fun populateNamesByTag() {
-        clan.members?.safeMembers().orEmpty()
+        clan?.members?.safeMembers().orEmpty()
             .forEach {
                 nameByTags.put(it.tag, it.name)
                 clanMembersTag.add(it.tag)
                 membersMapPosition.put(it.tag, it.mapPosition)
             }
 
-        opponent.members?.safeMembers().orEmpty()
+        opponent?.members?.safeMembers().orEmpty()
             .forEach {
                 nameByTags.put(it.tag, it.name)
                 opponentMembersTag.add(it.tag)
@@ -47,11 +47,11 @@ data class CurrentWarResponse(
     }
 
     fun getAttackEvents(): List<Attack> {
-        val clanAttacks = clan.members?.safeMembers()
+        val clanAttacks = clan?.members?.safeMembers()
             ?.map { it.attacks }
             ?.flatten()
 
-        val opponentAttacks = opponent.members?.safeMembers()
+        val opponentAttacks = opponent?.members?.safeMembers()
             ?.map { it.attacks }
             ?.flatten()
 
@@ -77,24 +77,24 @@ data class CurrentWarResponse(
 
         return arrayListOf<Triple<String, String, String>>().apply {
 
-            clan.destructionPercentage?.let {
+            clan?.destructionPercentage?.let {
                 add(
                     Triple(
                         clan.destructionPercentage.toDouble().formatPercent(),
                         "Destruction",
-                        opponent.destructionPercentage?.toDouble().formatPercent()
+                        opponent?.destructionPercentage?.toDouble().formatPercent()
                     )
                 )
+            }
 
-                clan.expEarned?.let {
-                    add(
-                        Triple(
-                            it.toString(),
-                            "Exp Earned",
-                            opponent.expEarned.toString()
-                        )
+            clan?.expEarned?.let {
+                add(
+                    Triple(
+                        it.toString(),
+                        "Exp Earned",
+                        opponent?.expEarned.toString()
                     )
-                }
+                )
             }
         }
     }

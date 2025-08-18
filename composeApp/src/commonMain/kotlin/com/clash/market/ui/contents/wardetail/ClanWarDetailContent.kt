@@ -1,5 +1,6 @@
 package com.clash.market.ui.contents.wardetail
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -27,11 +28,13 @@ import com.clash.market.models.dtos.CurrentWarResponse
 @Composable
 fun ClanWarDetailContent(
     warState: ResultState<CurrentWarResponse>,
+    paddingValues: PaddingValues = PaddingValues(),
     onPlayerClick: (Player) -> Unit,
     onClanClick: (ClanDetail) -> Unit
 ) {
     var selectedIndex by remember { mutableIntStateOf(1) }
     ResultStateLazyGrid(
+        paddingValues = paddingValues,
         resultState = warState,
         idealContent = {}
     ) { war ->
@@ -49,7 +52,7 @@ fun ClanWarDetailContent(
                 tabs = listOf(
                     ClashTab(
                         index = 0,
-                        title = war.clan.name.orEmpty()
+                        title = war.clan?.name.orEmpty()
                     ),
                     ClashTab(
                         index = 1,
@@ -57,7 +60,7 @@ fun ClanWarDetailContent(
                     ),
                     ClashTab(
                         index = 2,
-                        title = war.opponent.name.orEmpty()
+                        title = war.opponent?.name.orEmpty()
                     )
                 ),
                 selectedTabIndex = selectedIndex,
@@ -67,7 +70,7 @@ fun ClanWarDetailContent(
                     0 -> {
 
                         val clanAttacks = remember(war) {
-                            war.clan.members?.safeMembers()?.sortedBy { it.mapPosition }
+                            war.clan?.members?.safeMembers()?.sortedBy { it.mapPosition }
                         }
 
                         PlayerWarAttackList(
@@ -81,6 +84,7 @@ fun ClanWarDetailContent(
                         ClanWarAttacksLog(
                             modifier = Modifier.padding(horizontal = 4.dp),
                             attacks = war.getAttackEvents(),
+                            warState = war.state,
                             nameByTags = war.nameByTags,
                             clanTags = war.clanMembersTag,
                             opponentTags = war.opponentMembersTag,
@@ -91,7 +95,7 @@ fun ClanWarDetailContent(
                     2 -> {
 
                         val clanAttacks = remember(war) {
-                            war.opponent.members?.safeMembers()?.sortedBy { it.mapPosition }
+                            war.opponent?.members?.safeMembers()?.sortedBy { it.mapPosition }
                         }
 
                         PlayerWarAttackList(

@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_chevron_down
+import com.clash.market.ClashTheme
 import com.clash.market.base.ResultState
 import com.clash.market.components.ClashChipLight
 import com.clash.market.components.widgets.tabs.ClashTab
@@ -122,13 +123,14 @@ private fun SearchScreenContent(
 @Composable
 @Preview
 private fun SearchScreenContentPreview() {
-    SearchScreenContent(
-        clanSearchState = ResultState.Ideal,
-        onBottomBarNavigate = {},
-        clanLabelsState = emptyList(),
-        locations = emptyList(),
-        clanFilterOptions = ClanFilterOptions(),
-        onFilterApply = {},
-
-    )
+    ClashTheme {
+        SearchScreenContent(
+            clanSearchState = ResultState.Ideal,
+            onBottomBarNavigate = {},
+            clanLabelsState = emptyList(),
+            locations = emptyList(),
+            clanFilterOptions = ClanFilterOptions(),
+            onFilterApply = {}
+        )
+    }
 }

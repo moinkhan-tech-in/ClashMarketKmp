@@ -14,6 +14,8 @@ sealed class MyWarUiState {
     data object NotInWar: MyWarUiState()
     data class StandardWar(val warResult: CurrentWarResponse): MyWarUiState()
 
+    data object PrivateWarLog: MyWarUiState()
+
     data class LeagueWar(val warLeagueGroupResponse: WarLeagueGroupResponse): MyWarUiState()
 
     data class Error(val message: String): MyWarUiState()

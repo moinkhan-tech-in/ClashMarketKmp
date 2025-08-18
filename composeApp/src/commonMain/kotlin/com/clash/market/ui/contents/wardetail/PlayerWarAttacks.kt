@@ -47,6 +47,7 @@ fun PlayerWarAttackList(
                     headerIcon = Res.drawable.ic_sward,
                     headerText = "Attacks",
                     nameByTags = nameByTags,
+                    isOpponent = false,
                     attacks = player.attacks,
                 )
 
@@ -57,6 +58,7 @@ fun PlayerWarAttackList(
                     headerIcon = Res.drawable.ic_shield,
                     headerText = "Best Opponent attack",
                     nameByTags = nameByTags,
+                    isOpponent = true,
                     attacks = listOfNotNull(player.bestOpponentAttack)
                 )
             }
@@ -71,6 +73,7 @@ private fun PlayerWarAttackSection(
     headerIcon: DrawableResource,
     headerText: String,
     attacks: List<Attack>,
+    isOpponent: Boolean,
     nameByTags: HashMap<String, String>
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -84,9 +87,8 @@ private fun PlayerWarAttackSection(
                 PlayerWarAttackItem(
                     modifier = Modifier.padding(start = 28.dp),
                     attackNo = index + 1,
-                    name = nameByTags[attack.attackerTag].orEmpty(),
-                    destruction = attack.destructionPercentage?.toDouble()
-                        .formatPercent(),
+                    name = if (isOpponent) nameByTags[attack.attackerTag].orEmpty() else nameByTags[attack.defenderTag].orEmpty(),
+                    destruction = attack.destructionPercentage?.toDouble().formatPercent(),
                     stars = attack.stars ?: 0
                 )
             }
@@ -126,6 +128,6 @@ private fun PlayerWarAttackItem(
             text = destruction,
             style = MaterialTheme.typography.labelMedium
         )
-        ClashAttackStars(stars = stars)
+        ClashAttackStars(stars = stars, spaceForUnEarnedStar = true)
     }
 }
