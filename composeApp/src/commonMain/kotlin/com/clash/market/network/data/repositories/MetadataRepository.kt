@@ -29,25 +29,25 @@ class MetadataRepositoryImpl(
 
     override suspend fun getLeagues(): MetadataResponse<League> {
         return cacheManager.get<MetadataResponse<League>>(LEAGUES, cacheExpiryMap[LEAGUES]!!)
-            ?: client.get("proxy/leagues").body<MetadataResponse<League>>()
+            ?: client.get("/v1/leagues").body<MetadataResponse<League>>()
                 .also { cacheManager.save(LEAGUES, it) }
     }
 
     override suspend fun getLocations(): MetadataResponse<Location> {
         return cacheManager.get<MetadataResponse<Location>>(LOCATIONS, cacheExpiryMap[LOCATIONS]!!)
-            ?: client.get("proxy/locations").body<MetadataResponse<Location>>()
+            ?: client.get("/v1/locations").body<MetadataResponse<Location>>()
                 .also { cacheManager.save(LOCATIONS, it) }
     }
 
     override suspend fun getPlayerLabels(): MetadataResponse<Label> {
         return cacheManager.get<MetadataResponse<Label>>(PLAYER_LABELS, cacheExpiryMap[PLAYER_LABELS]!!)
-            ?: client.get("proxy/labels/players").body<MetadataResponse<Label>>()
+            ?: client.get("/v1/labels/players").body<MetadataResponse<Label>>()
                 .also { cacheManager.save(PLAYER_LABELS, it) }
     }
 
     override suspend fun getClanLabels(): MetadataResponse<Label> {
         return cacheManager.get<MetadataResponse<Label>>(CLAN_LABELS, cacheExpiryMap[CLAN_LABELS]!!)
-            ?: client.get("proxy/labels/clans").body<MetadataResponse<Label>>()
+            ?: client.get("/v1/labels/clans").body<MetadataResponse<Label>>()
                 .also { cacheManager.save(CLAN_LABELS, it) }
     }
 }

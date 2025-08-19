@@ -19,18 +19,18 @@ class RankingRepositoryImpl(
 ) : RankingRepository {
 
     override suspend fun getTopPlayers(locationId: String): ClashResponse<Player> {
-        return client.get("proxy/locations/$locationId/rankings/players").body()
+        return client.get("/v1/locations/$locationId/rankings/players").body()
     }
 
     override suspend fun getTopClans(locationId: String): ClashResponse<ClanDetail> {
-        return client.get("proxy/locations/$locationId/rankings/clans").body()
+        return client.get("/v1/locations/$locationId/rankings/clans").body()
     }
 
     override suspend fun getTopBuilderBaseClans(locationId: String): ClashResponse<ClanDetail> {
-        return client.get("proxy/locations/$locationId/rankings/clans-builder-base").body()
+        return client.get("/v1/locations/$locationId/rankings/clans-builder-base").body()
     }
 
     override suspend fun getTopBuilderBasePlayers(locationId: String): ClashResponse<Player> {
-        return client.get("proxy/locations/$locationId/rankings/players-builder-base").body()
+        return client.get("/v1/locations/$locationId/rankings/players-builder-base").body()
     }
 }

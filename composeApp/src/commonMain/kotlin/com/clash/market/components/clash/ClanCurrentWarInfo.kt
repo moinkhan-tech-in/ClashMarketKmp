@@ -186,14 +186,6 @@ internal fun ClanWarAttacksLog(
 
         when (warState) {
 
-            IN_WAR -> {
-                AttackEventStatusBodyItem(
-                    text = "War has begun!",
-                    showBottomDivider = false,
-                    indicatorBackgroundColor = LocalClashColors.current.clashPositive.copy(alpha = .7f),
-                )
-            }
-
             PREPARATION -> {
                 AttackEventStatusBodyItem(
                     text = "Preparing for war…",
@@ -202,7 +194,13 @@ internal fun ClanWarAttacksLog(
                 )
             }
 
-            else -> {}
+            else -> {
+                AttackEventStatusBodyItem(
+                    text = "War has begun!",
+                    showBottomDivider = false,
+                    indicatorBackgroundColor = LocalClashColors.current.clashPositive.copy(alpha = .7f),
+                )
+            }
         }
     }
 }

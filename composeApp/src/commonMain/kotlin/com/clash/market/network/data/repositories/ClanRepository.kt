@@ -47,23 +47,23 @@ class ClanRepositoryImpl(
 ) : ClanRepository {
 
     override suspend fun getClanDetails(tag: String): ClanDetail {
-        return client.get("v1/clans/${tag.encodeURLPath()}").body()
+        return client.get("/v1/clans/${tag.encodeURLPath()}").body()
     }
 
     override suspend fun getCurrentWar(tag: String): CurrentWarResponse {
-        return client.get("proxy/clans/${tag.encodeURLPath()}/currentwar").body()
+        return client.get("/v1/clans/${tag.encodeURLPath()}/currentwar").body()
     }
 
     override suspend fun getWarLeagueGroup(tag: String): WarLeagueGroupResponse {
-        return client.get("proxy/clans/${tag.encodeURLPath()}/currentwar/leaguegroup").body()
+        return client.get("/v1/clans/${tag.encodeURLPath()}/currentwar/leaguegroup").body()
     }
 
     override suspend fun getWarLeagueWar(warTag: String): CurrentWarResponse {
-        return client.get("proxy/clanwarleagues/wars/${warTag.encodeURLPath()}").body()
+        return client.get("/v1/clanwarleagues/wars/${warTag.encodeURLPath()}").body()
     }
 
     override suspend fun getClanWarLogs(tag: String, limit: Int): ClashResponse<CurrentWarResponse> {
-        return client.get("proxy/clans/${tag.encodeURLPath()}/warlog").body()
+        return client.get("/v1/clans/${tag.encodeURLPath()}/warlog").body()
     }
 
     override suspend fun searchClan(
