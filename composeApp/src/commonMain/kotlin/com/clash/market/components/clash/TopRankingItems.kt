@@ -60,8 +60,12 @@ fun TopPlayerItem(
             PlayerExp(player.expLevel.toString(), size = 40.dp, textSize = 14.sp)
 
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(player.name, style = MaterialTheme.typography.labelMedium)
-                Text(player.clan?.name.orEmpty(), style = ClashTypography.labelSmall)
+                Text(
+                    modifier = Modifier.clickable { copyToClipboard("PlayerTag", player.tag) },
+                    text = player.name,
+                    style = MaterialTheme.typography.labelMedium
+                )
+                Text(player.clan?.name.orEmpty(), style = MaterialTheme.typography.labelMedium)
             }
 
             ClashChipColumn(topImage = Res.drawable.ic_trophy, text = "${player.trophies}")

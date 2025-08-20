@@ -17,6 +17,7 @@ sealed class ClashPreferenceKeys<T>(val key: Preferences.Key<T>) {
     object ProfileClan: ClashPreferenceKeys<String>(stringPreferencesKey("clash.profile.clan"))
     object IsInClan: ClashPreferenceKeys<Boolean>(booleanPreferencesKey("clash.profile.isInClan"))
     object IsProfileEnterSkipped: ClashPreferenceKeys<Boolean>(booleanPreferencesKey("clash.profile.isProfileEnterSkipped"))
+    object IsOnboardingShown: ClashPreferenceKeys<Boolean>(booleanPreferencesKey("clash.profile.isOnboardingShown"))
 }
 
 class PreferenceManager(

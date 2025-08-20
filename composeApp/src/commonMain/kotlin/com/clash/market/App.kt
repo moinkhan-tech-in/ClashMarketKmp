@@ -3,6 +3,7 @@ package com.clash.market
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MotionScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -25,6 +26,7 @@ import com.clash.market.ui.screens.enterprofile.EnterProfileScreen
 import com.clash.market.ui.screens.home.HomeScreen
 import com.clash.market.ui.screens.leaguewardetail.LeagueWarDetailScreen
 import com.clash.market.ui.screens.leaguewardetail.LeagueWarDetailViewModel
+import com.clash.market.ui.screens.onboarding.OnboardingScreen
 import com.clash.market.ui.screens.playerdetail.PlayerDetailScreen
 import com.clash.market.ui.screens.profile.ProfileScreen
 import com.clash.market.ui.screens.splash.InitialLaunch
@@ -56,6 +58,7 @@ fun ClashTheme(
         LocalClashColors provides ClashColors()
     ) {
         MaterialExpressiveTheme(
+            motionScheme = MotionScheme.expressive(),
             colorScheme = colors,
             typography = ClashTypography,
             shapes = MaterialTheme.shapes.copy(),
@@ -92,6 +95,12 @@ fun ClashNavHost() {
                         popUpTo(ScreenRouts.EnterProfile) { inclusive = true }
                     }
                 }
+            )
+        }
+
+        composable<ScreenRouts.Onboarding> {
+            OnboardingScreen(
+                onNavigate = { navController.navigate(it) }
             )
         }
 

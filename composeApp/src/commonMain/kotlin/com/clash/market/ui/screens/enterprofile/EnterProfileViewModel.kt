@@ -21,6 +21,16 @@ class EnterProfileViewModel(
 
     private val cachedPlayer = mutableMapOf<String, Player>()
 
+    init {
+        updateOnboardingShown()
+    }
+
+    private fun updateOnboardingShown() {
+        launchIO {
+            preferenceManager.save(ClashPreferenceKeys.IsOnboardingShown, true)
+        }
+    }
+
     fun onPlayerTagSubmitted(tag: String) {
 
         cachedPlayer[tag]?.let { player ->

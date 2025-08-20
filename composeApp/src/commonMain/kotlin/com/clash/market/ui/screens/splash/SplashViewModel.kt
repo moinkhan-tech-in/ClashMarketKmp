@@ -25,14 +25,19 @@ class SplashViewModel(
 
             val hasPlayerId = preferenceManager.getValue(ClashPreferenceKeys.ProfilePlayer).isNullOrEmpty().not()
             val isProfileEnterSkipped = preferenceManager.getValue(ClashPreferenceKeys.IsProfileEnterSkipped)
+            val isOnboardingShown = preferenceManager.getValue(ClashPreferenceKeys.IsOnboardingShown)
 
             if (hasPlayerId) {
                 _isReady.value = InitialLaunch.NavigateTo(ScreenRouts.Home)
             } else {
-                if (isProfileEnterSkipped == true) {
-                    _isReady.value = InitialLaunch.NavigateTo(ScreenRouts.Home)
+                if (isOnboardingShown == true) {
+                    if (isProfileEnterSkipped == true) {
+                        _isReady.value = InitialLaunch.NavigateTo(ScreenRouts.Home)
+                    } else {
+                        _isReady.value = InitialLaunch.NavigateTo(ScreenRouts.EnterProfile)
+                    }
                 } else {
-                    _isReady.value = InitialLaunch.NavigateTo(ScreenRouts.EnterProfile)
+                    _isReady.value = InitialLaunch.NavigateTo(ScreenRouts.Onboarding)
                 }
             }
         }

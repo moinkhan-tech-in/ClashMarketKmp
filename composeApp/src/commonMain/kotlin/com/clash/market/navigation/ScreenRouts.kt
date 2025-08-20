@@ -8,6 +8,9 @@ sealed interface ScreenRouts {
     object Splash : ScreenRouts
 
     @Serializable
+    object Onboarding : ScreenRouts
+
+    @Serializable
     data class PlayerDetail(
         val tag: String,
         val name: String? = null
