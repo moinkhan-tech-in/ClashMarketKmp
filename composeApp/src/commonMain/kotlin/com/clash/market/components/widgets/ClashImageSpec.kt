@@ -6,13 +6,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
 sealed class ClashImageSpec {
-    data class Res(val res: DrawableResource) : ClashImageSpec()
-    data class Url(val url: String?) : ClashImageSpec()
+    data class Res(val res: DrawableResource, val scale: ContentScale = ContentScale.Fit) : ClashImageSpec()
+    data class Url(val url: String?, val scale: ContentScale = ContentScale.Fit) : ClashImageSpec()
     data class Vector(val vector: ImageVector, val tint: Color = Color.Unspecified) : ClashImageSpec()
 }
 
@@ -23,14 +24,16 @@ fun ClashImage(modifier: Modifier = Modifier, image: ClashImageSpec) {
             Image(
                 painter = painterResource(resource = image.res),
                 contentDescription = null,
-                modifier = modifier
+                modifier = modifier,
+                contentScale = image.scale
             )
         }
 
         is ClashImageSpec.Url -> AsyncImage(
             model = image.url,
             contentDescription = null,
-            modifier = modifier
+            modifier = modifier,
+            contentScale = image.scale
         )
 
         is ClashImageSpec.Vector -> {

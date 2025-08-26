@@ -177,10 +177,7 @@ private fun RowScope.ClanDetailSection(clan: ClanDetail) {
             }
             Text(
                 text = clan.tag.orEmpty(),
-                style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.clickable {
-                    copyToClipboard("Clan Tag", clan.tag.orEmpty())
-                }
+                style = MaterialTheme.typography.labelMedium
             )
         }
     }
