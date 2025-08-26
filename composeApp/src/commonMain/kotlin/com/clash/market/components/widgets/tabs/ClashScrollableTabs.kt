@@ -49,9 +49,7 @@ fun ClashScrollableTabs(
                     selected = isSelected,
                     onClick = {
                         onTabSelected(tab)
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(tab.index)
-                        }
+                        coroutineScope.launch { pagerState.animateScrollToPage(tab.index) }
                     },
                     text = { ClashTabItem(tab, isSelected) }
                 )
