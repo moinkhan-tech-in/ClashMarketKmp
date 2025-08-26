@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,6 +39,7 @@ fun ProfileScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ProfileContent(
     uiState: ProfileUiState,
@@ -65,7 +67,7 @@ private fun ProfileContent(
 
     ClashScaffold(
         title = "My Profile",
-        onBackClick = onBackClick
+        onNavigationIconClick = onBackClick
     ) {
         Column(modifier = Modifier.padding(it).padding(16.dp)) {
 

@@ -62,51 +62,49 @@ private fun HomeScreenContent(
     val rankingsViewModel = koinViewModel<RankingsViewModel>()
     val myWarViewModel = koinViewModel<MyWarViewModel>()
 
-    NavHost(
-        modifier = Modifier.fillMaxSize(),
-        navController = childNavController,
-        startDestination = ScreenRouts.Search
-    ) {
-        composable<ScreenRouts.Dashboard> {
-            DashboardScreen(
-                viewModel = dashboardViewModel,
-                onNavigate = onNavigate,
-                onBottomBarNavigate = { childNavController.navigate(it) }
-            )
-        }
+    HomeScreenScaffold(childNavController = childNavController) {
+        NavHost(
+            modifier = Modifier.fillMaxSize(),
+            navController = childNavController,
+            startDestination = ScreenRouts.Search
+        ) {
+            composable<ScreenRouts.Dashboard> {
+                DashboardScreen(
+                    viewModel = dashboardViewModel,
+                    onNavigate = onNavigate
+                )
+            }
 
-        composable<ScreenRouts.Search> {
-            SearchScreen(
-                viewModel = searchViewModel,
-                onNavigate = onNavigate,
-                onBottomBarNavigate = { childNavController.navigate(it) }
-            )
-        }
+            composable<ScreenRouts.Search> {
+                SearchScreen(
+                    viewModel = searchViewModel,
+                    onNavigate = onNavigate
+                )
+            }
 
-        composable<ScreenRouts.MyClan> {
-            MyClanScreen(
-                playerClan = uiState.playerClan,
-                onNavigate = onNavigate,
-                onBottomBarNavigate = { childNavController.navigate(it) }
-            )
-        }
+            composable<ScreenRouts.MyClan> {
+                MyClanScreen(
+                    playerClan = uiState.playerClan,
+                    onNavigate = onNavigate
+                )
+            }
 
-        composable<ScreenRouts.Rankings> {
-            RankingsScreen(
-                viewModel = rankingsViewModel,
-                onNavigate = onNavigate,
-                onBottomBarNavigate = { childNavController.navigate(it) }
-            )
-        }
+            composable<ScreenRouts.Rankings> {
+                RankingsScreen(
+                    viewModel = rankingsViewModel,
+                    onNavigate = onNavigate
+                )
+            }
 
-        composable<ScreenRouts.MyWar> {
-            MyWarScreen(
-                viewModel = myWarViewModel,
-                onNavigate = onNavigate,
-                onBottomBarNavigate = { childNavController.navigate(it) }
-            )
+            composable<ScreenRouts.MyWar> {
+                MyWarScreen(
+                    viewModel = myWarViewModel,
+                    onNavigate = onNavigate
+                )
+            }
         }
     }
+
 }
 
 @Composable

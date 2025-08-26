@@ -25,7 +25,7 @@ fun PlayerDetailScreen(
     val playerResultState by playerDetailContentViewModel.playerSearchState.collectAsStateWithLifecycle()
     ClashScaffold(
         title = playerDetailRoute.name ?: playerDetailRoute.tag,
-        onBackClick = onBackClick,
+        onNavigationIconClick = onBackClick,
         topBarAction = {
             ClashChipLight("Open in Game") {
                 openClashLink(openPlayerLink(playerDetailRoute.tag))

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -19,34 +20,33 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_builder_angry
 import clashmarket.composeapp.generated.resources.ic_builder_sleeping
+import clashmarket.composeapp.generated.resources.ic_nav_logo
 import clashmarket.composeapp.generated.resources.ic_wall_breaker_barrel
 import com.clash.market.base.ResultState
 import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ClashLoadingIndicator
 import com.clash.market.components.clash.ClashMessageInfo
+import com.clash.market.components.clash.ClashScaffold
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.ui.contents.wardetail.ClanWarDetailContent
-import com.clash.market.ui.screens.home.HomeScreenScaffold
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MyWarScreen(
     viewModel: MyWarViewModel = koinViewModel<MyWarViewModel>(),
-    onBottomBarNavigate: (ScreenRouts) -> Unit = {},
     onNavigate: (ScreenRouts) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     MyWarContent(
         uiState = uiState,
-        onNavigate = onNavigate,
-        onBottomBarNavigate = onBottomBarNavigate
+        onNavigate = onNavigate
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MyWarContent(
     uiState: MyWarUiState,
-    onBottomBarNavigate: (ScreenRouts) -> Unit,
     onNavigate: (ScreenRouts) -> Unit = {}
 ) {
     val title = remember(uiState) {
@@ -57,11 +57,10 @@ private fun MyWarContent(
             else -> null
         }
     }
-    HomeScreenScaffold(
-        currentRoute = ScreenRouts.MyWar,
-        overrideTitle = title,
-        onBottomBarNavigate = onBottomBarNavigate,
-        onNavigate = onNavigate,
+    ClashScaffold(
+        title = title.orEmpty(),
+        navigationIcon = Res.drawable.ic_nav_logo,
+        onNavigationIconClick = { onNavigate(ScreenRouts.MyProfile) },
         topBarAction = {
             if (uiState is MyWarUiState.LeagueWar) {
                 val season = uiState.warLeagueGroupResponse.season

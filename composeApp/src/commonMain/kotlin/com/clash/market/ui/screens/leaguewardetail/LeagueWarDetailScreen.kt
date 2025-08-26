@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -46,6 +47,7 @@ fun LeagueWarDetailScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LeagueWarDetailContent(
     uiState: LeagueWarDetailUiState,
@@ -57,7 +59,7 @@ private fun LeagueWarDetailContent(
 ) {
     ClashScaffold(
         title = leagueWarDetail.title,
-        onBackClick = onBackClick,
+        onNavigationIconClick = onBackClick,
         ignoreStatusBarAlphaChange = true,
         topBarAction = {
             ClashChipLight("Season: ${leagueWarDetail.season}", trailingIcon = null, onClick = {})

@@ -72,7 +72,7 @@ private fun WarLogsScreenContent(
 ) {
     ClashScaffold(
         title = warLogsRoute.name,
-        onBackClick = onBackClick,
+        onNavigationIconClick = onBackClick,
         topBarAction = {
             ClashChipLight("Open in Game") {
                 openClashLink(openClanWarLink(warLogsRoute.tag))

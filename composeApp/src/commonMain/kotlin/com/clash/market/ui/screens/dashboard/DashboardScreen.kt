@@ -13,30 +13,30 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_builder_sleeping
+import clashmarket.composeapp.generated.resources.ic_nav_logo
 import com.clash.market.base.ResultState
 import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ResultStateCrossFade
 import com.clash.market.components.clash.ClanInfo
 import com.clash.market.components.clash.ClashMessageInfo
+import com.clash.market.components.clash.ClashScaffold
 import com.clash.market.components.clash.PlayerAchievementInfo
 import com.clash.market.components.clash.PlayerInfo
 import com.clash.market.models.Player
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.openClashLink
 import com.clash.market.openPlayerLink
-import com.clash.market.ui.screens.home.HomeScreenScaffold
 import org.koin.compose.viewmodel.koinViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel = koinViewModel(),
-    onBottomBarNavigate: (ScreenRouts) -> Unit,
     onNavigate: (ScreenRouts) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     DashboardScreenContent(
         uiState = uiState,
-        onBottomBarNavigate = onBottomBarNavigate,
         onNavigate = onNavigate
     )
 }
@@ -45,13 +45,12 @@ fun DashboardScreen(
 @Composable
 private fun DashboardScreenContent(
     uiState: DashboardUiState,
-    onBottomBarNavigate: (ScreenRouts) -> Unit,
     onNavigate: (ScreenRouts) -> Unit
 ) {
-    HomeScreenScaffold(
-        currentRoute = ScreenRouts.Dashboard,
-        onBottomBarNavigate = onBottomBarNavigate,
-        onNavigate = onNavigate,
+    ClashScaffold(
+        title = "Home",
+        navigationIcon = Res.drawable.ic_nav_logo,
+        onNavigationIconClick = { onNavigate(ScreenRouts.MyProfile) },
         topBarAction = {
             Crossfade(uiState.playerProfileState) {
                 if (it is ProfileState.Linked) {

@@ -13,16 +13,17 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_chevron_down
+import clashmarket.composeapp.generated.resources.ic_nav_logo
 import com.clash.market.ClashTheme
 import com.clash.market.base.ResultState
 import com.clash.market.components.ClashChipLight
+import com.clash.market.components.clash.ClashScaffold
 import com.clash.market.components.widgets.tabs.ClashTab
 import com.clash.market.components.widgets.tabs.ClashTabs
 import com.clash.market.models.ClanDetail
 import com.clash.market.models.Label
 import com.clash.market.models.Location
 import com.clash.market.navigation.ScreenRouts
-import com.clash.market.ui.screens.home.HomeScreenScaffold
 import com.clash.market.ui.screens.search.tabs.SearchClanContent
 import com.clash.market.ui.screens.search.tabs.SearchPlayerContent
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -36,7 +37,6 @@ private val tabs = listOf(
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel = koinViewModel(),
-    onBottomBarNavigate: (ScreenRouts) -> Unit,
     onNavigate: (ScreenRouts) -> Unit
 ) {
     val clanSearchState by viewModel.clanSearchState.collectAsStateWithLifecycle()
@@ -51,7 +51,6 @@ fun SearchScreen(
         locations = locations,
         onNavigate = onNavigate,
         onClanSearchQuery = viewModel::searchClans,
-        onBottomBarNavigate = onBottomBarNavigate,
         onFilterApply = viewModel::applyFilter
     )
 }
@@ -63,16 +62,15 @@ private fun SearchScreenContent(
     clanLabelsState: List<Label>,
     clanFilterOptions: ClanFilterOptions,
     locations: List<Location>,
-    onBottomBarNavigate: (ScreenRouts) -> Unit,
     onNavigate: (ScreenRouts) -> Unit = {},
     onClanSearchQuery: (String) -> Unit = {},
     onFilterApply: (ClanFilterOptions) -> Unit
 ) {
     var selectedTabIndex by rememberSaveable { mutableStateOf(0) }
-    HomeScreenScaffold(
-        currentRoute = ScreenRouts.Search,
-        onBottomBarNavigate = onBottomBarNavigate,
-        onNavigate = onNavigate,
+    ClashScaffold(
+        title = "Search",
+        navigationIcon = Res.drawable.ic_nav_logo,
+        onNavigationIconClick = { onNavigate(ScreenRouts.MyProfile) },
         ignoreStatusBarAlphaChange = true,
         topBarAction = {
             Crossfade(selectedTabIndex) {
@@ -126,7 +124,6 @@ private fun SearchScreenContentPreview() {
     ClashTheme {
         SearchScreenContent(
             clanSearchState = ResultState.Ideal,
-            onBottomBarNavigate = {},
             clanLabelsState = emptyList(),
             locations = emptyList(),
             clanFilterOptions = ClanFilterOptions(),

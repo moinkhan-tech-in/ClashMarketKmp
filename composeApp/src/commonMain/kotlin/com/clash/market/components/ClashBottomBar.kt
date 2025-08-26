@@ -34,9 +34,9 @@ data class BottomNavItem(
 @Composable
 fun ClashBottomBar(
     items: List<BottomNavItem>,
-    currentRoute: ScreenRouts,
+    currentNavItem: BottomNavItem,
     scrollBehaviour: BottomAppBarScrollBehavior? = null,
-    onItemSelected: (ScreenRouts) -> Unit
+    onItemClick: (BottomNavItem) -> Unit
 ) {
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.primary,
@@ -47,7 +47,7 @@ fun ClashBottomBar(
             contentColor = LocalClashColors.current.clashPositive
         ) {
             items.forEach { item ->
-                val selected = item.route == currentRoute
+                val selected = item == currentNavItem
                 NavigationRailItem(
                     modifier = Modifier.weight(1f),
                     colors = NavigationRailItemDefaults.colors(
@@ -71,7 +71,7 @@ fun ClashBottomBar(
                             )
                         }
                     },
-                    onClick = { onItemSelected(item.route) },
+                    onClick = { onItemClick(item) },
                     selected = selected,
                     label = {
                         Text(

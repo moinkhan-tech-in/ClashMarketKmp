@@ -31,7 +31,7 @@ fun ClashScaffold(
     title: String,
     navigationIcon: DrawableResource? = Res.drawable.ic_back,
     topBarAction: @Composable RowScope.() -> Unit = {},
-    onBackClick: (() -> Unit)? = null,
+    onNavigationIconClick: (() -> Unit)? = null,
     ignoreStatusBarAlphaChange: Boolean = false,
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -58,7 +58,7 @@ fun ClashScaffold(
                 title = title,
                 navigationIcon = navigationIcon,
                 actions = topBarAction,
-                onBackClick = onBackClick,
+                onBackClick = onNavigationIconClick,
                 scrollBehaviour = topBarScrollBehavior
             )
         },

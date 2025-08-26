@@ -26,7 +26,7 @@ fun ClanDetailScreen(
     val clanResultState by viewModel.clanDetailState.collectAsStateWithLifecycle()
     ClashScaffold(
         title = clanDetailRoute.tag,
-        onBackClick = onBackClick,
+        onNavigationIconClick = onBackClick,
         topBarAction = {
             ClashChipLight("Open in Game") {
                 openClashLink(openClanLink(clanDetailRoute.tag))

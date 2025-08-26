@@ -14,10 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_chevron_down
+import clashmarket.composeapp.generated.resources.ic_nav_logo
 import com.clash.market.base.ResultState
 import com.clash.market.components.ClashChipLight
 import com.clash.market.components.ResultStateLazyGrid
 import com.clash.market.components.clash.ClashLocationsSheet
+import com.clash.market.components.clash.ClashScaffold
 import com.clash.market.components.clash.TopBuilderBaseClanItem
 import com.clash.market.components.clash.TopBuilderBasePlayerItem
 import com.clash.market.components.clash.TopClanItem
@@ -25,7 +27,6 @@ import com.clash.market.components.clash.TopPlayerItem
 import com.clash.market.components.widgets.tabs.ClashScrollableTabs
 import com.clash.market.components.widgets.tabs.ClashTab
 import com.clash.market.navigation.ScreenRouts
-import com.clash.market.ui.screens.home.HomeScreenScaffold
 import org.koin.compose.viewmodel.koinViewModel
 
 internal val tabs = listOf(
@@ -38,12 +39,10 @@ internal val tabs = listOf(
 @Composable
 fun RankingsScreen(
     viewModel: RankingsViewModel = koinViewModel(),
-    onNavigate: (ScreenRouts) -> Unit,
-    onBottomBarNavigate: (ScreenRouts) -> Unit
+    onNavigate: (ScreenRouts) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     RankingsScreenContent(
-        onBottomBarNavigate = onBottomBarNavigate,
         uiState = uiState,
         onNavigate = onNavigate,
         onEvent = viewModel::onUiEvent
@@ -55,7 +54,6 @@ fun RankingsScreen(
 private fun RankingsScreenContent(
     uiState: RankingUiState,
     onNavigate: (ScreenRouts) -> Unit,
-    onBottomBarNavigate: (ScreenRouts) -> Unit,
     onEvent: (RankingUiEvent) -> Unit
 ) {
     var showLocationSheet by remember { mutableStateOf(false) }
@@ -69,11 +67,11 @@ private fun RankingsScreenContent(
         )
     }
 
-    HomeScreenScaffold(
-        currentRoute = ScreenRouts.Rankings,
-        onBottomBarNavigate = onBottomBarNavigate,
-        onNavigate = onNavigate,
+    ClashScaffold(
+        title = "Ranking",
         ignoreStatusBarAlphaChange = true,
+        navigationIcon = Res.drawable.ic_nav_logo,
+        onNavigationIconClick = { onNavigate(ScreenRouts.MyProfile) },
         topBarAction = {
             if (uiState.locations is ResultState.Success) {
                 ClashChipLight(
