@@ -84,7 +84,7 @@ fun <T> ResultStateLazyGrid(
                 }
                 ResultState.Ideal -> idealContent()
                 ResultState.Loading -> {
-                    ClashLoadingIndicator(modifier = Modifier.padding(top = 120.dp))
+                    ClashLoadingIndicator(modifier = Modifier.padding(top = paddingValues.calculateTopPadding() + 120.dp))
                 }
                 is ResultState.Success<T> -> {
                     LazyVerticalStaggeredGrid(
