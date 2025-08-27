@@ -1,5 +1,8 @@
 package com.clash.market.ui.screens.rankings
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -11,6 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_chevron_down
@@ -89,15 +94,25 @@ private fun RankingsScreenContent(
             onEvent(RankingUiEvent.TabChange(selectedTabIndex))
         }
 
+        val paddingValues = PaddingValues(
+            top = 12.dp,
+            start = innerPadding.calculateStartPadding(LocalLayoutDirection.current) + 12.dp,
+            end = innerPadding.calculateEndPadding(LocalLayoutDirection.current) + 12.dp,
+            bottom = innerPadding.calculateBottomPadding()
+        )
+
         ClashScrollableTabs(
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
             tabs = tabs,
             selectedTabIndex = selectedTabIndex,
             onTabSelected = { selectedTabIndex = it.index }
         ) {
             when (it) {
                 0 -> {
-                    ResultStateLazyGrid(resultState = uiState.topPlayers) { players ->
+                    ResultStateLazyGrid(
+                        paddingValues = paddingValues,
+                        resultState = uiState.topPlayers
+                    ) { players ->
                         items(players, key = { it.tag }) { player ->
                             TopPlayerItem(
                                 player = player,
@@ -108,7 +123,10 @@ private fun RankingsScreenContent(
                 }
 
                 1 -> {
-                    ResultStateLazyGrid(resultState = uiState.topClans) { clans ->
+                    ResultStateLazyGrid(
+                        paddingValues = paddingValues,
+                        resultState = uiState.topClans
+                    ) { clans ->
                         items(clans, key = { it.tag ?: it.name ?: "" }) { clan ->
                             TopClanItem(
                                 clan = clan,
@@ -119,7 +137,10 @@ private fun RankingsScreenContent(
                 }
 
                 2 -> {
-                    ResultStateLazyGrid(resultState = uiState.topBuilderPlayers) { players ->
+                    ResultStateLazyGrid(
+                        paddingValues = paddingValues,
+                        resultState = uiState.topBuilderPlayers
+                    ) { players ->
                         items(players, key = { it.tag }) { player ->
                             TopBuilderBasePlayerItem(
                                 player = player,
@@ -130,7 +151,10 @@ private fun RankingsScreenContent(
                 }
 
                 3 -> {
-                    ResultStateLazyGrid(resultState = uiState.topBuilderClans) { clans ->
+                    ResultStateLazyGrid(
+                        paddingValues = paddingValues,
+                        resultState = uiState.topBuilderClans
+                    ) { clans ->
                         items(clans, key = { it.tag ?: it.name ?: "" }) { clan ->
                             TopBuilderBaseClanItem(
                                 clan = clan,

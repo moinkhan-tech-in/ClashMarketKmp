@@ -1,7 +1,6 @@
 package com.clash.market.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.RowScope
@@ -15,7 +14,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import clashmarket.composeapp.generated.resources.Res
@@ -58,13 +56,13 @@ fun ClashTopBar(
         },
         scrollBehavior = scrollBehaviour,
         actions = actions,
-        modifier = modifier.background(Color(0xFF2C2C2C)), // Dark themed top bar
+        modifier = modifier, // Dark themed top bar
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(0xFF2C2C2C),
-            titleContentColor = Color(0xFF2C2C2C),
-            navigationIconContentColor = Color(0xFF2C2C2C),
-            actionIconContentColor = Color(0xFF2C2C2C),
-            scrolledContainerColor = Color(0xFF2C2C2C)
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary,
+            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+            actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
+            scrolledContainerColor = MaterialTheme.colorScheme.primary
         )
     )
 }

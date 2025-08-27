@@ -78,7 +78,7 @@ fun TopBuilderBasePlayerItem(
     player: Player,
     onClick: () -> Unit
 ) {
-    ClashCard(modifier = getGlowingBorderModifier(player.rank)) {
+    ClashCard(modifier = getGlowingBorderModifier(player.rank), onClick = onClick) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,

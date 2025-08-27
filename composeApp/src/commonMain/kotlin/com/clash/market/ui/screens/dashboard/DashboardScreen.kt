@@ -1,28 +1,26 @@
 package com.clash.market.ui.screens.dashboard
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import clashmarket.composeapp.generated.resources.Res
 import clashmarket.composeapp.generated.resources.ic_builder_sleeping
 import clashmarket.composeapp.generated.resources.ic_nav_logo
-import com.clash.market.base.ResultState
 import com.clash.market.components.ClashChipLight
-import com.clash.market.components.ResultStateCrossFade
+import com.clash.market.components.ResultStateLazyGrid
 import com.clash.market.components.clash.ClanInfo
 import com.clash.market.components.clash.ClashMessageInfo
 import com.clash.market.components.clash.ClashScaffold
 import com.clash.market.components.clash.PlayerAchievementInfo
 import com.clash.market.components.clash.PlayerInfo
-import com.clash.market.models.Player
 import com.clash.market.navigation.ScreenRouts
 import com.clash.market.openClashLink
 import com.clash.market.openPlayerLink
@@ -64,28 +62,25 @@ private fun DashboardScreenContent(
 
         when (uiState.playerProfileState) {
             is ProfileState.Linked -> {
-                LazyVerticalStaggeredGrid(
-                    columns = StaggeredGridCells.Adaptive(minSize = 300.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalItemSpacing = 4.dp,
-                    contentPadding = PaddingValues(
+                ResultStateLazyGrid(
+                    paddingValues = PaddingValues(
                         top = innerPadding.calculateTopPadding() + 12.dp,
-                        bottom = 56.dp,
-                        start = 12.dp, end = 12.dp
-                    )
+                        bottom = innerPadding.calculateBottomPadding() + 56.dp,
+                        start = innerPadding.calculateStartPadding(LocalLayoutDirection.current) + 12.dp,
+                        end = innerPadding.calculateEndPadding(LocalLayoutDirection.current) + 12.dp
+                    ),
+                    resultState = uiState.playerProfileState.player
                 ) {
                     item {
-                        PlayerInfoStateUi(uiState.playerProfileState.player)
+                        PlayerInfo(it)
                     }
 
                     item {
-                        ClanInfoStateUi(uiState.playerProfileState.player)
+                        it.clan?.let { clan -> ClanInfo(clan) }
                     }
 
                     item(span = StaggeredGridItemSpan.FullLine) {
-                        if (uiState.playerProfileState.player is ResultState.Success) {
-                            PlayerAchievementInfo(uiState.playerProfileState.player.data.achievements)
-                        }
+                        PlayerAchievementInfo(it.achievements)
                     }
                 }
             }
@@ -99,25 +94,5 @@ private fun DashboardScreenContent(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun PlayerInfoStateUi(player: ResultState<Player>) {
-    ResultStateCrossFade(
-        resultState = player,
-        idealContent = {}
-    ) {
-        PlayerInfo(player = it)
-    }
-}
-
-@Composable
-private fun ClanInfoStateUi(player: ResultState<Player>) {
-    ResultStateCrossFade(
-        resultState = player,
-        idealContent = {}
-    ) {
-        it.clan?.let { clan -> ClanInfo(clan = clan) }
     }
 }

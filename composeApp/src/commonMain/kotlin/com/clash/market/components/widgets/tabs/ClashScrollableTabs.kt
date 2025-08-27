@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
@@ -31,8 +32,8 @@ fun ClashScrollableTabs(
         PrimaryScrollableTabRow(
             selectedTabIndex = selectedTabIndex,
             edgePadding = 8.dp,
-            containerColor = Color(0xFF2C2C2C), // Dark brown background
-            contentColor = Color(0xFFFFD700),   // Clash gold
+            containerColor = MaterialTheme.colorScheme.primary, // Dark brown background
+            contentColor = MaterialTheme.colorScheme.onPrimary,   // Clash gold
             indicator = {
                 TabRowDefaults.PrimaryIndicator(
                     Modifier

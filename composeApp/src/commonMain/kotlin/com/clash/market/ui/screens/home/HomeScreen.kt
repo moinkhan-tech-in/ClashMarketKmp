@@ -1,6 +1,5 @@
 package com.clash.market.ui.screens.home
 
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
@@ -69,24 +68,22 @@ private fun HomeScreenContent(
     val myWarViewModel = koinViewModel<MyWarViewModel>()
 
     val pagerState = rememberPagerState { bottomNavItems.size }
+
     val currentPage = pagerState.currentPage
+
     LaunchedEffect(currentPage) { currentNavItem.value = bottomNavItems[currentPage] }
 
     BackPressHandler(currentPage != 0) {
         if (currentPage != 0) {
-            scope.launch {
-                pagerState.animateScrollToPage (0, animationSpec = tween(500))
-                currentNavItem.value = bottomNavItems[0]
-            }
+            currentNavItem.value = bottomNavItems[0]
+            scope.launch { pagerState.animateScrollToPage(0) }
         }
     }
 
     HomeScreenScaffold(
         onCurrentNavItemChange = {
-            scope.launch {
-                pagerState.animateScrollToPage(bottomNavItems.indexOf(it), animationSpec = tween(500))
-                currentNavItem.value = it
-            }
+            currentNavItem.value = it
+            scope.launch { pagerState.animateScrollToPage(bottomNavItems.indexOf(it)) }
         },
         currentNavItem = currentNavItem.value
     ) {
